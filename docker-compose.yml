@@ -1,0 +1,167 @@
+services:
+  ######################################################
+  #                     FRONTEND WEB                   #
+  ######################################################
+  web:
+    build: ./web
+    container_name: web
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - query_network
+    depends_on:
+      - orchestrator
+
+  ######################################################
+  #                   ORCHESTRATOR LLM                 #
+  ######################################################
+  orchestrator:
+    build: ./orchestrateur
+    container_name: orchestrator
+    restart: always
+    environment:
+      MCP_GATEWAY_URL: ws://mcp-gateway:9000
+    depends_on:
+      - mcp-gateway
+    networks:
+      - query_network
+      - bdd_network
+  
+  query-management:
+    build: ./query-management
+    container_name: query-management
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      ORCHESTRATOR_URL: http://orchestrator:8000
+    depends_on:
+      - orchestrator
+    networks:
+      - query_network
+  
+  ######################################################
+  #                     MCP GATEWAY                    #
+  ######################################################
+  mcp-gateway:
+    image: ghcr.io/modelcontextprotocol/gateway:latest
+    container_name: mcp-gateway
+    restart: always
+    ports:
+      - "9000:9000"
+    environment:
+      MCP_LOG_LEVEL: info
+      MCP_SERVERS: |
+        postgres=ws://mcp-postgres:7000
+        mysql=ws://mcp-mysql:7000
+        mongo=ws://mcp-mongo:7000
+    networks:
+      - bdd_network
+
+  ######################################################
+  #                SERVEURS MCP (DB CONNECTORS)        #
+  ######################################################
+  # Postgres MCP Server
+  mcp-postgres:
+    image: ghcr.io/modelcontextprotocol/postgres:latest
+    container_name: mcp-postgres
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      POSTGRES_URL: postgres://user:password@postgres:5432/dbname
+      MCP_PORT: 7000
+    expose:
+      - "7000"
+    networks:
+      - bdd_network
+
+  # MySQL MCP Server
+  mcp-mysql:
+    image: ghcr.io/modelcontextprotocol/mysql:latest
+    container_name: mcp-mysql
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_URL: mysql://user:password@mysql:3306/dbname
+      MCP_PORT: 7000
+    expose:
+      - "7000"
+    networks:
+      - bdd_network
+
+  # Mongo MCP Server
+  mcp-mongo:
+    image: ghcr.io/modelcontextprotocol/mongo:latest
+    container_name: mcp-mongo
+    restart: always
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URL: mongodb://user:password@mongo:27017/dbname
+      MCP_PORT: 7000
+    expose:
+      - "7000"
+    networks:
+      - bdd_network
+
+  ######################################################
+  #                BASES DE DONNÉES RÉELLES            #
+  ######################################################
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dbname
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bdd_network
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: dbname
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - bdd_network
+
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - bdd_network
+
+########################################################
+#                       RÉSEAUX                         #
+########################################################
+networks:
+  query_network:
+    driver: bridge
+  bdd_network:
+    driver: bridge
+
+########################################################
+#                      VOLUMES                          #
+########################################################
+volumes:
+  postgres_data:
+  mysql_data:
+  mongo_data:
