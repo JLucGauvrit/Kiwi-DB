@@ -45,15 +45,24 @@ services:
   ######################################################
   #                     MCP GATEWAY                    #
   ######################################################
- 
-  # MCP Gateway
+  mcp-gateway:
+    build: ./mcp/mcp-gateway
+    container_name: mcp-gateway
+    restart: always
+    ports:
+      - "9000:9000"
+    networks:
+      - query_network
+      - bdd_network
+    depends_on:
+      - mcp-postgres
 
   ######################################################
   #                SERVEURS MCP (DB CONNECTORS)        #
   ######################################################
   # Postgres MCP Server
   mcp-postgres:
-    image: mcp/postgres
+    build: ./mcp/mcp-postgres
     container_name: mcp-postgres
     restart: always
     depends_on:
