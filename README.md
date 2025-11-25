@@ -52,7 +52,7 @@ Créer le fichier `.env` pour ajouter vos clés API. Aidez-vous de `.env.example
 
 Contenu du fichier `.env`:
 ```bash
-GEMINI_API_KEY=votre_clé_gemini_ici
+GOOGLE_API_KEY=votre_clé_gemini_ici
 ```
 
 ### Démarrage
