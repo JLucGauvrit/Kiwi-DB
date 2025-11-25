@@ -7,7 +7,7 @@ Plateforme d'orchestration multi-agents pour l'IA générative avec Retrieval-Au
 ### Architecture
 
 ```
-Interface Utilisateur (Web UI)
+Interface Utilisateur (Open Web UI)
            ↓
 Orchestrateur (FastAPI)
          ↓
@@ -15,17 +15,17 @@ Orchestrateur (FastAPI)
     ↙   ↓    ↘
 MCP Server A   MCP Server B   MCP Server C
     ↓              ↓              ↓
-PostgreSQL + MangoDB + Vector DB
+PostgreSQL + pgvector
 ```
 
 ### Composants
 
-1.  **Interface Utilisateur (`web`)**: Interface front-end pour interagir avec le système (actuellement un placeholder).
+1.  **Interface Utilisateur (`open-webui`)**: Interface front-end Open Web UI pour interagir avec le système.
 2.  **Orchestrateur (`orchestrator`)**: Service central en FastAPI. Il reçoit les requêtes de l'interface utilisateur, communique avec les serveurs de base de données via la passerelle MCP pour récupérer des informations, et synthétise les réponses.
 3.  **Agent (`query-management`)**: Un exemple d'agent qui pourrait traiter des requêtes spécifiques. Dans cette architecture, il interagit avec l'orchestrateur.
-4.  **Passerelle MCP (`mcp-gateway`)**: Route les requêtes de l'orchestrateur vers les serveurs MCP appropriés pour chaque base de données.
-5.  **Serveurs MCP (`mcp-postgres`, `mcp-mysql`, `mcp-mongo`)**: Traduisent les requêtes MCP en requêtes spécifiques pour chaque type de base de données (PostgreSQL, MySQL, MongoDB).
-6.  **Bases de données (`postgres`, `mysql`, `mongo`)**: Les bases de données réelles où les données sont stockées. `postgres` est configuré avec pgvector pour la recherche vectorielle (RAG).
+4.  **Passerelle MCP (`mcp-gateway`)**: Route les requêtes de l'orchestrateur vers le serveur MCP approprié.
+5.  **Serveur MCP (`mcp-postgres`)**: Traduit les requêtes MCP en requêtes spécifiques pour PostgreSQL.
+6.  **Base de données (`postgres`)**: La base de données PostgreSQL où les données sont stockées. `postgres` est configuré avec pgvector pour la recherche vectorielle (RAG).
 
 
 ## 🚀 Installation et démarrage
@@ -79,9 +79,9 @@ Le système initialise automatiquement:
 
 ### Interface Web
 
-Accédez à l'interface de monitoring:
+Accédez à l'interface web :
 ```
-http://localhost
+http://localhost:3000
 ```
 
 ## 📊 Monitoring et Debug
