@@ -19,9 +19,9 @@ logger = logging.getLogger(__name__)
 
 MCP_SERVERS = {
     "postgres": {
-        "host": "mcp-postgres",
-        "port": 7000,
-        "type": "postgres"
+        "url": "http://mcp-postgres:8000/sse",
+        "type": "postgres",
+        "transport": "sse"
     }
 }
 

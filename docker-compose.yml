@@ -60,18 +60,22 @@ services:
   ######################################################
   #                SERVEURS MCP (DB CONNECTORS)        #
   ######################################################
-  # Postgres MCP Server
+  # Postgres MCP Server (CrystalDBA Pro)
   mcp-postgres:
-    build: ./mcp/mcp-postgres
+    image: crystaldba/postgres-mcp
     container_name: mcp-postgres
     restart: always
     depends_on:
       - postgres
     environment:
-      POSTGRES_URL: postgres://user:password@postgres:5432/dbname
-      MCP_PORT: 7000
-    expose:
-      - "7000"
+      DATABASE_URI: postgresql://user:password@postgres:5432/dbname
+    command:
+      - "--access-mode=unrestricted"
+      - "--transport=sse"
+      - "--sse-host=0.0.0.0"
+      - "--sse-port=8000"
+    ports:
+      - "8000:8000"
     networks:
       - bdd_network
 
