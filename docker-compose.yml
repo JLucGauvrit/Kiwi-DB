@@ -74,12 +74,13 @@ services:
     container_name: postgres
     restart: always
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: entreprise
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./seed:/docker-entrypoint-initdb.d    # Scripts SQL auto-exécutés
+    ports:
+      - "5432:5432"
     networks:
       - bdd_network
     healthcheck:
@@ -91,15 +92,7 @@ services:
   ######################################################
   # SEEDER (génère les données au premier lancement) #
   ######################################################
-  db-seeder:
-    build: ./db-seeder
-    container_name: db-seeder
-    volumes:
-      - ./seed:/output           # Génère 02_data.sql ici
-    restart: "no"                # Lance une seule fois
-    depends_on:
-      postgres:
-        condition: service_healthy
+
 
 ########################################################
 #                       RÉSEAUX                         #
@@ -115,5 +108,4 @@ networks:
 ########################################################
 volumes:
   postgres_data:
-  mysql_data:
-  mongo_data:
+    driver: local
