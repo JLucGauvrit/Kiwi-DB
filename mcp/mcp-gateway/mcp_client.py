@@ -69,7 +69,7 @@ class MCPClient:
             self._connection_task = asyncio.create_task(self._maintain_connection())
 
             # Wait a bit for the connection to be established
-            for _ in range(50):  # Wait up to 5 seconds
+            for _ in range(300):  # Wait up to 30 seconds
                 if self._connected:
                     logger.info(f"Successfully connected to MCP server '{self.name}'")
                     return

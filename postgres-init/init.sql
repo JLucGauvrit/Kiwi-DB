@@ -1,4 +1,3 @@
--- Tables
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
@@ -23,7 +22,6 @@ CREATE TABLE orders (
     status VARCHAR(20) DEFAULT 'pending'
 );
 
--- Données
 INSERT INTO users (username, email) VALUES
     ('john_doe', 'john@example.com'),
     ('jane_smith', 'jane@example.com'),
