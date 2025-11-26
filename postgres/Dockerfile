@@ -1,6 +1,11 @@
-FROM postgres:16-alpine
+FROM python:3.13-slim
 
-# Copie le schéma de base (tables vides)
-# Le script 01_schema.sql est monté via le volume dans docker-compose.yml
+WORKDIR /app
 
-# Les données seront générées par db-seeder et montées via volume
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD ["python", "download_BDD.py"]

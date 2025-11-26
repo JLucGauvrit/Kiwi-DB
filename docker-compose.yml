@@ -70,8 +70,7 @@ services:
   #                BASES DE DONNÉES RÉELLES            #
   ######################################################
   postgres:
-    build: ./postgres              # Utilise Dockerfile personnalisé
-    container_name: postgres
+    image: postgres:13
     restart: always
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
@@ -93,6 +92,21 @@ services:
   # SEEDER (génère les données au premier lancement) #
   ######################################################
 
+  postgres_data:
+    build: ./postgres
+    container_name: postgres_data
+    restart: "no"
+    depends_on:
+      - postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - HUGGINGFACE_API_TOKEN=${HUGGINGFACE_API_TOKEN}
+    networks:
+      - bdd_network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
 ########################################################
 #                       RÉSEAUX                         #
