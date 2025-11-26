@@ -133,7 +133,14 @@ class MCPClient:
 
         try:
             result = await self.session.call_tool(tool_name, arguments)
-            return result
+            # Extract the content from CallToolResult
+            return [
+                {
+                    "type": content.type,
+                    "text": content.text if hasattr(content, "text") else None,
+                }
+                for content in result.content
+            ]
         except Exception as e:
             logger.error(f"Error calling tool '{tool_name}' on '{self.name}': {e}")
             raise

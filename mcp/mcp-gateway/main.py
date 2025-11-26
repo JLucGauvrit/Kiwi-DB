@@ -155,7 +155,6 @@ async def handle_request(request: Dict[str, Any]) -> Dict[str, Any]:
             }
 
         elif request_type == "call_tool":
-            # Call a specific tool on the MCP server
             if "tool" not in request:
                 return {"error": "Missing 'tool' field for call_tool request"}
 
