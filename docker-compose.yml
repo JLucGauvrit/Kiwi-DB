@@ -70,18 +70,36 @@ services:
   #                BASES DE DONNÉES RÉELLES            #
   ######################################################
   postgres:
-    image: postgres:16
+    build: ./postgres              # Utilise Dockerfile personnalisé
     container_name: postgres
     restart: always
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: dbname
+      POSTGRES_DB: entreprise
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./seed:/docker-entrypoint-initdb.d    # Scripts SQL auto-exécutés
     networks:
       - bdd_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d entreprise"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
+  ######################################################
+  # SEEDER (génère les données au premier lancement) #
+  ######################################################
+  db-seeder:
+    build: ./db-seeder
+    container_name: db-seeder
+    volumes:
+      - ./seed:/output           # Génère 02_data.sql ici
+    restart: "no"                # Lance une seule fois
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 ########################################################
 #                       RÉSEAUX                         #
