@@ -3,14 +3,18 @@
 
 services:
   ######################################################
-  #                     FRONTEND WEB                   #
+  #                  FRONTEND OPEN WEB UI              #
   ######################################################
-  web:
-    build: ./web
-    container_name: web
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
     restart: always
     ports:
-      - "80:80"
+      - "3000:8080"
+    environment:
+      - 'OLLAMA_BASE_URL=http://orchestrator:8000'
+    volumes:
+      - open-webui-data:/app/backend/data
     networks:
       - query_network
     depends_on:
@@ -33,6 +37,8 @@ services:
     build: ./query-management
     container_name: query-management
     restart: always
+    env_file:
+      - .env
     ports:
       - "5000:5000"
     environment:
@@ -122,4 +128,6 @@ networks:
 ########################################################
 volumes:
   postgres_data:
+    driver: local
+  open-webui-data:
     driver: local
