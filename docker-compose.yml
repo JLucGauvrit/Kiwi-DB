@@ -80,6 +80,26 @@ services:
       - bdd_network
 
   ######################################################
+  #                   POSTGRES-PGVECTOR                #
+  ######################################################
+  postgres-pgvector:
+    build:
+      context: ./postgres-pgvector
+    container_name: postgres-pgvector
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dbname
+    volumes:
+      - pgdata_pgvector:/var/lib/postgresql/data
+      - ./postgres-pgvector/dataset_droit_travail.sql:/docker-entrypoint-initdb.d/03-droit-travail-data.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - bdd_network
+
+  ######################################################
   #                BASES DE DONNÉES RÉELLES            #
   ######################################################
   postgres:
@@ -112,3 +132,5 @@ volumes:
   postgres_data:
   mysql_data:
   mongo_data:
+  pgdata_pgvector:
+    driver: local
