@@ -107,12 +107,13 @@ services:
 
   postgres_data:
     build: ./postgres
-    command: ["python", "download_BDD.py"]
-    env_file:
-      - .env
+    env_file: .env
     environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     depends_on:
       postgres:
         condition: service_healthy
