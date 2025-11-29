@@ -8,7 +8,7 @@ services:
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
     container_name: open-webui
-    restart: always
+    restart: unless-stopped
     ports:
       - "3000:8080"
     environment:
@@ -17,6 +17,9 @@ services:
       - open-webui-data:/app/backend/data
     networks:
       - query_network
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     depends_on:
       - orchestrator
 
@@ -36,7 +39,7 @@ services:
   query-management:
     build: ./query-management
     container_name: query-management
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
     ports:
@@ -61,12 +64,14 @@ services:
   mcp-postgres:
     image: mcp/postgres
     container_name: mcp-postgres
-    restart: always
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
     environment:
-      POSTGRES_URL: postgres://user:password@postgres:5432/dbname
-      MCP_PORT: 7000
+      - POSTGRES_URL=${POSTGRES_URL}
+      - MCP_PORT=7000
     expose:
       - "7000"
     networks:
@@ -77,17 +82,43 @@ services:
   ######################################################
   postgres:
     image: postgres:16
-    container_name: postgres
-    restart: always
+    restart: unless-stopped
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dbname
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     networks:
       - bdd_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
+  ######################################################
+  # SEEDER (génère les données au premier lancement) #
+  ######################################################
+
+  postgres_data:
+    build: ./postgres
+    env_file: .env
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - bdd_network
 
 ########################################################
 #                       RÉSEAUX                         #
@@ -103,6 +134,6 @@ networks:
 ########################################################
 volumes:
   postgres_data:
-  mysql_data:
-  mongo_data:
+    driver: local
   open-webui-data:
+    driver: local
