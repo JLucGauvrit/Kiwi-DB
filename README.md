@@ -6,17 +6,7 @@ Plateforme d'orchestration multi-agents pour l'IA générative avec Retrieval-Au
 
 ### Architecture
 
-```
-Interface Utilisateur (Open Web UI)
-           ↓
-Orchestrateur (FastAPI)
-         ↓
-    MCP Client
-    ↙   ↓    ↘
-MCP Server A   MCP Server B   MCP Server C
-    ↓              ↓              ↓
-PostgreSQL + pgvector
-```
+![Architecture Diagram](./images/Organisation%20du%20service.png)
 
 ### Composants
 
@@ -100,28 +90,6 @@ docker compose logs -f postgres
 docker compose logs --tail=100 -f
 ```
 
-### Métriques dans PostgreSQL
-
-```sql
--- Voir les logs des requêtes
-SELECT * FROM mcp_logs ORDER BY created_at DESC LIMIT 10;
-
--- Stats des agents
-SELECT 
-  agent_id, 
-  agent_name, 
-  total_queries, 
-  avg_response_time_ms,
-  status
-FROM agent_status;
-
--- Compter les documents par agent
-SELECT agent_id, COUNT(*) 
-FROM documents 
-GROUP BY agent_id;
-```
-
-
 ## 📝 Notes importantes
 
 ### Limitations
@@ -138,11 +106,6 @@ GROUP BY agent_id;
 - Restreindre CORS
 - Ajouter authentification API
 - Chiffrer les clés API
-
-
-## 🤝 Contribution
-
-Ce prototype a été créé pour démonstration. N'hésitez pas à l'adapter à vos besoins !
 
 ## 📞 Support
 
