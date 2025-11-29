@@ -1,13 +1,20 @@
+# Docker Compose configuration for the application stack
+#version: '3.8'
+
 services:
   ######################################################
-  #                     FRONTEND WEB                   #
+  #                  FRONTEND OPEN WEB UI              #
   ######################################################
-  web:
-    build: ./web
-    container_name: web
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
     restart: always
     ports:
-      - "80:80"
+      - "3000:8080"
+    environment:
+      - 'OLLAMA_BASE_URL=http://orchestrator:8000'
+    volumes:
+      - open-webui-data:/app/backend/data
     networks:
       - query_network
     depends_on:
@@ -22,8 +29,6 @@ services:
     restart: always
     environment:
       MCP_GATEWAY_URL: ws://mcp-gateway:9000
-    depends_on:
-      - mcp-gateway
     networks:
       - query_network
       - bdd_network
@@ -32,6 +37,8 @@ services:
     build: ./query-management
     container_name: query-management
     restart: always
+    env_file:
+      - .env
     ports:
       - "5000:5000"
     environment:
@@ -44,63 +51,21 @@ services:
   ######################################################
   #                     MCP GATEWAY                    #
   ######################################################
-  mcp-gateway:
-    image: ghcr.io/modelcontextprotocol/gateway:latest
-    container_name: mcp-gateway
-    restart: always
-    ports:
-      - "9000:9000"
-    environment:
-      MCP_LOG_LEVEL: info
-      MCP_SERVERS: |
-        postgres=ws://mcp-postgres:7000
-        mysql=ws://mcp-mysql:7000
-        mongo=ws://mcp-mongo:7000
-    networks:
-      - bdd_network
+ 
+  # MCP Gateway
 
   ######################################################
   #                SERVEURS MCP (DB CONNECTORS)        #
   ######################################################
   # Postgres MCP Server
   mcp-postgres:
-    image: ghcr.io/modelcontextprotocol/postgres:latest
+    image: mcp/postgres
     container_name: mcp-postgres
     restart: always
     depends_on:
       - postgres
     environment:
       POSTGRES_URL: postgres://user:password@postgres:5432/dbname
-      MCP_PORT: 7000
-    expose:
-      - "7000"
-    networks:
-      - bdd_network
-
-  # MySQL MCP Server
-  mcp-mysql:
-    image: ghcr.io/modelcontextprotocol/mysql:latest
-    container_name: mcp-mysql
-    restart: always
-    depends_on:
-      - mysql
-    environment:
-      MYSQL_URL: mysql://user:password@mysql:3306/dbname
-      MCP_PORT: 7000
-    expose:
-      - "7000"
-    networks:
-      - bdd_network
-
-  # Mongo MCP Server
-  mcp-mongo:
-    image: ghcr.io/modelcontextprotocol/mongo:latest
-    container_name: mcp-mongo
-    restart: always
-    depends_on:
-      - mongo
-    environment:
-      MONGO_URL: mongodb://user:password@mongo:27017/dbname
       MCP_PORT: 7000
     expose:
       - "7000"
@@ -123,31 +88,6 @@ services:
     networks:
       - bdd_network
 
-  mysql:
-    image: mysql:8
-    container_name: mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: dbname
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - bdd_network
-
-  mongo:
-    image: mongo:7
-    container_name: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: user
-      MONGO_INITDB_ROOT_PASSWORD: password
-    volumes:
-      - mongo_data:/data/db
-    networks:
-      - bdd_network
 
 ########################################################
 #                       RÉSEAUX                         #
@@ -165,3 +105,4 @@ volumes:
   postgres_data:
   mysql_data:
   mongo_data:
+  open-webui-data:
