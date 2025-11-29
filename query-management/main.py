@@ -59,6 +59,6 @@ def handle_query():
         return jsonify({"error": "Échec de la communication avec l'API Gemini."}), 500
 
 if __name__ == '__main__':
-    # Lancer le serveur sur le port 5000
+    # Lancer le serveur sur le port 220
     # Le serveur sera accessible depuis n'importe quelle adresse IP (0.0.0.0)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=220, debug=True)
