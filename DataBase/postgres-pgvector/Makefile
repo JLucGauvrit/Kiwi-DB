@@ -1,3 +1,4 @@
+```makefile
 # Makefile to manage postgres-pgvector image and container
 
 IMAGE_NAME=postgres-pgvector:local
@@ -50,3 +51,5 @@ logs:
 
 status:
 	docker ps -a -f name=$(CONTAINER_NAME)
+
+```

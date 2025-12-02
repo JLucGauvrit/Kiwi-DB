@@ -84,7 +84,7 @@ services:
   ######################################################
   postgres-pgvector:
     build:
-      context: ./postgres-pgvector
+      context: ./DataBase/postgres-pgvector
     container_name: postgres-pgvector
     restart: unless-stopped
     environment:
@@ -93,7 +93,7 @@ services:
       POSTGRES_DB: dbname
     volumes:
       - pgdata_pgvector:/var/lib/postgresql/data
-      - ./postgres-pgvector/dataset_droit_travail.sql:/docker-entrypoint-initdb.d/03-droit-travail-data.sql
+      - ./DataBase/postgres-pgvector/dataset_droit_travail.sql:/docker-entrypoint-initdb.d/03-droit-travail-data.sql
     ports:
       - "5432:5432"
     networks:
@@ -112,9 +112,45 @@ services:
       POSTGRES_DB: dbname
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./postgres-init:/docker-entrypoint-initdb.d
+      - ./DataBase/postgres:/docker-entrypoint-initdb.d
     networks:
       - bdd_network
+
+  ######################################################
+  #                      MONGODB                      #
+  ######################################################
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: safety_db
+    volumes:
+      - mongo_data:/data/db
+      - ./DataBase/mongo/mongo-init:/docker-entrypoint-initdb.d
+    ports:
+      - "27017:27017"
+    networks:
+      - bdd_network
+
+  ######################################################
+  #                  MONGO DATA LOADER                 #
+  ######################################################
+  mongo-loader:
+    build:
+      context: ./DataBase/mongo/mongo-loader
+    container_name: mongo-loader
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: mongodb://root:example@mongo:27017
+      MONGO_DB: safety_db
+      MONGO_COLLECTION: procedures
+    networks:
+      - bdd_network
+    restart: 'no'
 
 ########################################################
 #                       RÉSEAUX                         #
