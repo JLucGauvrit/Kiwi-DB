@@ -1,5 +1,5 @@
 # Dockerfile pour Nginx
-FROM nginx:alpine
+FROM nginx:1-alpine-slim 
 
 # Copier la configuration Nginx
 COPY nginx.conf /etc/nginx/nginx.conf
