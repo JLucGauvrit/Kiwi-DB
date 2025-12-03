@@ -2,17 +2,48 @@
 #version: '3.8'
 
 services:
+
   ######################################################
-  #                     FRONTEND WEB                   #
+  # NGINX REVERSE PROXY + SSL TERMINATION
   ######################################################
-  web:
-    build: ./web
-    container_name: web
-    restart: always
+  nginx:
+    build: ./nginx
+    container_name: nginx-reverse-proxy
+    restart: unless-stopped
     ports:
-      - "80:80"
+      - "80:80"      # HTTP (redirigé vers HTTPS)
+      - "443:443"    # HTTPS (principal)
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/letsencrypt/live/certs:rw
+      - ./nginx/logs:/var/log/nginx
     networks:
       - query_network
+    depends_on:
+      - open-webui
+      - query-management
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+  ######################################################
+  #                  FRONTEND OPEN WEB UI              #
+  ######################################################
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    environment:
+      - 'OLLAMA_BASE_URL=http://orchestrator:8000'
+    volumes:
+      - open-webui-data:/app/backend/data
+    networks:
+      - query_network
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     depends_on:
       - orchestrator
 
@@ -32,9 +63,11 @@ services:
   query-management:
     build: ./query-management
     container_name: query-management
-    restart: always
+    restart: unless-stopped
+    env_file:
+      - .env
     ports:
-      - "5000:5000"
+      - "220:220"
     environment:
       ORCHESTRATOR_URL: http://orchestrator:8000
     depends_on:
@@ -64,9 +97,11 @@ services:
   mcp-postgres:
     image: crystaldba/postgres-mcp
     container_name: mcp-postgres
-    restart: always
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
     environment:
       DATABASE_URI: postgresql://user:password@postgres:5432/dbname
     command:
@@ -104,17 +139,27 @@ services:
   ######################################################
   postgres:
     image: postgres:16
-    container_name: postgres
-    restart: always
+    restart: unless-stopped
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dbname
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres-init:/docker-entrypoint-initdb.d
     networks:
       - bdd_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ######################################################
+  # SEEDER (génère les données au premier lancement) #
+  ######################################################
 
 ########################################################
 #                       RÉSEAUX                         #
