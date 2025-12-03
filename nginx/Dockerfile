@@ -1,15 +1,20 @@
 # Dockerfile pour Nginx
 FROM nginx:1-alpine-slim 
 
-# Copier la configuration Nginx
+# Openssl pour générer le certificat
+RUN apk add --no-cache openssl
+
+# Répertoires nécessaires
+RUN mkdir -p /etc/letsencrypt/live/certs \
+    && mkdir -p /var/log/nginx
+
+# Copier la conf Nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Créer les répertoires pour les certificats et les logs
-RUN mkdir -p /etc/letsencrypt/live/certs && \
-    mkdir -p /var/log/nginx
+# Copier le script d'entrypoint custom
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Exposer les ports HTTP et HTTPS
 EXPOSE 80 443
 
-# Utiliser la configuration par défaut de nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/entrypoint.sh"]
