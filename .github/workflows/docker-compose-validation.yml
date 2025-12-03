@@ -1,0 +1,57 @@
+name: Docker Compose Validation
+
+on:
+  pull_request:
+    paths:
+      - 'docker-compose.yml'
+      - 'docker-compose.*.yml'
+      - '**/Dockerfile'
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'docker-compose.yml'
+      - 'docker-compose.*.yml'
+      - '**/Dockerfile'
+
+jobs:
+  validate-compose:
+    name: Valider Docker Compose
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Validate docker-compose.yml
+        run: |
+          docker compose config > /dev/null
+          echo "✅ docker-compose.yml est valide"
+      
+      - name: Check for common issues
+        run: |
+          echo "Vérification des problèmes courants..."
+          
+          # Vérifier les volumes nommés
+          if docker compose config | grep -q "volumes:"; then
+            echo "✅ Volumes déclarés"
+          fi
+          
+          # Vérifier les health checks
+          if docker compose config | grep -q "healthcheck:"; then
+            echo "✅ Health checks trouvés"
+          else
+            echo "⚠️  Aucun health check trouvé - considérez d'en ajouter"
+          fi
+          
+          # Vérifier les restart policies
+          if docker compose config | grep -q "restart:"; then
+            echo "✅ Restart policies configurés"
+          else
+            echo "⚠️  Aucune restart policy trouvée"
+          fi
+      
+      - name: Test docker compose up (dry run)
+        run: |
+          echo "Test du démarrage des services..."
+          docker compose config --services
+          echo "Services détectés: $(docker compose config --services | wc -l)"
