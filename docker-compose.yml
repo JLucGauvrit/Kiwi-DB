@@ -78,15 +78,24 @@ services:
   ######################################################
   #                     MCP GATEWAY                    #
   ######################################################
- 
-  # MCP Gateway
+  mcp-gateway:
+    build: ./mcp/mcp-gateway
+    container_name: mcp-gateway
+    restart: always
+    ports:
+      - "9000:9000"
+    networks:
+      - query_network
+      - bdd_network
+    depends_on:
+      - mcp-postgres
 
   ######################################################
   #                SERVEURS MCP (DB CONNECTORS)        #
   ######################################################
-  # Postgres MCP Server
+  # Postgres MCP Server (CrystalDBA Pro)
   mcp-postgres:
-    image: mcp/postgres
+    image: crystaldba/postgres-mcp
     container_name: mcp-postgres
     depends_on:
       postgres:
@@ -94,10 +103,34 @@ services:
     env_file:
       - .env
     environment:
-      - POSTGRES_URL=${POSTGRES_URL}
-      - MCP_PORT=7000
-    expose:
-      - "7000"
+      DATABASE_URI: postgresql://user:password@postgres:5432/dbname
+    command:
+      - "--access-mode=unrestricted"
+      - "--transport=sse"
+      - "--sse-host=0.0.0.0"
+      - "--sse-port=8000"
+    ports:
+      - "8000:8000"
+    networks:
+      - bdd_network
+
+  ######################################################
+  #                   POSTGRES-PGVECTOR                #
+  ######################################################
+  postgres-pgvector:
+    build:
+      context: ./postgres-pgvector
+    container_name: postgres-pgvector
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dbname
+    volumes:
+      - pgdata_pgvector:/var/lib/postgresql/data
+      - ./postgres-pgvector/dataset_droit_travail.sql:/docker-entrypoint-initdb.d/03-droit-travail-data.sql
+    ports:
+      - "5432:5432"
     networks:
       - bdd_network
 
@@ -115,8 +148,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+      - ./postgres-init:/docker-entrypoint-initdb.d
     networks:
       - bdd_network
     healthcheck:
@@ -128,21 +160,6 @@ services:
   ######################################################
   # SEEDER (génère les données au premier lancement) #
   ######################################################
-
-  postgres_data:
-    build: ./postgres
-    env_file: .env
-    environment:
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - bdd_network
 
 ########################################################
 #                       RÉSEAUX                         #
@@ -158,6 +175,7 @@ networks:
 ########################################################
 volumes:
   postgres_data:
-    driver: local
-  open-webui-data:
+  mysql_data:
+  mongo_data:
+  pgdata_pgvector:
     driver: local
