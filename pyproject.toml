@@ -1,0 +1,105 @@
+# Configuration pour les outils de linting et formatage Python
+# À placer à la racine du projet
+
+# ========== Ruff Configuration ==========
+[tool.ruff]
+# Longueur maximale de ligne
+line-length = 100
+
+# Version Python cible
+target-version = "py311"
+
+# Exclure certains dossiers
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "*.egg-info",
+    ".pytest_cache",
+    ".mypy_cache",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+# Règles activées
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+]
+
+# Règles ignorées
+ignore = [
+    "E501",  # Line too long (géré par formatter)
+    "B008",  # Do not perform function calls in argument defaults
+    "W191",  # Indentation contains tabs
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # Ignorer les imports non utilisés dans __init__
+
+# ========== Black Configuration ==========
+[tool.black]
+line-length = 100
+target-version = ['py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | venv
+  | __pycache__
+  | \.pytest_cache
+  | \.mypy_cache
+  | build
+  | dist
+)/
+'''
+
+# ========== isort Configuration ==========
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+# ========== pytest Configuration ==========
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--tb=short",
+]
+
+# ========== Coverage Configuration ==========
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/.venv/*",
+    "*/venv/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]

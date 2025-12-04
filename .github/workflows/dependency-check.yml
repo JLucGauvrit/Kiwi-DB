@@ -1,0 +1,90 @@
+name: Dependency Check
+
+on:
+  schedule:
+    # Exécuter tous les lundis à 9h
+    - cron: '0 9 * * 1'
+  pull_request:
+    paths:
+      - '**/requirements.txt'
+      - '**/pyproject.toml'
+      - '**/poetry.lock'
+  workflow_dispatch:
+
+jobs:
+  check-dependencies:
+    name: Vérifier les Dépendances
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install pip-audit
+        run: pip install pip-audit
+      
+      - name: Check orchestrator dependencies
+        if: always()
+        run: |
+          if [ -f orchestrator/requirements.txt ]; then
+            echo "Checking orchestrator dependencies..."
+            pip-audit -r orchestrator/requirements.txt || true
+          fi
+        continue-on-error: true
+      
+      - name: Check mcp-gateway dependencies
+        if: always()
+        run: |
+          if [ -f mcp-gateway/requirements.txt ]; then
+            echo "Checking mcp-gateway dependencies..."
+            pip-audit -r mcp-gateway/requirements.txt || true
+          fi
+        continue-on-error: true
+      
+      - name: Check mcp-postgres dependencies
+        if: always()
+        run: |
+          if [ -f mcp-postgres/requirements.txt ]; then
+            echo "Checking mcp-postgres dependencies..."
+            pip-audit -r mcp-postgres/requirements.txt || true
+          fi
+        continue-on-error: true
+      
+      - name: Check query-management dependencies
+        if: always()
+        run: |
+          if [ -f query-management/requirements.txt ]; then
+            echo "Checking query-management dependencies..."
+            pip-audit -r query-management/requirements.txt || true
+          fi
+        continue-on-error: true
+
+  outdated-dependencies:
+    name: Dépendances Obsolètes
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Check for outdated packages
+        run: |
+          for req_file in */requirements.txt; do
+            if [ -f "$req_file" ]; then
+              echo "Checking $req_file..."
+              pip install -r "$req_file" > /dev/null 2>&1 || true
+              pip list --outdated || true
+              echo "---"
+            fi
+          done
+        continue-on-error: true
