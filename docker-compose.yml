@@ -212,6 +212,7 @@ networks:
 volumes:
   postgres_data:
   mysql_data:
+  open-webui-data:
   mongo_data:
   pgdata_pgvector:
     driver: local
