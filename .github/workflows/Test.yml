@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-test:
+  build:
     # Exécuter sur la dernière version d'Ubuntu
     runs-on: ubuntu-latest
     
@@ -60,6 +60,16 @@ jobs:
           # La commande '--build' est cruciale pour les services avec un Dockerfile local
           docker-compose -f docker-compose.yml up --build -d
 
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      TEST_DB_HOST: postgres
+
+    steps:
       # Étape 4: Attendre que le service Postgres soit "healthy" et que le seeder ait fini
       - name: Wait for Postgres and Seeder to initialize
         run: |
