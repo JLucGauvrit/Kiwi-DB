@@ -36,6 +36,13 @@ def get_pg_conn():
                 print("Max retries reached. Could not connect to the database.")
                 exit(1)
 
+def table_already_filled(conn, min_rows: int = 1000) -> bool:
+    """Retourne True si la table contient déjà des données (seed déjà fait)."""
+    with conn.cursor() as cur:
+        cur.execute("SELECT COUNT(*) FROM company_documents;")
+        count = cur.fetchone()[0]
+        print(f"company_documents row count: {count}")
+        return count >= min_rows
 
 def discover_folders():
     """Découvrir automatiquement les dossiers disponibles dans le clone"""
@@ -112,13 +119,20 @@ def create_table(conn):
 def main():
     print(f"🔍 Discovering folders in {LOCAL_DATA_DIR}...")
     discovered_folders = discover_folders()
-    
     if not discovered_folders:
         print(f"⚠ Warning: No folders found in {LOCAL_DATA_DIR}")
         print("  Make sure Git LFS clone completed successfully.")
-    
+
+    conn = get_pg_conn()
+    create_table(conn)
+
+    # NE RIEN FAIRE si la table est déjà remplie
+    if table_already_filled(conn, min_rows=2000):
+        print("✅ Table company_documents already filled, skipping import.")
+        conn.close()
+        return
+
     print(f"\n📚 Loading dataset from Hugging Face: {HF_DATASET}")
-    
     hf_token = os.getenv("HUGGINGFACE_API_TOKEN")
     load_kwargs = {}
     if hf_token:
@@ -127,46 +141,40 @@ def main():
     # Load from HF (parquet only)
     ds_dict = load_dataset(HF_DATASET, **load_kwargs)
 
-    conn = get_pg_conn()
-    create_table(conn)
-
     with conn.cursor() as cur:
         for split_name, ds in ds_dict.items():
             print(f"\n📦 Processing split: {split_name}")
             rows = []
             pdf_found_count = 0
             pdf_missing_count = 0
-            
+
             for idx, row in enumerate(ds):
                 if (idx + 1) % 100 == 0:
                     print(f"  Processing row {idx + 1}/{len(ds)}")
-                
+
                 doc_id = str(row.get("id") or "")
                 file_name = row.get("file_name") or ""
                 document_type = row.get("document_type") or ""
                 file_content = row.get("file_content") or ""
-                
-                # Parse extracted_data (peut être string JSON ou dict)
+
                 extracted_data_raw = row.get("extracted_data") or {}
                 try:
                     if isinstance(extracted_data_raw, str):
                         extracted_data = json.loads(extracted_data_raw)
                     else:
                         extracted_data = extracted_data_raw
-                except:
+                except Exception:
                     extracted_data = {}
-                
-                # Parse chat_format (array de messages)
+
                 chat_format = row.get("chat_format") or []
                 if not isinstance(chat_format, (list, dict)):
                     try:
                         chat_format = json.loads(str(chat_format))
-                    except:
+                    except Exception:
                         chat_format = []
 
-                # Mapper document_type au dossier réel
                 folder = map_document_type_to_folder(document_type, discovered_folders)
-                
+
                 pdf_data = None
                 if folder and file_name:
                     rel_path = f"{folder}/{file_name}"
@@ -176,12 +184,10 @@ def main():
                     else:
                         pdf_missing_count += 1
 
-                # Métadonnées = le reste
                 metadata = {
                     k: str(v)
                     for k, v in row.items()
-                    if k
-                    not in (
+                    if k not in (
                         "id",
                         "file_name",
                         "document_type",
@@ -209,7 +215,7 @@ def main():
                 print(f"Inserting {len(rows)} rows into 'company_documents'...")
                 print(f"  ✓ PDFs found: {pdf_found_count}")
                 print(f"  ⚠ PDFs missing: {pdf_missing_count}")
-                
+
                 execute_values(
                     cur,
                     """
