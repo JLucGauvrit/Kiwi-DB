@@ -65,7 +65,7 @@ services:
     container_name: query-management
     restart: unless-stopped
     env_file:
-      - .env
+      - .env.dev
     ports:
       - "220:220"
     environment:
@@ -101,7 +101,7 @@ services:
       postgres:
         condition: service_healthy
     env_file:
-      - .env
+      - .env.dev
     environment:
       DATABASE_URI: postgresql://user:password@postgres:5432/dbname
     command:
@@ -113,7 +113,23 @@ services:
       - "8000:8000"
     networks:
       - bdd_network
-
+  mcp-mongo:
+    image: node:20-alpine
+    container_name: mcp-mongo
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      # URI correspondant à ton service 'mongo' défini plus bas
+      - MONGO_URI=mongodb://root:example@mongo:27017/?authSource=admin
+    # On utilise supergateway pour convertir le serveur officiel (stdio) en serveur SSE sur le port 8001
+    command: >
+      sh -c "npm install -g supergateway mongodb-mcp-server &&
+      supergateway --port 8001 --stdio 'npx mongodb-mcp-server ${MONGO_URI}'"
+    ports:
+      - "8001:8001"
+    networks:
+      - bdd_network
   ######################################################
   #                   POSTGRES-PGVECTOR                #
   ######################################################
@@ -141,7 +157,7 @@ services:
     image: postgres:16
     restart: unless-stopped
     env_file:
-      - .env
+      - .env.dev
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -211,7 +227,7 @@ networks:
 ########################################################
 volumes:
   postgres_data:
-  mysql_data:
   mongo_data:
   pgdata_pgvector:
     driver: local
+  open-webui-data:

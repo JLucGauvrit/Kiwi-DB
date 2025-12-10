@@ -22,6 +22,11 @@ MCP_SERVERS = {
         "url": "http://mcp-postgres:8000/sse",
         "type": "postgres",
         "transport": "sse"
+    },
+    "mongo": {
+        "url": "http://mcp-mongo:8001/sse",
+        "type": "mongo",
+        "transport": "sse"
     }
 }
 
