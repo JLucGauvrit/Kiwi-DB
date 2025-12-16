@@ -61,20 +61,18 @@ services:
   ######################################################
   #                SERVEURS MCP (DB CONNECTORS)        #
   ######################################################
-  # Postgres MCP Server
+  # MCP Gateway - HTTP bridge to databases
   mcp-postgres:
-    image: mcp/postgres
+    build: ./mcp-gateway
     container_name: mcp-postgres
     restart: always
     depends_on:
       - postgres
-    command: ["postgres://user:password@postgres:5432/dbname"]
-    environment:
-      MCP_PORT: 7000
-    expose:
-      - "7000"
+    ports:
+      - "7000:7000"
     networks:
       - bdd_network
+      - query_network
 
   ######################################################
   #                BASES DE DONNÉES RÉELLES            #
@@ -89,6 +87,7 @@ services:
       POSTGRES_DB: dbname
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     networks:
       - bdd_network
 
