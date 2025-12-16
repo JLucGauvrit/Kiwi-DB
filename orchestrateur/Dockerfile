@@ -9,6 +9,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
+# Set PYTHONPATH to include /app for proper module resolution
+ENV PYTHONPATH=/app
+
 # Expose port
 EXPOSE 8000
 

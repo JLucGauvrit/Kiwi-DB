@@ -13,12 +13,12 @@ Return a JSON with:
 - entities: list of entities mentioned
 - databases: list of databases likely needed
 """
-        response = self.llm.invoke(prompt)
+        response = self.invoke(prompt)
         
         # Simple parsing - in production use structured output
         return {
             "intent_type": "search",
             "entities": [],
             "databases": ["postgres"],
-            "raw_response": response.content
+            "raw_response": response
         }

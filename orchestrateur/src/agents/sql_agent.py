@@ -13,7 +13,7 @@ Schemas: {schemas}
 
 Return SQL queries for each database.
 """
-        response = self.llm.invoke(prompt)
+        response = self.invoke(prompt)
         
         # Mock SQL generation
         sql_queries = {}

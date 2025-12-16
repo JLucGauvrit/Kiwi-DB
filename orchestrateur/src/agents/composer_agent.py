@@ -12,5 +12,5 @@ Results: {execution_results}
 
 Provide a clear, concise answer.
 """
-        response = self.llm.invoke(prompt)
-        return response.content
+        response = self.invoke(prompt)
+        return response
