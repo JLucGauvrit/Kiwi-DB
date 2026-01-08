@@ -31,7 +31,7 @@ class MCPAgent:
         """Initialise l'agent en récupérant les outils MCP disponibles de tous les serveurs."""
         try:
             # Liste des serveurs MCP disponibles
-            mcp_servers = ["postgres", "mongo"]
+            mcp_servers = ["postgres"]  # MongoDB désactivé temporairement
 
             self.mcp_tools = []
 
