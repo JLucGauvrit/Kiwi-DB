@@ -59,16 +59,14 @@ class RetrieverAgent(BaseAgent):
                     try:
                         table_list = json.loads(text)
                         if isinstance(table_list, list):
-                            tables = [t.get("name", "") for t in table_list if isinstance(t, dict)]
+                            for item in table_list:
+                                if isinstance(item, dict) and 'name' in item:
+                                    tables.append(item['name'])
                     except json.JSONDecodeError:
                         # Fallback: parse as text
-                        for line in text.split("\n"):
-                            if line.strip() and "name" in line:
-                                parts = line.split("'name':")
-                                if len(parts) > 1:
-                                    name = parts[1].split(",")[0].strip(" '\"")
-                                    if name:
-                                        tables.append(name)
+                        import re
+                        matches = re.findall(r"'name':\s*'([^']+)'", text)
+                        tables = matches if matches else []
             
             return {
                 "tables": tables,
