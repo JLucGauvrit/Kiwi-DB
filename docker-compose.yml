@@ -84,7 +84,7 @@ services:
     container_name: query-management
     restart: unless-stopped
     env_file:
-      - .env
+      - .env.dev
     ports:
       - "220:220"
     environment:
@@ -123,7 +123,7 @@ services:
       postgres:
         condition: service_healthy
     env_file:
-      - .env
+      - .env.dev
     environment:
       DATABASE_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     command:
@@ -135,22 +135,36 @@ services:
       - "8002:8000"
     networks:
       - bdd_network
-
+  mcp-mongo:
+    image: node:20-alpine
+    container_name: mcp-mongo
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      # URI correspondant à ton service 'mongo' défini plus bas
+      - MONGO_URI=mongodb://root:example@mongo:27017/?authSource=admin
+    # On utilise supergateway pour convertir le serveur officiel (stdio) en serveur SSE sur le port 8003
+    command: >
+      sh -c "npm install -g supergateway mongodb-mcp-server &&
+      supergateway --port 8003 --stdio 'npx mongodb-mcp-server ${MONGO_URI}'"
+    ports:
+      - "8003:8003"
+    networks:
+      - bdd_network
   ######################################################
   #                   POSTGRES-PGVECTOR                #
   ######################################################
   postgres-pgvector:
     build:
-      context: ./postgres-pgvector
+      context: ./DataBase/postgres-pgvector
     container_name: postgres-pgvector
     restart: unless-stopped
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dbname
+    env_file:
+      - .env.dev
     volumes:
       - pgdata_pgvector:/var/lib/postgresql/data
-      - ./postgres-pgvector/dataset_droit_travail.sql:/docker-entrypoint-initdb.d/03-droit-travail-data.sql
+      - ./DataBase/postgres-pgvector/dataset_droit_travail.sql:/docker-entrypoint-initdb.d/03-droit-travail-data.sql
     ports:
       - "5432:5432"
     networks:
@@ -163,18 +177,14 @@ services:
     image: postgres:16
     restart: unless-stopped
     env_file:
-      - .env
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - .env.dev
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./postgres-init:/docker-entrypoint-initdb.d
+      - ./DataBase/postgres:/docker-entrypoint-initdb.d
     networks:
       - bdd_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d postgres"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -182,6 +192,42 @@ services:
   ######################################################
   # SEEDER (génère les données au premier lancement) #
   ######################################################
+
+  ######################################################
+  #                      MONGODB                      #
+  ######################################################
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: safety_db
+    volumes:
+      - mongo_data:/data/db
+      - ./DataBase/mongo/mongo-init:/docker-entrypoint-initdb.d
+    ports:
+      - "27017:27017"
+    networks:
+      - bdd_network
+
+  ######################################################
+  #                  MONGO DATA LOADER                 #
+  ######################################################
+  mongo-loader:
+    build:
+      context: ./DataBase/mongo/mongo-loader
+    container_name: mongo-loader
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: mongodb://root:example@mongo:27017
+      MONGO_DB: safety_db
+      MONGO_COLLECTION: procedures
+    networks:
+      - bdd_network
+    restart: 'no'
 
 ########################################################
 #                       RÉSEAUX                         #
@@ -197,7 +243,6 @@ networks:
 ########################################################
 volumes:
   postgres_data:
-  mysql_data:
   mongo_data:
   pgdata_pgvector:
     driver: local
