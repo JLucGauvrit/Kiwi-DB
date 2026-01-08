@@ -47,6 +47,10 @@ Examples:
             
             intent_data = json.loads(json_str)
             
+            # Ensure databases field is set correctly
+            if intent_data.get("requires_database", False) and not intent_data.get("databases"):
+                intent_data["databases"] = ["postgres"]
+            
             # Add the raw response
             intent_data["raw_response"] = response
             return intent_data
