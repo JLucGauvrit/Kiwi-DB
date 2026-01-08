@@ -12,7 +12,8 @@ app = FastAPI(title="RAG Orchestrator")
 # Initialize orchestrator
 config = {
     "mcp_gateway_url": os.getenv("MCP_GATEWAY_URL", "ws://mcp-gateway:9000"),
-    "google_api_key": os.getenv("GOOGLE_API_KEY")
+    "ollama_url": os.getenv("OLLAMA_URL", "http://ollama:11434"),
+    "ollama_model": os.getenv("OLLAMA_MODEL", "llama3.2")
 }
 
 orchestrator = FederatedRAGOrchestrator(config)

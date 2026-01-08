@@ -50,6 +50,17 @@ services:
   ######################################################
   #                   ORCHESTRATOR LLM                 #
   ######################################################
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - query_network
+  
   orchestrator:
     build: ./orchestrateur
     container_name: orchestrator
@@ -60,9 +71,13 @@ services:
       - .env
     environment:
       MCP_GATEWAY_URL: ws://mcp-gateway:9000
+      OLLAMA_URL: http://ollama:11434
+      OLLAMA_MODEL: llama3.2
     networks:
       - query_network
       - bdd_network
+    depends_on:
+      - ollama
   
   query-management:
     build: ./query-management
@@ -117,7 +132,7 @@ services:
       - "--sse-host=0.0.0.0"
       - "--sse-port=8000"
     ports:
-      - "8000:8000"
+      - "8002:8000"
     networks:
       - bdd_network
 
@@ -187,4 +202,6 @@ volumes:
   pgdata_pgvector:
     driver: local
   open-webui-data:
+    driver: local
+  ollama_data:
     driver: local

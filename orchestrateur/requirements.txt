@@ -3,11 +3,9 @@ uvicorn[standard]
 langgraph
 langchain
 langchain-core
-langchain-google-genai>=2.0.0
 langchain-ollama
 python-dotenv
 httpx
 pydantic
-google-generativeai
 websockets
 nest-asyncio

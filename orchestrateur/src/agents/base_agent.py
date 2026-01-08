@@ -1,21 +1,24 @@
 """Base agent class."""
 from abc import ABC, abstractmethod
-import google.generativeai as genai
+from langchain_ollama import ChatOllama
 
 
 class BaseAgent(ABC):
     def __init__(self, config: dict):
         self.config = config
-        api_key = config.get("google_api_key")
-        if not api_key:
-            raise ValueError("GOOGLE_API_KEY not found in config")
-        genai.configure(api_key=api_key)
-        self.llm = genai.GenerativeModel('gemini-2.5-flash')
+        ollama_url = config.get("ollama_url", "http://ollama:11434")
+        model = config.get("ollama_model", "llama3.2")
+        
+        self.llm = ChatOllama(
+            base_url=ollama_url,
+            model=model,
+            temperature=0.1
+        )
     
     def invoke(self, prompt: str) -> str:
         """Invoke the LLM with a prompt."""
-        response = self.llm.generate_content(prompt)
-        return response.text
+        response = self.llm.invoke(prompt)
+        return response.content
 
     @abstractmethod
     def run(self, *args, **kwargs):
