@@ -28,29 +28,48 @@ class MCPAgent:
         self.mcp_tools = []
 
     async def initialize(self):
-        """Initialise l'agent en récupérant les outils MCP disponibles."""
+        """Initialise l'agent en récupérant les outils MCP disponibles de tous les serveurs."""
         try:
-            # Récupérer les outils MCP depuis la gateway
-            response = await self.mcp_client.list_tools(server="postgres")
+            # Liste des serveurs MCP disponibles
+            mcp_servers = ["postgres", "mongo"]
 
-            if response.get("success"):
-                tools_data = response.get("tools", [])
+            self.mcp_tools = []
 
-                # Convertir les outils MCP au format LangChain/OpenAI
-                self.mcp_tools = []
-                for tool_info in tools_data:
-                    if isinstance(tool_info, dict) and "name" in tool_info:
-                        tool_def = self._convert_mcp_tool_to_langchain(tool_info)
-                        self.mcp_tools.append(tool_def)
+            # Récupérer les outils de chaque serveur MCP
+            for server_name in mcp_servers:
+                try:
+                    logger.info(f"Loading tools from {server_name}...")
+                    response = await self.mcp_client.list_tools(server=server_name)
 
-                logger.info(f"Loaded {len(self.mcp_tools)} MCP tools")
+                    if response.get("success"):
+                        tools_data = response.get("tools", [])
 
-                # Bind tools to LLM
-                if self.mcp_tools:
-                    self.llm = self.llm.bind_tools(self.mcp_tools)
+                        # Convertir les outils MCP au format LangChain/OpenAI
+                        for tool_info in tools_data:
+                            if isinstance(tool_info, dict) and "name" in tool_info:
+                                # Préfixer le nom de l'outil avec le serveur pour éviter les conflits
+                                tool_info_with_server = tool_info.copy()
+                                original_name = tool_info["name"]
+                                tool_info_with_server["name"] = f"{server_name}_{original_name}"
+                                tool_info_with_server["description"] = f"[{server_name.upper()}] {tool_info.get('description', '')}"
+                                tool_info_with_server["_server"] = server_name
+                                tool_info_with_server["_original_name"] = original_name
 
-            else:
-                logger.warning(f"Failed to load MCP tools: {response}")
+                                tool_def = self._convert_mcp_tool_to_langchain(tool_info_with_server)
+                                self.mcp_tools.append(tool_def)
+
+                        logger.info(f"Loaded {len(tools_data)} tools from {server_name}")
+                    else:
+                        logger.warning(f"Failed to load tools from {server_name}: {response}")
+
+                except Exception as e:
+                    logger.error(f"Error loading tools from {server_name}: {e}")
+
+            logger.info(f"Total tools loaded: {len(self.mcp_tools)}")
+
+            # Bind tools to LLM
+            if self.mcp_tools:
+                self.llm = self.llm.bind_tools(self.mcp_tools)
 
         except Exception as e:
             logger.error(f"Error initializing MCP agent: {e}", exc_info=True)
@@ -90,14 +109,19 @@ class MCPAgent:
             logger.info(f"Available tools: {[t['function']['name'] for t in self.mcp_tools]}")
 
             # Initialiser la conversation
-            messages = [
-                HumanMessage(content=f"""Tu es un assistant SQL qui aide les utilisateurs à interroger une base de données PostgreSQL.
+            # Générer la liste des outils disponibles pour l'utilisateur
+            tools_description = "\n".join([
+                f"- {tool['function']['name']}: {tool['function']['description']}"
+                for tool in self.mcp_tools
+            ])
 
-Les outils MCP disponibles te permettent de :
-- describe_schema : Obtenir le schéma complet de la base de données
-- query : Exécuter une requête SQL
-- list_schemas : Lister les schémas disponibles
-- list_objects : Lister les objets (tables, vues, etc.) dans un schéma
+            messages = [
+                HumanMessage(content=f"""Tu es un assistant de base de données qui aide les utilisateurs à interroger plusieurs bases de données (PostgreSQL, MongoDB, etc.).
+
+Tu as accès aux outils MCP suivants :
+{tools_description}
+
+Les outils sont préfixés par le nom du serveur (postgres_, mongo_) pour indiquer quelle base de données ils interrogent.
 
 Question de l'utilisateur : {user_query}
 
@@ -183,10 +207,23 @@ Utilise les outils nécessaires pour répondre à la question, puis fournis une 
     async def _execute_mcp_tool(self, tool_name: str, arguments: Dict[str, Any]) -> Any:
         """Exécute un outil MCP via la gateway."""
         try:
+            # Extraire le nom du serveur et le nom original de l'outil
+            # Format: "server_toolname" -> server="server", tool="toolname"
+            if "_" in tool_name:
+                parts = tool_name.split("_", 1)
+                server_name = parts[0]
+                original_tool_name = parts[1]
+            else:
+                # Fallback si pas de préfixe (ne devrait pas arriver)
+                server_name = "postgres"
+                original_tool_name = tool_name
+
+            logger.info(f"Executing {original_tool_name} on {server_name} server")
+
             response = await self.mcp_client.call_tool(
-                tool=tool_name,
+                tool=original_tool_name,
                 arguments=arguments,
-                server="postgres"
+                server=server_name
             )
 
             if response.get("success"):

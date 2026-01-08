@@ -24,7 +24,7 @@ MCP_SERVERS = {
         "transport": "sse"
     },
     "mongo": {
-        "url": "http://mcp-mongo:8001/sse",
+        "url": "http://mcp-mongo:8003/sse",
         "type": "mongo",
         "transport": "sse"
     }
