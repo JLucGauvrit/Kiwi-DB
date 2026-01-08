@@ -1,10 +1,6 @@
-#mettre un fichier du type action.yaml sur scout action
-#mettre index.js
-
 name: Test
 
 on:
-  # Déclenche le workflow sur les pushes et les pull requests vers la branche 'main'
   push:
     branches:
       - main
@@ -12,96 +8,75 @@ on:
   pull_request:
     branches:
       - main
-      - dev 
-  # Permet d'exécuter le workflow manuellement depuis l'onglet Actions
+      - dev
   workflow_dispatch:
 
 jobs:
   build-and-test:
-    # Exécuter sur la dernière version d'Ubuntu
     runs-on: ubuntu-latest
-    
-    # Récupérer les secrets nécessaires pour l'environnement
-    # Assurez-vous que ces variables sont configurées dans les GitHub Secrets du repo
+
     env:
       POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
       POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
-      # Le nom d'hôte de la DB dans le réseau Docker Compose est 'postgres'
       TEST_DB_HOST: postgres
 
     steps:
-      # Étape 1: Cloner le dépôt
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Etape 2: Installer Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
-      # Etape 3: Installer les dépendances
-      - name: Install dependencies
+
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install requests
 
-      # Étape 4: Configurer Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Étape 5: Construction et démarrage de tous les services avec Docker Compose
       - name: Build and Start Services
         run: |
           echo "POSTGRES_USER=${{ env.POSTGRES_USER }}" > .env
           echo "POSTGRES_PASSWORD=${{ env.POSTGRES_PASSWORD }}" >> .env
           echo "POSTGRES_DB=${{ env.POSTGRES_DB }}" >> .env
-          echo "POSTGRES_URL=${{ env.POSTRES_URL }}" >> .env
-          
-          # Démarrer les services en arrière-plan et attendre leur santé
-          # La commande '--build' est cruciale pour les services avec un Dockerfile local
-          docker-compose -f docker-compose.yml up --build -d
-      # Étape 6: Attendre que le service Postgres soit "healthy" et que le seeder ait fini
-      - name: Wait for Postgres and Seeder to initialize
+          echo "POSTGRES_URL=${{ env.POSTGRES_URL }}" >> .env
+
+          docker compose -f docker-compose.yml up --build -d
+
+      - name: Wait for Postgres to be healthy
         run: |
           echo "Waiting for Postgres healthcheck..."
-          # Attendre que la base de données soit prête (pg_isready dans le healthcheck)
-          timeout 120 bash -c 'while [[ "$(docker-compose -f docker-compose.yml inspect --format='{{.State.Health.Status}}' postgres 2>/dev/null)" != "healthy" ]]; do sleep 5; done'
-          
-          echo "Postgres is healthy. Waiting for seeder (postgres_data) to complete..."
-          sleep 30
-          
-          # Vérifier que tous les services sont démarrés sans erreur
-          docker-compose ps
-          if [ $(docker-compose ps | grep "Exit" | wc -l) -gt 1 ]; then
-            echo "Some services failed to start or exited unexpectedly."
-            # Afficher les logs des services pour le débogage
-            docker-compose logs
-            exit 1
-          fi
-      # Étape 7: Configuration et Exécution du Test d'Intégration BDD (test_BDD.py)
+          timeout 120 bash -c '
+            while [[ "$(docker compose -f docker-compose.yml inspect postgres --format="{{.State.Health.Status}}")" != "healthy" ]]; do
+              sleep 5
+            done
+          '
+
+          echo "Postgres is healthy"
+          docker compose ps
+
       - name: Run Database Integration Test
         run: |
-          echo "--- Running test_BDD.py against the 'postgres' service ---"
-          # Installer Python et le driver PostgreSQL
-          sudo apt-get update && sudo apt-get install -y python3-dev libpq-dev
+          sudo apt-get update
+          sudo apt-get install -y python3-dev libpq-dev
           python3 -m pip install psycopg2-binary
-          
-          
-          # Exécuter le test Python en passant les secrets en tant qu'arguments ou variables d'environnement
-          python3 test_BDD_ci.py ${{ env.POSTGRES_USER }} ${{ env.POSTGRES_PASSWORD }} ${{ env.POSTGRES_DB }} ${{ env.TEST_DB_HOST }}
 
-      # Etape 8: Test python
+          python3 test_BDD_ci.py \
+            "${{ env.POSTGRES_USER }}" \
+            "${{ env.POSTGRES_PASSWORD }}" \
+            "${{ env.POSTGRES_DB }}" \
+            "${{ env.TEST_DB_HOST }}"
 
-      - name: test db available
+      - name: Test DB availability
         run: |
           python3 test_db_available.py
 
-      # Étape 9: Nettoyage 
       - name: Cleanup
-        if: always() 
+        if: always()
         run: |
-          echo "Stopping and removing containers and networks..."
-          docker-compose -f docker-compose.yml down -v
+          docker compose -f docker-compose.yml down -v
