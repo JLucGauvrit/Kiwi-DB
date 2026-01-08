@@ -56,6 +56,7 @@ class FederatedRAGOrchestrator:
         # Skip retrieval if database access not needed
         if not state["intent"].get("requires_database", True):
             state["schemas"] = []
+            state["final_output"] = "I can only answer questions about data in our databases (users, products, orders). Your question appears to be general knowledge that I cannot help with."
             return state
         
         agent = self.registry.get_agent("retriever")
