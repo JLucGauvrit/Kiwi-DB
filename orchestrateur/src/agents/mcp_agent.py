@@ -116,16 +116,25 @@ class MCPAgent:
             ])
 
             messages = [
-                HumanMessage(content=f"""Tu es un assistant de base de données qui aide les utilisateurs à interroger plusieurs bases de données (PostgreSQL, MongoDB, etc.).
+                HumanMessage(content=f"""Tu es un assistant de base de données PostgreSQL.
 
-Tu as accès aux outils MCP suivants :
+OUTILS DISPONIBLES:
 {tools_description}
 
-Les outils sont préfixés par le nom du serveur (postgres_, mongo_) pour indiquer quelle base de données ils interrogent.
+IMPORTANT - RÈGLES D'UTILISATION DES OUTILS:
+1. Pour lister les tables: utilise d'abord postgres_list_schemas, puis postgres_list_objects avec schema_name="public"
+2. Pour compter ou afficher des données: utilise postgres_execute_sql avec une requête SQL valide
+3. Tous les paramètres requis doivent être fournis (jamais null ou vide)
+4. Le schéma par défaut est "public" pour la plupart des tables utilisateur
 
-Question de l'utilisateur : {user_query}
+EXEMPLES:
+- "Quelles tables ?" → postgres_list_objects avec schema_name="public"
+- "Combien de users ?" → postgres_execute_sql avec sql="SELECT COUNT(*) FROM users"
+- "Affiche les users" → postgres_execute_sql avec sql="SELECT * FROM users LIMIT 10"
 
-Utilise les outils nécessaires pour répondre à la question, puis fournis une réponse claire en français.""")
+QUESTION: {user_query}
+
+Utilise les outils pour répondre, puis donne une réponse en français.""")
             ]
 
             tool_calls_made = []
@@ -176,12 +185,23 @@ Utilise les outils nécessaires pour répondre à la question, puis fournis une 
                     logger.info("LLM provided final answer")
                     final_answer = response.content
 
+                    # Vérifier si le LLM a utilisé des outils
+                    if not tool_calls_made:
+                        logger.warning("LLM answered without using any tools - possible hallucination")
+                        final_answer = (
+                            "⚠️ ATTENTION: Cette réponse n'est pas basée sur les données réelles de la base. "
+                            "Le modèle LLM n'a pas pu accéder aux outils nécessaires.\n\n"
+                            f"Réponse du modèle: {final_answer}\n\n"
+                            "Veuillez reformuler votre question de manière plus précise."
+                        )
+
                     return {
                         "success": True,
                         "query": user_query,
                         "tool_calls": tool_calls_made,
                         "answer": final_answer,
-                        "iterations": iteration
+                        "iterations": iteration,
+                        "warning": "no_tools_used" if not tool_calls_made else None
                     }
 
             # Si on atteint le maximum d'itérations

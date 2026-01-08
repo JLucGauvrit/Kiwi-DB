@@ -47,6 +47,30 @@ async def health():
     return {"status": "healthy"}
 
 
+@app.get("/tools")
+async def list_tools():
+    """Liste tous les outils MCP disponibles."""
+    try:
+        # Initialiser l'agent si pas déjà fait
+        if not orchestrator.agent.mcp_tools:
+            await orchestrator.agent.initialize()
+
+        tools = []
+        for tool in orchestrator.agent.mcp_tools:
+            tools.append({
+                "name": tool["function"]["name"],
+                "description": tool["function"]["description"],
+                "parameters": tool["function"]["parameters"]
+            })
+
+        return {
+            "total": len(tools),
+            "tools": tools
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
