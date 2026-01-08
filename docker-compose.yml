@@ -102,8 +102,6 @@ services:
         condition: service_healthy
     env_file:
       - .env.dev
-    environment:
-      DATABASE_URI: postgresql://user:password@postgres:5432/dbname
     command:
       - "--access-mode=unrestricted"
       - "--transport=sse"
@@ -138,10 +136,8 @@ services:
       context: ./DataBase/postgres-pgvector
     container_name: postgres-pgvector
     restart: unless-stopped
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dbname
+    env_file:
+      - .env.dev
     volumes:
       - pgdata_pgvector:/var/lib/postgresql/data
       - ./DataBase/postgres-pgvector/dataset_droit_travail.sql:/docker-entrypoint-initdb.d/03-droit-travail-data.sql
@@ -158,17 +154,13 @@ services:
     restart: unless-stopped
     env_file:
       - .env.dev
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./DataBase/postgres:/docker-entrypoint-initdb.d
     networks:
       - bdd_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d postgres"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
       interval: 10s
       timeout: 5s
       retries: 5
