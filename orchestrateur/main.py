@@ -47,46 +47,6 @@ async def health():
     return {"status": "healthy"}
 
 
-@app.get("/test-mcp")
-async def test_mcp():
-    """Test MCP connection without using LLM."""
-    from src.mcp_client import MCPGatewayClient
-    
-    try:
-        client = MCPGatewayClient(config["mcp_gateway_url"])
-        
-        # Test listing tools
-        tools_response = await client.list_tools("postgres")
-        
-        # Test calling describe_schema
-        schema_response = await client.call_tool(
-            tool="describe_schema",
-            arguments={},
-            server="postgres"
-        )
-        
-        # Test a simple query
-        query_response = await client.call_tool(
-            tool="query",
-            arguments={"sql": "SELECT current_database(), version();"},
-            server="postgres"
-        )
-        
-        await client.disconnect()
-        
-        return {
-            "status": "success",
-            "tools": tools_response,
-            "schema": schema_response,
-            "query": query_response
-        }
-    except Exception as e:
-        return {
-            "status": "error",
-            "error": str(e)
-        }
-
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

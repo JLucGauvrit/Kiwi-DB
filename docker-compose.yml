@@ -125,7 +125,7 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URI: postgresql://user:password@postgres:5432/dbname
+      DATABASE_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     command:
       - "--access-mode=unrestricted"
       - "--transport=sse"
