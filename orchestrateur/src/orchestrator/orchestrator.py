@@ -53,6 +53,11 @@ class FederatedRAGOrchestrator:
         return state
 
     def _retrieve_node(self, state: QueryState) -> QueryState:
+        # Skip retrieval if database access not needed
+        if not state["intent"].get("requires_database", True):
+            state["schemas"] = []
+            return state
+        
         agent = self.registry.get_agent("retriever")
         state["schemas"] = agent.run(state["intent"])
         return state
@@ -83,8 +88,22 @@ class FederatedRAGOrchestrator:
         return state
 
     def _should_execute(self, state: QueryState) -> str:
+        # Check if database access is required
+        if not state["intent"].get("requires_database", True):
+            state["final_output"] = "This question doesn't require database access. I can only answer questions about data in our databases."
+            state["errors"] = ["Query does not require database access"]
+            return "end"
+        
+        # Check if we have valid SQL queries
+        if not state["sql_queries"]:
+            state["final_output"] = "I couldn't find relevant data in our databases to answer your question. Our databases contain information about: users, products, and orders."
+            state["errors"] = ["No valid SQL queries generated"]
+            return "end"
+        
+        # Check validation results
         if state["validation_results"].get("valid", False):
             return "execute"
+        
         state["errors"] = state["validation_results"].get("issues", [])
         return "end"
 
