@@ -1,3 +1,11 @@
-fastapi==0.104.1
-uvicorn==0.23.2
-python-dotenv==1.0.0
+fastapi
+uvicorn[standard]
+langgraph
+langchain
+langchain-core
+langchain-ollama
+python-dotenv
+httpx
+pydantic
+websockets
+nest-asyncio
