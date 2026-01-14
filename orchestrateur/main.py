@@ -52,11 +52,11 @@ async def list_tools():
     """Liste tous les outils MCP disponibles."""
     try:
         # Initialiser l'agent si pas déjà fait
-        if not orchestrator.agent.mcp_tools:
-            await orchestrator.agent.initialize()
+        if not orchestrator.mcp_agent.mcp_tools:
+            await orchestrator.mcp_agent.initialize()
 
         tools = []
-        for tool in orchestrator.agent.mcp_tools:
+        for tool in orchestrator.mcp_agent.mcp_tools:
             tools.append({
                 "name": tool["function"]["name"],
                 "description": tool["function"]["description"],
