@@ -181,10 +181,6 @@ services:
       retries: 5
 
   ######################################################
-  # SEEDER (génère les données au premier lancement) #
-  ######################################################
-
-  ######################################################
   #                      MONGODB                      #
   ######################################################
   mongo:
@@ -233,9 +229,7 @@ networks:
 #                      VOLUMES                          #
 ########################################################
 volumes:
-  postgres_data:
   mysql_data:
-  open-webui-data:
   mongo_data:
   pgdata_pgvector:
     driver: local
