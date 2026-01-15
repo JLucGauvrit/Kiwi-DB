@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker images
+        run: |
+          docker compose build --no-cache
+
+      - name: List built images
+        run: |
+          docker images | grep -E 'mongo-loader|mcp-gateway|orchestrator|query-management|postgres-pgvector|nginx'
+
+      - name: Verify Docker images
+        run: |
+          docker compose config --quiet
+          echo "Docker Compose configuration is valid"

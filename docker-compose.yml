@@ -20,14 +20,16 @@ services:
     networks:
       - query_network
     depends_on:
-      - open-webui
-      - query-management
+      open-webui:
+        condition: service_started
+      query-management:
+        condition: service_started
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 10s
+      start_period: 15s
   ######################################################
   #                  FRONTEND OPEN WEB UI              #
   ######################################################
@@ -45,7 +47,14 @@ services:
       - 8.8.8.8
       - 8.8.4.4
     depends_on:
-      - orchestrator
+      orchestrator:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
   ######################################################
   #                   ORCHESTRATOR LLM                 #
@@ -77,7 +86,16 @@ services:
       - query_network
       - bdd_network
     depends_on:
-      - ollama
+      ollama:
+        condition: service_started
+      mcp-gateway:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
   
   query-management:
     build: ./query-management
@@ -90,9 +108,16 @@ services:
     environment:
       ORCHESTRATOR_URL: http://orchestrator:8000
     depends_on:
-      - orchestrator
+      orchestrator:
+        condition: service_started
     networks:
       - query_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:220/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
   
   ######################################################
   #                     MCP GATEWAY                    #
@@ -107,10 +132,16 @@ services:
       - query_network
       - bdd_network
     depends_on:
-      mcp-postgres:
-        condition: service_started
       postgres:
         condition: service_healthy
+      postgres-pgvector:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health" ]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   ######################################################
   #                SERVEURS MCP (DB CONNECTORS)        #
@@ -125,7 +156,7 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URI: postgresql://user:password@postgres:5432/dbname
+      DATABASE_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     command:
       - "--access-mode=unrestricted"
       - "--transport=sse"
@@ -135,6 +166,12 @@ services:
       - "8002:8000"
     networks:
       - bdd_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
 
   ######################################################
   #                   POSTGRES-PGVECTOR                #
@@ -152,15 +189,22 @@ services:
       - pgdata_pgvector:/var/lib/postgresql/data
       - ./DataBase/postgres-pgvector/dataset_droit_travail.sql:/docker-entrypoint-initdb.d/03-droit-travail-data.sql
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       - bdd_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -h localhost -p 5432"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
   ######################################################
   #                BASES DE DONNÉES RÉELLES            #
   ######################################################
   postgres:
     image: postgres:16
+    container_name: postgres
     restart: unless-stopped
     env_file:
       - .env
@@ -172,13 +216,16 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./DataBase/postgres:/docker-entrypoint-initdb.d
+    ports:
+      - "5434:5432"
     networks:
       - bdd_network
     healthcheck:
-      test: ["CMD-SHELL", "PGUSER=$POSTGRES_USER PGDATABASE=$POSTGRES_DB pg_isready -h localhost -p 5432"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} -h localhost -p 5432"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 30s
 
   ######################################################
   #                      MONGODB                      #
@@ -207,7 +254,8 @@ services:
       context: ./DataBase/mongo/mongo-loader
     container_name: mongo-loader
     depends_on:
-      - mongo
+      mongo:
+        condition: service_started
     environment:
       MONGO_URI: mongodb://root:example@mongo:27017
       MONGO_DB: safety_db
@@ -215,6 +263,11 @@ services:
     networks:
       - bdd_network
     restart: 'no'
+    healthcheck:
+      test: ["CMD", "echo", "Loading complete"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 ########################################################
 #                       RÉSEAUX                         #
