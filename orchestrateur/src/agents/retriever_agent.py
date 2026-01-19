@@ -1,4 +1,14 @@
-"""Schema retrieval agent via MCP."""
+"""
+Schema retrieval agent for fetching database schemas via MCP.
+
+Ce module implémente l'agent de récupération de schémas qui interroge
+les serveurs MCP pour obtenir les structures de bases de données
+et les informations sur les tables et colonnes.
+
+@author: PROCOM Team
+@version: 1.0
+@since: 2026-01-19
+"""
 from src.agents.base_agent import BaseAgent
 from src.mcp_client import MCPGatewayClient
 import asyncio
@@ -7,12 +17,42 @@ import re
 
 
 class RetrieverAgent(BaseAgent):
+    """
+    Agent de récupération de schémas de base de données.
+    
+    Utilise la passerelle MCP pour interroger les serveurs MCP
+    et récupérer les informations de schéma des bases de données.
+    """
+    
     def __init__(self, config: dict):
+        """
+        Initialiser l'agent de récupération.
+        
+        @param config: Configuration contenant l'URL de la passerelle MCP
+        @type config: dict
+        """
         super().__init__(config)
         self.mcp_client = MCPGatewayClient(config.get("mcp_gateway_url"))
     
     def run(self, intent: dict) -> list:
-        """Retrieve relevant schemas via MCP Gateway."""
+        """
+        Récupérer les schémas de base de données pertinents.
+        
+        Utilise les informations d'intention pour déterminer quelles
+        bases de données consulter, puis récupère leurs schémas via MCP.
+        
+        @param intent: Dictionnaire contenant les informations d'intention
+        @type intent: dict
+        @param intent['databases']: Liste des bases de données cibles
+        @type intent['databases']: list
+        @return: Liste des schémas de base de données avec tables et colonnes
+        @rtype: list of dict
+        @return_value:
+            - database (str): Nom de la base de données
+            - tables (list): Liste des noms de tables
+            - columns (dict): Mapping table_name -> list of columns
+            - schema (dict): Information complète du schéma
+        """
         databases = intent.get("databases", [])
         
         schemas = []
@@ -39,9 +79,23 @@ class RetrieverAgent(BaseAgent):
         return schemas
     
     async def _get_schema_from_mcp(self, database: str) -> dict:
-        """Get schema information from MCP server via gateway."""
+        """
+        Récupérer les informations de schéma du serveur MCP.
+        
+        Appelle les outils MCP pour lister les tables et colonnes
+        de la base de données spécifiée.
+        
+        @param database: Nom de la base de données cible
+        @type database: str
+        @return: Dictionnaire contenant les informations de schéma
+        @rtype: dict
+        @return_keys:
+            - tables (list): Liste des noms de tables
+            - columns (dict): Mapping table_name -> list of columns
+            - schema_description (str): Description des tables disponibles
+        """
         try:
-            # List tables in the public schema
+            # Lister les tables du schéma public
             objects_response = await self.mcp_client.call_tool(
                 tool="list_objects",
                 arguments={"schema_name": "public", "object_type": "table"},
@@ -56,7 +110,7 @@ class RetrieverAgent(BaseAgent):
                 if result and len(result) > 0:
                     text = result[0].get("text", "")
                     
-                    # Try to parse as JSON first
+                    # Essayer de parser en JSON d'abord
                     try:
                         table_list = json.loads(text)
                         if isinstance(table_list, list):
@@ -65,14 +119,14 @@ class RetrieverAgent(BaseAgent):
                                     table_name = item['name']
                                     tables.append(table_name)
                                     
-                                    # Get column details for each table
+                                    # Récupérer les détails de colonne pour chaque table
                                     columns_by_table[table_name] = await self._get_table_columns(database, table_name)
                     except json.JSONDecodeError:
-                        # Fallback: parse as text
+                        # Fallback : parser en tant que texte
                         matches = re.findall(r"'name':\s*'([^']+)'", text)
                         tables = matches if matches else []
                         
-                        # Get columns for each table
+                        # Récupérer les colonnes pour chaque table
                         for table_name in tables:
                             columns_by_table[table_name] = await self._get_table_columns(database, table_name)
             
@@ -87,7 +141,23 @@ class RetrieverAgent(BaseAgent):
             await self.mcp_client.disconnect()
     
     async def _get_table_columns(self, database: str, table_name: str) -> list:
-        """Get column details for a specific table."""
+        """
+        Récupérer les détails des colonnes pour une table spécifique.
+        
+        Appelle l'outil MCP pour obtenir la définition de la table
+        et en extraire les informations de colonne.
+        
+        @param database: Nom de la base de données
+        @type database: str
+        @param table_name: Nom de la table
+        @type table_name: str
+        @return: Liste des colonnes avec leurs propriétés
+        @rtype: list of dict
+        @return_value:
+            - name (str): Nom de la colonne
+            - type (str): Type de données SQL
+            - nullable (bool): Indique si la colonne accepte NULL
+        """
         try:
             details_response = await self.mcp_client.call_tool(
                 tool="get_object_details",
@@ -104,10 +174,10 @@ class RetrieverAgent(BaseAgent):
                 if result:
                     text = result[0].get("text", "")
                     
-                    # Try to parse column information
+                    # Essayer de parser les informations de colonne
                     columns = []
                     try:
-                        # Try JSON parsing
+                        # Essayer le parsing JSON
                         col_data = json.loads(text)
                         if isinstance(col_data, list):
                             for col in col_data:
@@ -118,7 +188,7 @@ class RetrieverAgent(BaseAgent):
                                         "nullable": col.get("nullable", True)
                                     })
                     except json.JSONDecodeError:
-                        # Fallback: parse as text
+                        # Fallback : parser en tant que texte
                         for line in text.split("\n"):
                             if "|" in line:
                                 parts = [p.strip() for p in line.split("|")]

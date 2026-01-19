@@ -1,0 +1,419 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guide de Démarrage &mdash; BDD Fédérée par Agent - Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=05dadb3a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=e6b791cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="next" title="Architecture du Système" href="architecture.html" />
+    <link rel="prev" title="BDD Fédérée par Agent - Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BDD Fédérée par Agent
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenu</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Guide de Démarrage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequis">Prérequis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#clonage-du-projet">Clonage du Projet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-des-dependances">Installation des Dépendances</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#variables-d-environnement">Variables d’Environnement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fichier-de-configuration-mcp">Fichier de Configuration MCP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#demarrage-rapide-avec-docker">Démarrage Rapide avec Docker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#demarrage">Démarrage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verification">Vérification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#arret">Arrêt</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#utilisation">Utilisation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#interface-swagger">Interface Swagger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exemple-de-requete">Exemple de Requête</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#reponse-attendue">Réponse Attendue</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#tests">Tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#lancer-les-tests">Lancer les Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tests-disponibles">Tests Disponibles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#depannage">Dépannage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#erreur-modulenotfounderror-no-module-named-src">Erreur : « ModuleNotFoundError: No module named “src” »</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#erreur-connection-refused">Erreur : « Connection refused »</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#erreur-mcp-gateway-not-connected">Erreur : « MCP Gateway not connected »</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#prochaines-etapes">Prochaines Étapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#ressources-supplementaires">Ressources Supplémentaires</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#composants-principaux">Composants Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#agents-specialises">Agents Spécialisés</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#communication-mcp">Communication MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#flux-de-requete-complet">Flux de Requête Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#securite-validation">Sécurité &amp; Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#performances">Performances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">Référence API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#endpoints-principaux">Endpoints Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#exemples-d-utilisation">Exemples d’Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#authentification-futur">Authentification (Futur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#rate-limiting">Rate Limiting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Les Agents du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#baseagent-classe-de-base">BaseAgent (Classe de Base)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#intentagent">IntentAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#retrieveragent">RetrieverAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#sqlagent">SQLAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#validatoragent">ValidatorAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#executoragent-queryrunner">ExecutorAgent (QueryRunner)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#composeragent">ComposerAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#registry-des-agents">Registry des Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#voir-aussi">Voir aussi</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">BDD Fédérée par Agent - Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BDD Fédérée par Agent</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Guide de Démarrage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/guide_demarrage.rst.txt" rel="nofollow"> Afficher la source de la page</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="guide-de-demarrage">
+<h1>Guide de Démarrage<a class="headerlink" href="#guide-de-demarrage" title="Lien vers cette rubrique"></a></h1>
+</section>
+<section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Lien vers cette rubrique"></a></h1>
+<section id="prerequis">
+<h2>Prérequis<a class="headerlink" href="#prerequis" title="Lien vers cette rubrique"></a></h2>
+<ul class="simple">
+<li><p>Docker &amp; Docker Compose</p></li>
+<li><p>Python 3.9+</p></li>
+<li><p>PostgreSQL 15+</p></li>
+<li><p>Git</p></li>
+</ul>
+</section>
+<section id="clonage-du-projet">
+<h2>Clonage du Projet<a class="headerlink" href="#clonage-du-projet" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>&lt;repository-url&gt;
+<span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;BDD fédéré par agent&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="installation-des-dependances">
+<h2>Installation des Dépendances<a class="headerlink" href="#installation-des-dependances" title="Lien vers cette rubrique"></a></h2>
+<p>Pour chaque service Python :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Orchestrateur</span>
+<span class="nb">cd</span><span class="w"> </span>orchestrateur
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="c1"># MCP Gateway</span>
+<span class="nb">cd</span><span class="w"> </span>../mcp/mcp-gateway
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="c1"># Query Management</span>
+<span class="nb">cd</span><span class="w"> </span>../../query-management
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Lien vers cette rubrique"></a></h1>
+<section id="variables-d-environnement">
+<h2>Variables d’Environnement<a class="headerlink" href="#variables-d-environnement" title="Lien vers cette rubrique"></a></h2>
+<p>Créez un fichier <code class="docutils literal notranslate"><span class="pre">.env</span></code> à la racine :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Orchestrateur</span>
+<span class="nv">OLLAMA_BASE_URL</span><span class="o">=</span>http://localhost:11434
+<span class="nv">MCP_GATEWAY_URL</span><span class="o">=</span>ws://localhost:8000/ws
+
+<span class="c1"># Query Management</span>
+<span class="nv">GOOGLE_API_KEY</span><span class="o">=</span>your_api_key_here
+
+<span class="c1"># PostgreSQL</span>
+<span class="nv">POSTGRES_USER</span><span class="o">=</span>procom
+<span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>procom_password
+<span class="nv">POSTGRES_DB</span><span class="o">=</span>federated_db
+<span class="nv">POSTGRES_HOST</span><span class="o">=</span>postgres
+<span class="nv">POSTGRES_PORT</span><span class="o">=</span><span class="m">5432</span>
+
+<span class="c1"># MCP Gateway</span>
+<span class="nv">MCP_SERVERS_CONFIG</span><span class="o">=</span>config/servers.json
+</pre></div>
+</div>
+</section>
+<section id="fichier-de-configuration-mcp">
+<h2>Fichier de Configuration MCP<a class="headerlink" href="#fichier-de-configuration-mcp" title="Lien vers cette rubrique"></a></h2>
+<p>Créez <code class="docutils literal notranslate"><span class="pre">config/servers.json</span></code> :</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;postgres&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sse://localhost:8000/sse&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;env&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="demarrage-rapide-avec-docker">
+<h1>Démarrage Rapide avec Docker<a class="headerlink" href="#demarrage-rapide-avec-docker" title="Lien vers cette rubrique"></a></h1>
+<section id="demarrage">
+<h2>Démarrage<a class="headerlink" href="#demarrage" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construire et démarrer tous les services</span>
+docker-compose<span class="w"> </span>up<span class="w"> </span>--build
+
+<span class="c1"># En arrière-plan</span>
+docker-compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+</pre></div>
+</div>
+</section>
+<section id="verification">
+<h2>Vérification<a class="headerlink" href="#verification" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vérifier les services</span>
+docker-compose<span class="w"> </span>ps
+
+<span class="c1"># Voir les logs</span>
+docker-compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>orchestrateur
+
+<span class="c1"># Tester la connexion</span>
+curl<span class="w"> </span>http://localhost:8000/health
+</pre></div>
+</div>
+</section>
+<section id="arret">
+<h2>Arrêt<a class="headerlink" href="#arret" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose<span class="w"> </span>down
+
+<span class="c1"># Avec suppression des volumes</span>
+docker-compose<span class="w"> </span>down<span class="w"> </span>-v
+</pre></div>
+</div>
+</section>
+</section>
+<section id="utilisation">
+<h1>Utilisation<a class="headerlink" href="#utilisation" title="Lien vers cette rubrique"></a></h1>
+<section id="interface-swagger">
+<h2>Interface Swagger<a class="headerlink" href="#interface-swagger" title="Lien vers cette rubrique"></a></h2>
+<p>L’interface interactive est disponible sur :</p>
+<blockquote>
+<div><p><a class="reference external" href="http://localhost:8000/docs">http://localhost:8000/docs</a></p>
+</div></blockquote>
+<p>Vous pouvez :</p>
+<ul class="simple">
+<li><p>Voir tous les endpoints disponibles</p></li>
+<li><p>Tester les requêtes directement</p></li>
+<li><p>Consulter les schémas Pydantic</p></li>
+</ul>
+</section>
+<section id="exemple-de-requete">
+<h2>Exemple de Requête<a class="headerlink" href="#exemple-de-requete" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/api/query&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;query&quot;: &quot;Quelle est la capital de la France?&quot;}&#39;</span>
+</pre></div>
+</div>
+<section id="reponse-attendue">
+<h3>Réponse Attendue<a class="headerlink" href="#reponse-attendue" title="Lien vers cette rubrique"></a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;request_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid-here&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Quelle est la capital de la France?&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;intent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;general_knowledge&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;completed&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;final_output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;La capitale de la France est Paris.&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;execution_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.23</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="tests">
+<h1>Tests<a class="headerlink" href="#tests" title="Lien vers cette rubrique"></a></h1>
+<section id="lancer-les-tests">
+<h2>Lancer les Tests<a class="headerlink" href="#lancer-les-tests" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>pytest
+
+<span class="c1"># Tous les tests</span>
+pytest
+
+<span class="c1"># Avec verbosité</span>
+pytest<span class="w"> </span>-v
+
+<span class="c1"># Tests spécifiques</span>
+pytest<span class="w"> </span>test_query.py<span class="w"> </span>-v
+
+<span class="c1"># Avec couverture</span>
+pytest<span class="w"> </span>--cov<span class="o">=</span>orchestrateur
+</pre></div>
+</div>
+</section>
+<section id="tests-disponibles">
+<h2>Tests Disponibles<a class="headerlink" href="#tests-disponibles" title="Lien vers cette rubrique"></a></h2>
+<ul class="simple">
+<li><p><strong>test_query.py</strong> : Tests WebSocket et MCP gateway</p></li>
+<li><p><strong>test_BDD.py</strong> : Tests de connexion PostgreSQL</p></li>
+<li><p><strong>test_db_available.py</strong> : Vérification de disponibilité</p></li>
+</ul>
+</section>
+</section>
+<section id="depannage">
+<h1>Dépannage<a class="headerlink" href="#depannage" title="Lien vers cette rubrique"></a></h1>
+<section id="erreur-modulenotfounderror-no-module-named-src">
+<h2>Erreur : « ModuleNotFoundError: No module named “src” »<a class="headerlink" href="#erreur-modulenotfounderror-no-module-named-src" title="Lien vers cette rubrique"></a></h2>
+<p><strong>Cause</strong> : PYTHONPATH n’est pas configuré correctement</p>
+<p><strong>Solution</strong> :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Windows PowerShell</span>
+<span class="nv">$env</span>:PYTHONPATH<span class="o">=</span><span class="s2">&quot;.\orchestrateur&quot;</span>
+python<span class="w"> </span>-m<span class="w"> </span>orchestrateur.main
+
+<span class="c1"># Linux/macOS</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="s2">&quot;./orchestrateur&quot;</span>
+python<span class="w"> </span>-m<span class="w"> </span>orchestrateur.main
+</pre></div>
+</div>
+</section>
+<section id="erreur-connection-refused">
+<h2>Erreur : « Connection refused »<a class="headerlink" href="#erreur-connection-refused" title="Lien vers cette rubrique"></a></h2>
+<p><strong>Cause</strong> : Les services ne sont pas accessibles</p>
+<p><strong>Solution</strong> :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vérifier que Docker est en cours d&#39;exécution</span>
+docker<span class="w"> </span>ps
+
+<span class="c1"># Redémarrer les services</span>
+docker-compose<span class="w"> </span>restart
+
+<span class="c1"># Vérifier les logs</span>
+docker-compose<span class="w"> </span>logs
+</pre></div>
+</div>
+</section>
+<section id="erreur-mcp-gateway-not-connected">
+<h2>Erreur : « MCP Gateway not connected »<a class="headerlink" href="#erreur-mcp-gateway-not-connected" title="Lien vers cette rubrique"></a></h2>
+<p><strong>Cause</strong> : Le serveur MCP n’est pas connecté</p>
+<p><strong>Solution</strong> :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vérifier que le serveur MCP est actif</span>
+curl<span class="w"> </span>http://localhost:8000/servers
+
+<span class="c1"># Vérifier la configuration</span>
+cat<span class="w"> </span>config/servers.json
+
+<span class="c1"># Redémarrer le gateway</span>
+docker-compose<span class="w"> </span>restart<span class="w"> </span>mcp-gateway
+</pre></div>
+</div>
+</section>
+</section>
+<section id="prochaines-etapes">
+<h1>Prochaines Étapes<a class="headerlink" href="#prochaines-etapes" title="Lien vers cette rubrique"></a></h1>
+<ul class="simple">
+<li><p>Lire la section <a class="reference internal" href="architecture.html"><span class="doc">Architecture du Système</span></a> pour comprendre le système</p></li>
+<li><p>Consulter <a class="reference internal" href="api_reference.html"><span class="doc">Référence API</span></a> pour les endpoints disponibles</p></li>
+<li><p>Explorer <a class="reference internal" href="agents.html"><span class="doc">Les Agents du Système</span></a> pour les détails des agents</p></li>
+<li><p>Voir <span class="xref std std-doc">deployment</span> pour la mise en production</p></li>
+</ul>
+</section>
+<section id="ressources-supplementaires">
+<h1>Ressources Supplémentaires<a class="headerlink" href="#ressources-supplementaires" title="Lien vers cette rubrique"></a></h1>
+<ul class="simple">
+<li><p><span class="xref std std-doc">../DOCUMENTATION</span></p></li>
+<li><p><a class="reference external" href="https://fastapi.tiangolo.com">FastAPI Documentation</a></p></li>
+<li><p><a class="reference external" href="https://langchain-ai.github.io/langgraph/">LangGraph Documentation</a></p></li>
+<li><p><a class="reference external" href="https://modelcontextprotocol.io">MCP Protocol</a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pied de page">
+        <a href="index.html" class="btn btn-neutral float-left" title="BDD Fédérée par Agent - Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Précédent</a>
+        <a href="architecture.html" class="btn btn-neutral float-right" title="Architecture du Système" accesskey="n" rel="next">Suivant <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2026, PROCOM Team.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

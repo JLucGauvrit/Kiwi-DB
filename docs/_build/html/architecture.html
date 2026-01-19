@@ -1,0 +1,606 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture du Système &mdash; BDD Fédérée par Agent - Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=05dadb3a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=e6b791cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="next" title="Référence API" href="api_reference.html" />
+    <link rel="prev" title="Guide de Démarrage" href="guide_demarrage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BDD Fédérée par Agent
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenu</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html">Guide de Démarrage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#configuration">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#demarrage-rapide-avec-docker">Démarrage Rapide avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#utilisation">Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#prochaines-etapes">Prochaines Étapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#ressources-supplementaires">Ressources Supplémentaires</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Architecture du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#composants-principaux">Composants Principaux</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#orchestrateur-fastapi">Orchestrateur (FastAPI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pipeline-langgraph">Pipeline LangGraph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#etat-du-systeme-querystate">État du Système (QueryState)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#agents-specialises">Agents Spécialisés</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#architecture-agent">Architecture Agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flux-par-agent">Flux par Agent</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#intentagent">IntentAgent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#retrieveragent">RetrieverAgent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sqlagent">SQLAgent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#validatoragent">ValidatorAgent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#executoragent">ExecutorAgent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#composeragent">ComposerAgent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#communication-mcp">Communication MCP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#passerelle-mcp">Passerelle MCP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flux-de-communication">Flux de Communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outils-mcp-disponibles">Outils MCP Disponibles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#flux-de-requete-complet">Flux de Requête Complet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#etape-1-reception">Étape 1 : Réception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#etape-2-pipeline">Étape 2 : Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#etape-3-reponse">Étape 3 : Réponse</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#modeles-de-donnees">Modèles de Données</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#queryrequest">QueryRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#queryresponse">QueryResponse</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#securite-validation">Sécurité &amp; Validation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#strategies-de-securite">Stratégies de Sécurité</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#validation-sql">Validation SQL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#performances">Performances</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#optimisations">Optimisations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metriques">Métriques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scalabilite">Scalabilité</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">Référence API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#endpoints-principaux">Endpoints Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#exemples-d-utilisation">Exemples d’Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#authentification-futur">Authentification (Futur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#rate-limiting">Rate Limiting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Les Agents du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#baseagent-classe-de-base">BaseAgent (Classe de Base)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#intentagent">IntentAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#retrieveragent">RetrieverAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#sqlagent">SQLAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#validatoragent">ValidatorAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#executoragent-queryrunner">ExecutorAgent (QueryRunner)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#composeragent">ComposerAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#registry-des-agents">Registry des Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#voir-aussi">Voir aussi</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">BDD Fédérée par Agent - Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BDD Fédérée par Agent</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Architecture du Système</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/architecture.rst.txt" rel="nofollow"> Afficher la source de la page</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="architecture-du-systeme">
+<h1>Architecture du Système<a class="headerlink" href="#architecture-du-systeme" title="Lien vers cette rubrique"></a></h1>
+</section>
+<section id="vue-d-ensemble">
+<h1>Vue d’Ensemble<a class="headerlink" href="#vue-d-ensemble" title="Lien vers cette rubrique"></a></h1>
+<p>Le système est architecturé en microservices conteneurisés avec une communication par WebSocket et MCP.</p>
+</section>
+<section id="composants-principaux">
+<h1>Composants Principaux<a class="headerlink" href="#composants-principaux" title="Lien vers cette rubrique"></a></h1>
+<section id="orchestrateur-fastapi">
+<h2>Orchestrateur (FastAPI)<a class="headerlink" href="#orchestrateur-fastapi" title="Lien vers cette rubrique"></a></h2>
+<p><strong>Location</strong> : <code class="docutils literal notranslate"><span class="pre">orchestrateur/main.py</span></code></p>
+<p><strong>Responsabilités</strong> :</p>
+<ul class="simple">
+<li><p>Réception des requêtes utilisateur</p></li>
+<li><p>Orchestration du pipeline LangGraph</p></li>
+<li><p>Gestion des états et transitions</p></li>
+<li><p>Réponse avec résultats finaux</p></li>
+</ul>
+<p><strong>Points d’Entrée</strong> :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">POST</span> <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">query</span>          <span class="c1"># Traiter une requête</span>
+<span class="n">GET</span>  <span class="o">/</span><span class="n">health</span>            <span class="c1"># Vérifier la santé du service</span>
+</pre></div>
+</div>
+</section>
+<section id="pipeline-langgraph">
+<h2>Pipeline LangGraph<a class="headerlink" href="#pipeline-langgraph" title="Lien vers cette rubrique"></a></h2>
+<p><strong>Location</strong> : <code class="docutils literal notranslate"><span class="pre">orchestrateur/src/orchestrator/orchestrator.py</span></code></p>
+<p><strong>Architecture</strong> :</p>
+<p>Le pipeline utilise LangGraph avec un graphe d’états défini :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> ┌─────────────┐
+ │   START     │
+ └──────┬──────┘
+        │
+        ▼
+ ┌──────────────────┐
+ │  Intent Agent    │ ◄─── Analyse l&#39;intention de la requête
+ └──────┬───────────┘
+        │
+        ▼
+ ┌──────────────────┐
+ │ Retriever Agent  │ ◄─── Récupère les schémas des BDD
+ └──────┬───────────┘
+        │
+        ▼
+ ┌──────────────────┐
+ │   SQL Agent      │ ◄─── Génère les requêtes SQL
+ └──────┬───────────┘
+        │
+        ▼
+ ┌──────────────────┐
+ │ Validator Agent  │ ◄─── Valide les requêtes SQL
+ └──────┬───────────┘
+        │
+   [Conditionnel]
+   /    |     \
+  ✓     ✗     ?
+ │      │      │
+ ▼      ▼      ▼
+EXEC  ERREUR RETRY
+ │      │
+ ▼      ▼
+ ┌──────────────────┐
+ │ Execute Agent    │ ◄─── Exécute les requêtes en fédéré
+ └──────┬───────────┘
+        │
+        ▼
+ ┌──────────────────┐
+ │ Composer Agent   │ ◄─── Compose la réponse finale
+ └──────┬───────────┘
+        │
+        ▼
+ ┌─────────────┐
+ │     END     │
+ └─────────────┘
+</pre></div>
+</div>
+</section>
+<section id="etat-du-systeme-querystate">
+<h2>État du Système (QueryState)<a class="headerlink" href="#etat-du-systeme-querystate" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">QueryState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;État partagé du pipeline&quot;&quot;&quot;</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span>                           <span class="c1"># Requête utilisateur</span>
+    <span class="n">intent</span><span class="p">:</span> <span class="nb">str</span>                          <span class="c1"># Intention détectée</span>
+    <span class="n">schemas</span><span class="p">:</span> <span class="nb">dict</span>                        <span class="c1"># Schémas des BDD</span>
+    <span class="n">sql_queries</span><span class="p">:</span> <span class="nb">dict</span>                    <span class="c1"># Requêtes SQL générées</span>
+    <span class="n">validation_results</span><span class="p">:</span> <span class="nb">dict</span>             <span class="c1"># Résultats validation</span>
+    <span class="n">execution_results</span><span class="p">:</span> <span class="nb">dict</span>              <span class="c1"># Résultats exécution</span>
+    <span class="n">final_output</span><span class="p">:</span> <span class="nb">str</span>                    <span class="c1"># Réponse finale</span>
+    <span class="n">errors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>                    <span class="c1"># Erreurs accumulées</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="agents-specialises">
+<h1>Agents Spécialisés<a class="headerlink" href="#agents-specialises" title="Lien vers cette rubrique"></a></h1>
+<section id="architecture-agent">
+<h2>Architecture Agent<a class="headerlink" href="#architecture-agent" title="Lien vers cette rubrique"></a></h2>
+<p>Tous les agents héritent de <code class="docutils literal notranslate"><span class="pre">BaseAgent</span></code> et implémentent une méthode <code class="docutils literal notranslate"><span class="pre">run()</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">BaseAgent</span> <span class="p">(</span><span class="n">abstract</span><span class="p">)</span>
+<span class="err">│</span>
+<span class="err">├─</span> <span class="n">IntentAgent</span>       <span class="c1"># Classification intention</span>
+<span class="err">├─</span> <span class="n">RetrieverAgent</span>    <span class="c1"># Récupération schémas</span>
+<span class="err">├─</span> <span class="n">SQLAgent</span>          <span class="c1"># Génération SQL</span>
+<span class="err">├─</span> <span class="n">ValidatorAgent</span>    <span class="c1"># Validation SQL</span>
+<span class="err">└─</span> <span class="n">ComposerAgent</span>     <span class="c1"># Composition réponse</span>
+</pre></div>
+</div>
+</section>
+<section id="flux-par-agent">
+<h2>Flux par Agent<a class="headerlink" href="#flux-par-agent" title="Lien vers cette rubrique"></a></h2>
+<section id="intentagent">
+<h3>IntentAgent<a class="headerlink" href="#intentagent" title="Lien vers cette rubrique"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Requête utilisateur
+       │
+       ▼
+┌──────────────────┐
+│  Analyse LLM     │
+│ (Intent Match)   │
+└──────┬───────────┘
+       │
+       ▼
+{intent, entities, databases}
+</pre></div>
+</div>
+</section>
+<section id="retrieveragent">
+<h3>RetrieverAgent<a class="headerlink" href="#retrieveragent" title="Lien vers cette rubrique"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Liste des bases à interroger
+       │
+       ▼
+┌──────────────────┐
+│  Appel MCP       │
+│ (Récupération)   │
+└──────┬───────────┘
+       │
+       ▼
+{schemas: {db1: {...}, db2: {...}}}
+</pre></div>
+</div>
+</section>
+<section id="sqlagent">
+<h3>SQLAgent<a class="headerlink" href="#sqlagent" title="Lien vers cette rubrique"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Intention + Schémas
+       │
+       ▼
+┌──────────────────┐
+│ Génération LLM   │
+│  (Fallback: RB)  │
+└──────┬───────────┘
+       │
+       ▼
+{sql_queries: {db1: &quot;SELECT...&quot;, db2: &quot;...&quot;}}
+</pre></div>
+</div>
+</section>
+<section id="validatoragent">
+<h3>ValidatorAgent<a class="headerlink" href="#validatoragent" title="Lien vers cette rubrique"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Requêtes SQL
+       │
+       ▼
+┌──────────────────┐
+│ Validation       │
+│ (Structure+Len)  │
+└──────┬───────────┘
+       │
+       ▼
+{validation_results: {db1: {valid: true}, db2: {valid: true}}}
+</pre></div>
+</div>
+</section>
+<section id="executoragent">
+<h3>ExecutorAgent<a class="headerlink" href="#executoragent" title="Lien vers cette rubrique"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Requêtes SQL validées
+       │
+       ▼
+┌──────────────────┐
+│  Exécution MCP   │
+│  (Fédérée)       │
+└──────┬───────────┘
+       │
+       ▼
+{execution_results: {db1: {...}, db2: {...}}}
+</pre></div>
+</div>
+</section>
+<section id="composeragent">
+<h3>ComposerAgent<a class="headerlink" href="#composeragent" title="Lien vers cette rubrique"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Résultats exécution
+       │
+       ▼
+┌──────────────────┐
+│ Composition LLM  │
+│ (Langage nat.)   │
+└──────┬───────────┘
+       │
+       ▼
+&quot;Réponse naturelle...&quot;
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="communication-mcp">
+<h1>Communication MCP<a class="headerlink" href="#communication-mcp" title="Lien vers cette rubrique"></a></h1>
+<section id="passerelle-mcp">
+<h2>Passerelle MCP<a class="headerlink" href="#passerelle-mcp" title="Lien vers cette rubrique"></a></h2>
+<p><strong>Location</strong> : <code class="docutils literal notranslate"><span class="pre">mcp/mcp-gateway/</span></code></p>
+<p><strong>Rôle</strong> :</p>
+<ul class="simple">
+<li><p>Serveur FastAPI avec WebSocket</p></li>
+<li><p>Pool de clients MCP (un par serveur de base de données)</p></li>
+<li><p>Routage des requêtes outils et ressources</p></li>
+</ul>
+</section>
+<section id="flux-de-communication">
+<h2>Flux de Communication<a class="headerlink" href="#flux-de-communication" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌──────────────────┐
+│   Orchestrateur  │
+└────────┬─────────┘
+         │
+         │ WebSocket
+         │ {&quot;method&quot;: &quot;call_tool&quot;, &quot;tool&quot;: &quot;execute_sql&quot;, ...}
+         ▼
+┌──────────────────┐
+│  MCP Gateway     │
+└────────┬─────────┘
+         │
+         │ SSE
+         │ {&quot;method&quot;: &quot;call_tool&quot;, ...}
+         ▼
+┌──────────────────┐
+│   MCP Server     │
+│ (PostgreSQL)     │
+└────────┬─────────┘
+         │
+         │ Résultat
+         ▼
+┌──────────────────┐
+│   Base de Données│
+└──────────────────┘
+</pre></div>
+</div>
+</section>
+<section id="outils-mcp-disponibles">
+<h2>Outils MCP Disponibles<a class="headerlink" href="#outils-mcp-disponibles" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;tools&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;execute_sql&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Exécute une requête SQL&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;inputSchema&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;sql&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">},</span>
+<span class="w">          </span><span class="nt">&quot;database&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;list_schemas&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Liste les schémas disponibles&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;get_schema&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Récupère le schéma d&#39;une table&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="flux-de-requete-complet">
+<h1>Flux de Requête Complet<a class="headerlink" href="#flux-de-requete-complet" title="Lien vers cette rubrique"></a></h1>
+<section id="etape-1-reception">
+<h2>Étape 1 : Réception<a class="headerlink" href="#etape-1-reception" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>POST<span class="w"> </span>/api/query
+Content-Type:<span class="w"> </span>application/json
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;query&quot;</span>:<span class="w"> </span><span class="s2">&quot;Quelle est la capitale de la France?&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</section>
+<section id="etape-2-pipeline">
+<h2>Étape 2 : Pipeline<a class="headerlink" href="#etape-2-pipeline" title="Lien vers cette rubrique"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Intent Analysis</strong> (IntentAgent)
+- Déterminer : général / base de données
+- Extraire entités
+- Identifier bases concernées</p></li>
+<li><p><strong>Schema Retrieval</strong> (RetrieverAgent)
+- Appeler MCP pour schémas
+- Contextualiser pour LLM</p></li>
+<li><p><strong>SQL Generation</strong> (SQLAgent)
+- Générer requêtes SQL
+- Validation syntaxe basique</p></li>
+<li><p><strong>SQL Validation</strong> (ValidatorAgent)
+- Vérifier structure
+- Vérifier longueur (sécurité)</p></li>
+<li><p><strong>Execution</strong> (QueryRunner)
+- Exécuter via MCP (fédéré)
+- Récupérer résultats</p></li>
+<li><p><strong>Response Composition</strong> (ComposerAgent)
+- Générer réponse naturelle
+- Contextualiser résultats</p></li>
+</ol>
+</section>
+<section id="etape-3-reponse">
+<h2>Étape 3 : Réponse<a class="headerlink" href="#etape-3-reponse" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;request_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Quelle est la capitale de la France?&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;intent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;general_knowledge&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;completed&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;final_output&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;La capitale de la France est Paris.&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;execution_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.23</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;agents_used&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;intent&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;composer&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;databases_queried&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="modeles-de-donnees">
+<h1>Modèles de Données<a class="headerlink" href="#modeles-de-donnees" title="Lien vers cette rubrique"></a></h1>
+<section id="queryrequest">
+<h2>QueryRequest<a class="headerlink" href="#queryrequest" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">QueryRequest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Requête entrante&quot;&quot;&quot;</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span>                  <span class="c1"># Requête utilisateur</span>
+    <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>      <span class="c1"># Contexte optionnel</span>
+    <span class="n">max_results</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>       <span class="c1"># Limite résultats</span>
+</pre></div>
+</div>
+</section>
+<section id="queryresponse">
+<h2>QueryResponse<a class="headerlink" href="#queryresponse" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">QueryResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Réponse du système&quot;&quot;&quot;</span>
+    <span class="n">request_id</span><span class="p">:</span> <span class="nb">str</span>             <span class="c1"># ID unique</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span>                  <span class="c1"># Requête originale</span>
+    <span class="n">intent</span><span class="p">:</span> <span class="nb">str</span>                 <span class="c1"># Intention détectée</span>
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>                 <span class="c1"># completed/error/timeout</span>
+    <span class="n">final_output</span><span class="p">:</span> <span class="nb">str</span>           <span class="c1"># Réponse finale</span>
+    <span class="n">execution_time</span><span class="p">:</span> <span class="nb">float</span>       <span class="c1"># Temps en secondes</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span>              <span class="c1"># Métadonnées additionnelles</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="securite-validation">
+<h1>Sécurité &amp; Validation<a class="headerlink" href="#securite-validation" title="Lien vers cette rubrique"></a></h1>
+<section id="strategies-de-securite">
+<h2>Stratégies de Sécurité<a class="headerlink" href="#strategies-de-securite" title="Lien vers cette rubrique"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>SQL Injection Prevention</strong>
+- Validation syntaxe SQL
+- Vérification longueur
+- Parameterized queries (MCP)</p></li>
+<li><p><strong>Access Control</strong>
+- Authentification API (à venir)
+- Autorisation par base de données</p></li>
+<li><p><strong>Rate Limiting</strong>
+- Limiter requêtes par utilisateur
+- Limiter temps exécution</p></li>
+<li><p><strong>Error Handling</strong>
+- Ne pas exposer détails BD
+- Logs sécurisés</p></li>
+</ol>
+</section>
+<section id="validation-sql">
+<h2>Validation SQL<a class="headerlink" href="#validation-sql" title="Lien vers cette rubrique"></a></h2>
+<p>Le ValidatorAgent vérifie :</p>
+<ul class="simple">
+<li><p>Syntaxe SQL valide</p></li>
+<li><p>Longueur raisonnable (&lt; 10000 caractères)</p></li>
+<li><p>Pas de patterns dangereux (DROP, TRUNCATE, etc.)</p></li>
+</ul>
+</section>
+</section>
+<section id="performances">
+<h1>Performances<a class="headerlink" href="#performances" title="Lien vers cette rubrique"></a></h1>
+<section id="optimisations">
+<h2>Optimisations<a class="headerlink" href="#optimisations" title="Lien vers cette rubrique"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Async/Await</strong> : Requêtes non-bloquantes</p></li>
+<li><p><strong>MCP Pooling</strong> : Réutilisation connexions</p></li>
+<li><p><strong>Caching</strong> : Schémas en cache</p></li>
+<li><p><strong>Parallelisation</strong> : Exécution fédérée en parallèle</p></li>
+</ol>
+</section>
+<section id="metriques">
+<h2>Métriques<a class="headerlink" href="#metriques" title="Lien vers cette rubrique"></a></h2>
+<ul class="simple">
+<li><p>Temps moyen requête : ~1-2 secondes</p></li>
+<li><p>Throughput : ~100 req/min par instance</p></li>
+<li><p>Latence MCP : ~100-200ms</p></li>
+</ul>
+</section>
+<section id="scalabilite">
+<h2>Scalabilité<a class="headerlink" href="#scalabilite" title="Lien vers cette rubrique"></a></h2>
+<ul class="simple">
+<li><p>Orchestrateur : Stateless (scale horizontalement)</p></li>
+<li><p>MCP Gateway : Pool de connexions (scale verticalement)</p></li>
+<li><p>Bases de données : Fédération (indépendantes)</p></li>
+</ul>
+</section>
+</section>
+<section id="voir-aussi">
+<h1>Voir aussi<a class="headerlink" href="#voir-aussi" title="Lien vers cette rubrique"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="agents.html"><span class="doc">Les Agents du Système</span></a> pour détails des agents</p></li>
+<li><p><span class="xref std std-doc">mcp_protocol</span> pour le protocole MCP</p></li>
+<li><p><a class="reference internal" href="api_reference.html"><span class="doc">Référence API</span></a> pour les endpoints</p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pied de page">
+        <a href="guide_demarrage.html" class="btn btn-neutral float-left" title="Guide de Démarrage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Précédent</a>
+        <a href="api_reference.html" class="btn btn-neutral float-right" title="Référence API" accesskey="n" rel="next">Suivant <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2026, PROCOM Team.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

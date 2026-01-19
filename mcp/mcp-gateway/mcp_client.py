@@ -1,5 +1,12 @@
 """
-MCP Client Pool - Manages connections to multiple MCP servers (Version 2 - Sans AsyncExitStack)
+MCP Client Pool - Manages connections to multiple MCP servers.
+
+Ce module implémente un pool de clients MCP pour gérer les connexions
+à plusieurs serveurs MCP via le transport SSE (Server-Sent Events).
+
+@author: PROCOM Team
+@version: 2.0
+@since: 2026-01-19
 """
 import asyncio
 import logging
@@ -11,9 +18,39 @@ logger = logging.getLogger(__name__)
 
 
 class MCPClient:
-    """Client for a single MCP server"""
+    """
+    Client pour une connexion unique à un serveur MCP.
+    
+    Gère la connexion SSE et la session MCP pour un serveur MCP spécifique.
+    Maintient la connexion alive dans une tâche de fond.
+    
+    @param name: Nom identifiant le serveur MCP
+    @type name: str
+    @param url: URL du serveur MCP
+    @type url: str
+    @param server_type: Type de serveur (ex: "postgres")
+    @type server_type: str
+    @param transport: Type de transport ("sse" par défaut)
+    @type transport: str
+    
+    @ivar name: Nom du serveur
+    @ivar url: URL du serveur
+    @ivar server_type: Type de serveur
+    @ivar transport: Type de transport utilisé
+    @ivar session: Session MCP active
+    @ivar _connected: Statut de connexion
+    @ivar _connection_task: Tâche asynchrone de maintien de connexion
+    """
 
     def __init__(self, name: str, url: str, server_type: str, transport: str = "sse"):
+        """
+        Initialiser le client MCP.
+        
+        @param name: Identifiant unique du client
+        @param url: URL du serveur MCP
+        @param server_type: Type de serveur (ex: "postgres")
+        @param transport: Protocole de transport ("sse" par défaut)
+        """
         self.name = name
         self.url = url
         self.server_type = server_type
@@ -25,7 +62,15 @@ class MCPClient:
         self._connection_task: Optional[asyncio.Task] = None
 
     async def _maintain_connection(self):
-        """Maintain the SSE connection in a background task"""
+        """
+        Maintenir la connexion SSE dans une tâche de fond.
+        
+        Établit et maintient une connexion SSE avec le serveur MCP,
+        en créant une session MCP et en la gardant active indéfiniment.
+        
+        @raise asyncio.CancelledError: Si la tâche est annulée
+        @raise Exception: En cas d'erreur lors de la connexion
+        """
         try:
             logger.info(f"Starting connection task for '{self.name}' at {self.url}")
 
@@ -37,7 +82,7 @@ class MCPClient:
 
                     self.session = session
 
-                    # Initialize the session
+                    # Initialiser la session
                     init_result = await session.initialize()
                     logger.info(
                         f"MCP session initialized for '{self.name}' - "
@@ -46,7 +91,7 @@ class MCPClient:
 
                     self._connected = True
 
-                    # Keep the connection alive indefinitely
+                    # Garder la connexion vivante indéfiniment
                     await asyncio.Event().wait()
 
         except asyncio.CancelledError:
@@ -60,16 +105,24 @@ class MCPClient:
             self.session = None
 
     async def connect(self):
-        """Connect to the MCP server via SSE"""
+        """
+        Établir une connexion au serveur MCP via SSE.
+        
+        Lance une tâche de fond qui maintient la connexion SSE
+        et attend que la connexion soit établie.
+        
+        @raise TimeoutError: Si la connexion n'est pas établie dans le délai imparti
+        @raise Exception: En cas d'erreur lors de la connexion
+        """
         try:
             if self.transport != "sse":
                 raise ValueError(f"Unsupported transport: {self.transport}")
 
-            # Start the connection maintenance task
+            # Lancer la tâche de maintien de connexion
             self._connection_task = asyncio.create_task(self._maintain_connection())
 
-            # Wait a bit for the connection to be established
-            for _ in range(300):  # Wait up to 30 seconds
+            # Attendre un peu pour que la connexion soit établie
+            for _ in range(300):  # Attendre jusqu'à 30 secondes
                 if self._connected:
                     logger.info(f"Successfully connected to MCP server '{self.name}'")
                     return
@@ -88,7 +141,11 @@ class MCPClient:
             raise
 
     async def disconnect(self):
-        """Disconnect from the MCP server"""
+        """
+        Déconnecter du serveur MCP.
+        
+        Annule la tâche de maintien de connexion et ferme la session.
+        """
         try:
             self._connected = False
             if self._connection_task:
@@ -104,11 +161,26 @@ class MCPClient:
             logger.error(f"Error disconnecting from MCP server '{self.name}': {e}")
 
     def is_connected(self) -> bool:
-        """Check if connected to the MCP server"""
+        """
+        Vérifier si le client est connecté au serveur MCP.
+        
+        @return: True si connecté, False sinon
+        @rtype: bool
+        """
         return self._connected and self.session is not None
 
     async def list_tools(self) -> List[Dict[str, Any]]:
-        """List available tools on the MCP server"""
+        """
+        Lister les outils disponibles sur le serveur MCP.
+        
+        @return: Liste des outils avec leurs descriptions et schémas
+        @rtype: list of dict
+        @return_keys:
+            - name (str): Nom de l'outil
+            - description (str): Description de l'outil
+            - inputSchema (dict): Schéma des paramètres d'entrée
+        @raise ConnectionError: Si le client n'est pas connecté
+        """
         if not self.is_connected():
             raise ConnectionError(f"Not connected to MCP server '{self.name}'")
 
@@ -127,13 +199,26 @@ class MCPClient:
             raise
 
     async def call_tool(self, tool_name: str, arguments: Dict[str, Any]) -> Any:
-        """Call a tool on the MCP server"""
+        """
+        Appeler un outil sur le serveur MCP.
+        
+        @param tool_name: Nom de l'outil à appeler
+        @type tool_name: str
+        @param arguments: Arguments à passer à l'outil
+        @type arguments: dict
+        @return: Résultat de l'appel de l'outil
+        @rtype: list of dict
+        @return_value:
+            - type (str): Type de contenu
+            - text (str): Contenu textuel de la réponse
+        @raise ConnectionError: Si le client n'est pas connecté
+        """
         if not self.is_connected():
             raise ConnectionError(f"Not connected to MCP server '{self.name}'")
 
         try:
             result = await self.session.call_tool(tool_name, arguments)
-            # Extract the content from CallToolResult
+            # Extraire le contenu de CallToolResult
             return [
                 {
                     "type": content.type,
@@ -146,7 +231,18 @@ class MCPClient:
             raise
 
     async def list_resources(self) -> List[Dict[str, Any]]:
-        """List available resources on the MCP server"""
+        """
+        Lister les ressources disponibles sur le serveur MCP.
+        
+        @return: Liste des ressources disponibles
+        @rtype: list of dict
+        @return_keys:
+            - uri (str): URI de la ressource
+            - name (str): Nom de la ressource
+            - description (str): Description de la ressource
+            - mimeType (str): Type MIME de la ressource
+        @raise ConnectionError: Si le client n'est pas connecté
+        """
         if not self.is_connected():
             raise ConnectionError(f"Not connected to MCP server '{self.name}'")
 
@@ -166,7 +262,14 @@ class MCPClient:
             raise
 
     async def get_resource(self, uri: str) -> Any:
-        """Get a resource from the MCP server"""
+        """
+        Récupérer une ressource du serveur MCP.
+        
+        @param uri: URI de la ressource à récupérer
+        @type uri: str
+        @return: Contenu de la ressource
+        @raise ConnectionError: Si le client n'est pas connecté
+        """
         if not self.is_connected():
             raise ConnectionError(f"Not connected to MCP server '{self.name}'")
 
@@ -179,14 +282,37 @@ class MCPClient:
 
 
 class MCPClientPool:
-    """Pool of MCP clients for managing multiple server connections"""
+    """
+    Pool de clients MCP pour gérer les connexions à plusieurs serveurs.
+    
+    Gère un ensemble de clients MCP et fournit des méthodes pour
+    interagir avec tous les serveurs via une interface unifiée.
+    
+    @param servers_config: Configuration des serveurs MCP
+    @type servers_config: dict of (str -> dict)
+    
+    @ivar servers_config: Configuration stockée des serveurs
+    @ivar clients: Dictionnaire des clients MCP connectés
+    """
 
     def __init__(self, servers_config: Dict[str, Dict[str, Any]]):
+        """
+        Initialiser le pool de clients MCP.
+        
+        @param servers_config: Configuration de chaque serveur MCP
+        @type servers_config: dict
+        """
         self.servers_config = servers_config
         self.clients: Dict[str, MCPClient] = {}
 
     async def initialize(self):
-        """Initialize all MCP client connections"""
+        """
+        Initialiser les connexions à tous les serveurs MCP.
+        
+        Crée et connecte un client pour chaque serveur configuré.
+        Les erreurs de connexion n'arrêtent pas le processus,
+        permettant une initialisation partielle.
+        """
         logger.info("Initializing MCP client pool...")
 
         for name, config in self.servers_config.items():
@@ -202,7 +328,7 @@ class MCPClientPool:
                 logger.info(f"✓ Initialized MCP client for '{name}'")
             except Exception as e:
                 logger.error(f"✗ Failed to initialize MCP client for '{name}': {e}")
-                # Don't raise, continue with other servers
+                # Ne pas lever, continuer avec les autres serveurs
 
         if self.clients:
             logger.info(f"MCP client pool initialized with {len(self.clients)} client(s)")
@@ -210,7 +336,9 @@ class MCPClientPool:
             logger.warning("MCP client pool initialized but no clients connected!")
 
     async def close_all(self):
-        """Close all MCP client connections"""
+        """
+        Fermer toutes les connexions des clients MCP.
+        """
         logger.info("Closing all MCP client connections...")
 
         for name, client in list(self.clients.items()):
@@ -223,13 +351,28 @@ class MCPClientPool:
         logger.info("All MCP client connections closed")
 
     async def is_connected(self, server_name: str) -> bool:
-        """Check if a specific server is connected"""
+        """
+        Vérifier si un serveur spécifique est connecté.
+        
+        @param server_name: Nom du serveur MCP
+        @type server_name: str
+        @return: True si le serveur est connecté, False sinon
+        @rtype: bool
+        """
         if server_name not in self.clients:
             return False
         return self.clients[server_name].is_connected()
 
     async def list_tools(self, server_name: str) -> List[Dict[str, Any]]:
-        """List tools from a specific MCP server"""
+        """
+        Lister les outils d'un serveur MCP spécifique.
+        
+        @param server_name: Nom du serveur MCP
+        @type server_name: str
+        @return: Liste des outils disponibles
+        @rtype: list of dict
+        @raise ValueError: Si le serveur n'existe pas
+        """
         if server_name not in self.clients:
             raise ValueError(f"Unknown server: {server_name}")
 
@@ -241,21 +384,49 @@ class MCPClientPool:
         tool_name: str,
         arguments: Dict[str, Any]
     ) -> Any:
-        """Call a tool on a specific MCP server"""
+        """
+        Appeler un outil sur un serveur MCP spécifique.
+        
+        @param server_name: Nom du serveur MCP
+        @type server_name: str
+        @param tool_name: Nom de l'outil à appeler
+        @type tool_name: str
+        @param arguments: Arguments pour l'outil
+        @type arguments: dict
+        @return: Résultat de l'appel de l'outil
+        @raise ValueError: Si le serveur n'existe pas
+        """
         if server_name not in self.clients:
             raise ValueError(f"Unknown server: {server_name}")
 
         return await self.clients[server_name].call_tool(tool_name, arguments)
 
     async def list_resources(self, server_name: str) -> List[Dict[str, Any]]:
-        """List resources from a specific MCP server"""
+        """
+        Lister les ressources d'un serveur MCP spécifique.
+        
+        @param server_name: Nom du serveur MCP
+        @type server_name: str
+        @return: Liste des ressources disponibles
+        @rtype: list of dict
+        @raise ValueError: Si le serveur n'existe pas
+        """
         if server_name not in self.clients:
             raise ValueError(f"Unknown server: {server_name}")
 
         return await self.clients[server_name].list_resources()
 
     async def get_resource(self, server_name: str, uri: str) -> Any:
-        """Get a resource from a specific MCP server"""
+        """
+        Récupérer une ressource d'un serveur MCP spécifique.
+        
+        @param server_name: Nom du serveur MCP
+        @type server_name: str
+        @param uri: URI de la ressource
+        @type uri: str
+        @return: Contenu de la ressource
+        @raise ValueError: Si le serveur n'existe pas
+        """
         if server_name not in self.clients:
             raise ValueError(f"Unknown server: {server_name}")
 

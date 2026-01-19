@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BDD Fédérée par Agent - Documentation &mdash; BDD Fédérée par Agent - Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=05dadb3a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=e6b791cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="next" title="Guide de Démarrage" href="guide_demarrage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            BDD Fédérée par Agent
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenu</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html">Guide de Démarrage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#configuration">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#demarrage-rapide-avec-docker">Démarrage Rapide avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#utilisation">Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#prochaines-etapes">Prochaines Étapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#ressources-supplementaires">Ressources Supplémentaires</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#composants-principaux">Composants Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#agents-specialises">Agents Spécialisés</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#communication-mcp">Communication MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#flux-de-requete-complet">Flux de Requête Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#securite-validation">Sécurité &amp; Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#performances">Performances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">Référence API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#endpoints-principaux">Endpoints Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#exemples-d-utilisation">Exemples d’Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#authentification-futur">Authentification (Futur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#rate-limiting">Rate Limiting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Les Agents du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#baseagent-classe-de-base">BaseAgent (Classe de Base)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#intentagent">IntentAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#retrieveragent">RetrieverAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#sqlagent">SQLAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#validatoragent">ValidatorAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#executoragent-queryrunner">ExecutorAgent (QueryRunner)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#composeragent">ComposerAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#registry-des-agents">Registry des Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#voir-aussi">Voir aussi</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BDD Fédérée par Agent - Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">BDD Fédérée par Agent</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BDD Fédérée par Agent - Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> Afficher la source de la page</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bdd-federee-par-agent-documentation">
+<h1>BDD Fédérée par Agent - Documentation<a class="headerlink" href="#bdd-federee-par-agent-documentation" title="Lien vers cette rubrique"></a></h1>
+<p>Bienvenue dans la documentation complète du projet <strong>BDD Fédérée par Agent</strong>, un orchestrateur multi-agents pour l’IA générative avec RAG (Retrieval-Augmented Generation).</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contenu</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html">Guide de Démarrage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#installation">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#prerequis">Prérequis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#clonage-du-projet">Clonage du Projet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#installation-des-dependances">Installation des Dépendances</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#configuration">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#variables-d-environnement">Variables d’Environnement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#fichier-de-configuration-mcp">Fichier de Configuration MCP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#demarrage-rapide-avec-docker">Démarrage Rapide avec Docker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#demarrage">Démarrage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#verification">Vérification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#arret">Arrêt</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#utilisation">Utilisation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#interface-swagger">Interface Swagger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#exemple-de-requete">Exemple de Requête</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#tests">Tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#lancer-les-tests">Lancer les Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#tests-disponibles">Tests Disponibles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#depannage">Dépannage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#erreur-modulenotfounderror-no-module-named-src">Erreur : « ModuleNotFoundError: No module named “src” »</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#erreur-connection-refused">Erreur : « Connection refused »</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide_demarrage.html#erreur-mcp-gateway-not-connected">Erreur : « MCP Gateway not connected »</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#prochaines-etapes">Prochaines Étapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#ressources-supplementaires">Ressources Supplémentaires</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#composants-principaux">Composants Principaux</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#orchestrateur-fastapi">Orchestrateur (FastAPI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#pipeline-langgraph">Pipeline LangGraph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#etat-du-systeme-querystate">État du Système (QueryState)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#agents-specialises">Agents Spécialisés</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#architecture-agent">Architecture Agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#flux-par-agent">Flux par Agent</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#communication-mcp">Communication MCP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#passerelle-mcp">Passerelle MCP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#flux-de-communication">Flux de Communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#outils-mcp-disponibles">Outils MCP Disponibles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#flux-de-requete-complet">Flux de Requête Complet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#etape-1-reception">Étape 1 : Réception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#etape-2-pipeline">Étape 2 : Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#etape-3-reponse">Étape 3 : Réponse</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#modeles-de-donnees">Modèles de Données</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#queryrequest">QueryRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#queryresponse">QueryResponse</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#securite-validation">Sécurité &amp; Validation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#strategies-de-securite">Stratégies de Sécurité</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#validation-sql">Validation SQL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#performances">Performances</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#optimisations">Optimisations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#metriques">Métriques</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#scalabilite">Scalabilité</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">Référence API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#endpoints-principaux">Endpoints Principaux</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html#orchestrateur-port-8000">Orchestrateur (Port 8000)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html#mcp-gateway-port-8000">MCP Gateway (Port 8000)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#modeles-de-donnees">Modèles de Données</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html#queryrequest">QueryRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html#queryresponse">QueryResponse</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#exemples-d-utilisation">Exemples d’Utilisation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html#python-avec-requests">Python avec Requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html#python-avec-asyncio">Python avec AsyncIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html#javascript-avec-fetch">JavaScript avec Fetch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html#websocket-client">WebSocket Client</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#gestion-des-erreurs">Gestion des Erreurs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html#codes-d-erreur-http">Codes d’Erreur HTTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html#format-d-erreur">Format d’Erreur</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#authentification-futur">Authentification (Futur)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html#oauth2-jwt">OAuth2 + JWT</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#rate-limiting">Rate Limiting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html#limites-par-defaut">Limites par Défaut</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_reference.html#configuration-personnalisee">Configuration Personnalisée</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Les Agents du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#baseagent-classe-de-base">BaseAgent (Classe de Base)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#architecture-d-heritage">Architecture d’Héritage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#intentagent">IntentAgent</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#flux">Flux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#parametres-d-entree">Paramètres d’Entrée</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#parametres-de-sortie">Paramètres de Sortie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#intentions-possibles">Intentions Possibles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#prompt-utilise">Prompt Utilisé</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#retrieveragent">RetrieverAgent</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id1">Flux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id2">Paramètres d’Entrée</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id3">Paramètres de Sortie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#exemple-de-schema-retourne">Exemple de Schéma Retourné</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#communication-mcp">Communication MCP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#sqlagent">SQLAgent</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id4">Flux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#generation-llm-primaire">Génération LLM (Primaire)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#fallback-generation-basee-regles">Fallback : Génération Basée Règles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id5">Paramètres d’Entrée</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id6">Paramètres de Sortie</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#validatoragent">ValidatorAgent</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id7">Flux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#regles-de-validation">Règles de Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#patterns-interdits">Patterns Interdits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id8">Paramètres d’Entrée</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id9">Paramètres de Sortie</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#executoragent-queryrunner">ExecutorAgent (QueryRunner)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id10">Flux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#execution-parallele">Exécution Parallèle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#format-du-resultat">Format du Résultat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id11">Paramètres d’Entrée</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id12">Paramètres de Sortie</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#composeragent">ComposerAgent</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id13">Flux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id14">Prompt Utilisé</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id15">Paramètres d’Entrée</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#id16">Paramètres de Sortie</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#registry-des-agents">Registry des Agents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#utilisation">Utilisation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#voir-aussi">Voir aussi</a></li>
+</ul>
+</div>
+</section>
+<section id="table-des-matieres">
+<h1>Table des Matières<a class="headerlink" href="#table-des-matieres" title="Lien vers cette rubrique"></a></h1>
+<ul class="simple">
+<li><p><strong>Guide de Démarrage</strong> : Installation, configuration et premiers pas</p></li>
+<li><p><strong>Architecture</strong> : Vue d’ensemble du système et flux de données</p></li>
+<li><p><strong>Modules</strong> : Documentation de tous les modules Python</p></li>
+<li><p><strong>Référence API</strong> : Points d’entrée et endpoints</p></li>
+<li><p><strong>Agents</strong> : Détails sur chaque agent spécialisé</p></li>
+<li><p><strong>Protocole MCP</strong> : Communication avec les bases de données</p></li>
+<li><p><strong>Déploiement</strong> : Mise en production avec Docker</p></li>
+</ul>
+</section>
+<section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Lien vers cette rubrique"></a></h1>
+<p>Ce projet implémente un système fédéré de Retrieval-Augmented Generation (RAG) utilisant une architecture multi-agents. Il permet de :</p>
+<ul class="simple">
+<li><p><strong>Analyser les requêtes</strong> pour déterminer l’intention de l’utilisateur</p></li>
+<li><p><strong>Récupérer les schémas</strong> des bases de données disponibles</p></li>
+<li><p><strong>Générer des requêtes SQL</strong> optimisées et sécurisées</p></li>
+<li><p><strong>Valider les requêtes</strong> avant exécution</p></li>
+<li><p><strong>Exécuter en fédéré</strong> sur plusieurs bases de données</p></li>
+<li><p><strong>Composer les réponses</strong> en langage naturel</p></li>
+</ul>
+</section>
+<section id="technologies-principales">
+<h1>Technologies Principales<a class="headerlink" href="#technologies-principales" title="Lien vers cette rubrique"></a></h1>
+<img alt="https://img.shields.io/badge/Python-3.9+-blue.svg" src="https://img.shields.io/badge/Python-3.9+-blue.svg" />
+<img alt="https://img.shields.io/badge/FastAPI-0.104+-green.svg" src="https://img.shields.io/badge/FastAPI-0.104+-green.svg" />
+<img alt="https://img.shields.io/badge/LangGraph-latest-purple.svg" src="https://img.shields.io/badge/LangGraph-latest-purple.svg" />
+<ul class="simple">
+<li><p><strong>Python 3.9+</strong> : Langage principal</p></li>
+<li><p><strong>FastAPI</strong> : Framework web asynchrone</p></li>
+<li><p><strong>LangGraph</strong> : Orchestration de pipelines avec états</p></li>
+<li><p><strong>LangChain</strong> : Intégration avec modèles de langage</p></li>
+<li><p><strong>Ollama</strong> : Modèle de langage local</p></li>
+<li><p><strong>PostgreSQL + pgvector</strong> : Stockage vectoriel</p></li>
+<li><p><strong>MCP (Model Context Protocol)</strong> : Communication inter-services</p></li>
+<li><p><strong>Docker &amp; Docker Compose</strong> : Conteneurisation</p></li>
+</ul>
+</section>
+<section id="structure-du-projet">
+<h1>Structure du Projet<a class="headerlink" href="#structure-du-projet" title="Lien vers cette rubrique"></a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>BDD Fédérée par Agent/
+├── orchestrateur/          # Service principal
+│   ├── main.py
+│   ├── src/
+│   │   ├── orchestrator/   # Pipeline LangGraph
+│   │   ├── agents/         # 6 agents spécialisés
+│   │   ├── executor/       # Exécution requêtes
+│   │   └── mcp_client.py
+│   └── requirements.txt
+├── mcp/
+│   └── mcp-gateway/        # Passerelle MCP
+├── query-management/       # Service Gemini
+├── DataBase/               # Scripts BDD
+├── pytest/                 # Tests
+├── docs/                   # Documentation
+└── docker-compose.yml      # Orchestration
+</pre></div>
+</div>
+</section>
+<section id="demarrage-rapide">
+<h1>Démarrage Rapide<a class="headerlink" href="#demarrage-rapide" title="Lien vers cette rubrique"></a></h1>
+<p>Installation et lancement avec Docker :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construire tous les services</span>
+docker-compose<span class="w"> </span>up<span class="w"> </span>--build
+
+<span class="c1"># Accéder à l&#39;API</span>
+<span class="c1"># http://localhost:8000/docs (Swagger)</span>
+
+<span class="c1"># Lancer les tests</span>
+<span class="nb">cd</span><span class="w"> </span>pytest
+pytest
+</pre></div>
+</div>
+</section>
+<section id="ressources">
+<h1>Ressources<a class="headerlink" href="#ressources" title="Lien vers cette rubrique"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<ul class="simple">
+<li><p><strong>GitHub</strong> : Dépôt du projet</p></li>
+<li><p><strong>Issues</strong> : Signaler des problèmes</p></li>
+<li><p><strong>Discussions</strong> : Questions et partage</p></li>
+</ul>
+</section>
+<section id="auteur-licence">
+<h1>Auteur &amp; Licence<a class="headerlink" href="#auteur-licence" title="Lien vers cette rubrique"></a></h1>
+<p><strong>Auteur</strong> : PROCOM Team
+<strong>Version</strong> : 1.0.0
+<strong>Date</strong> : 19 janvier 2026</p>
+<p>Pour plus d’informations, consultez le fichier <strong>DOCUMENTATION.py</strong> ou les fichiers de configuration dans le répertoire racine.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Cette documentation a été générée automatiquement à partir des docstrings PyDoc du code source. Elle est mise à jour en même temps que le code.</p>
+</div>
+</section>
+<section id="indices-et-tables">
+<h1>Indices et Tables<a class="headerlink" href="#indices-et-tables" title="Lien vers cette rubrique"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Index du module</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Page de recherche</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pied de page">
+        <a href="guide_demarrage.html" class="btn btn-neutral float-right" title="Guide de Démarrage" accesskey="n" rel="next">Suivant <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2026, PROCOM Team.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

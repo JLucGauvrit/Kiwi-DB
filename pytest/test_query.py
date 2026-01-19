@@ -1,6 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Test script for executing SQL queries via MCP Gateway"""
+"""
+Test script for executing SQL queries via MCP Gateway.
+
+Ce script teste la communication avec la passerelle MCP et l'exécution
+des requêtes SQL sur les bases de données via les serveurs MCP.
+
+@author: PROCOM Team
+@version: 1.0
+@since: 2026-01-19
+"""
 import asyncio
 import json
 import sys
@@ -8,7 +17,16 @@ import websockets
 
 
 async def test_sql_query():
-    """Test SQL query execution via MCP gateway"""
+    """
+    Tester l'exécution de requêtes SQL via la passerelle MCP.
+    
+    Se connecte à la passerelle MCP et envoie plusieurs requêtes
+    pour tester :
+    1. Listage des schémas de base de données
+    2. Listage des tables dans le schéma 'public'
+    3. Listage des détails d'une table
+    4. Exécution d'une requête SQL
+    """
     uri = "ws://localhost:9000/ws"
 
     print(f"Connecting to {uri}...")

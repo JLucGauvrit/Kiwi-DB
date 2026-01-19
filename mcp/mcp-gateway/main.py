@@ -1,5 +1,13 @@
 """
-MCP Gateway - Routes requests from orchestrator to MCP servers
+MCP Gateway - Routes requests from orchestrator to MCP servers.
+
+Ce module implémente la passerelle MCP qui sert d'intermédiaire entre
+l'orchestrateur et les serveurs MCP. Elle expose une interface WebSocket
+pour recevoir les requêtes et les transmet aux serveurs MCP appropriés.
+
+@author: PROCOM Team
+@version: 1.0
+@since: 2026-01-19
 """
 import asyncio
 import json
@@ -17,6 +25,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+# Configuration des serveurs MCP disponibles
 MCP_SERVERS = {
     "postgres": {
         "url": "http://mcp-postgres:8000/sse",
@@ -30,7 +39,12 @@ mcp_pool: Optional[MCPClientPool] = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Initialize and cleanup MCP client pool"""
+    """
+    Gestionnaire de cycle de vie pour initialiser et nettoyer le pool MCP.
+    
+    Initialise le pool de clients MCP au démarrage de l'application
+    et le ferme à l'arrêt.
+    """
     global mcp_pool
     logger.info("Initializing MCP Gateway...")
     mcp_pool = MCPClientPool(MCP_SERVERS)
@@ -49,7 +63,12 @@ app = FastAPI(title="MCP Gateway", lifespan=lifespan)
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint"""
+    """
+    Endpoint de vérification de santé du service.
+    
+    @return: Statut de santé et liste des serveurs disponibles
+    @rtype: dict
+    """
     return {
         "status": "healthy",
         "servers": list(MCP_SERVERS.keys())
@@ -58,7 +77,17 @@ async def health_check():
 
 @app.get("/servers")
 async def list_servers():
-    """List available MCP servers"""
+    """
+    Lister tous les serveurs MCP disponibles et leur statut de connexion.
+    
+    @return: Liste des serveurs avec leurs statuts de connexion
+    @rtype: dict
+    @return_value:
+        - servers (list): Liste des serveurs avec:
+            - name (str): Nom du serveur
+            - type (str): Type de serveur
+            - connected (bool): Statut de connexion
+    """
     if not mcp_pool:
         return {"servers": []}
 
@@ -77,16 +106,20 @@ async def list_servers():
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     """
-    WebSocket endpoint for orchestrator to send MCP requests
+    Endpoint WebSocket pour l'orchestrateur pour envoyer des requêtes MCP.
 
-    Expected message format:
+    Format de message attendu :
+    ```json
     {
         "type": "call_tool" | "list_tools" | "get_resource" | "list_resources",
-        "server": "postgres",  # Target MCP server
-        "tool": "query",       # For call_tool
-        "arguments": {},       # For call_tool
-        "resource": "schema"   # For get_resource
+        "server": "postgres",  # Serveur MCP cible
+        "tool": "query",       # Pour call_tool
+        "arguments": {},       # Pour call_tool
+        "resource": "schema"   # Pour get_resource
     }
+    ```
+    
+    @param websocket: Connexion WebSocket avec l'orchestrateur
     """
     await websocket.accept()
     logger.info("Orchestrator connected via WebSocket")
@@ -131,7 +164,19 @@ async def websocket_endpoint(websocket: WebSocket):
 
 async def handle_request(request: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Handle incoming request and route to appropriate MCP server
+    Traiter une requête entrante et la router vers le serveur MCP approprié.
+    
+    Routage intelligent des requêtes en fonction du type et du serveur cible.
+    Les types de requêtes supportées sont :
+    - list_tools : Lister les outils disponibles
+    - call_tool : Appeler un outil spécifique
+    - list_resources : Lister les ressources disponibles
+    - get_resource : Récupérer une ressource spécifique
+    
+    @param request: Requête à traiter
+    @type request: dict
+    @return: Réponse formatée pour l'orchestrateur
+    @rtype: dict
     """
     if not mcp_pool:
         return {"error": "MCP pool not initialized"}
@@ -147,6 +192,11 @@ async def handle_request(request: Dict[str, Any]) -> Dict[str, Any]:
 
     try:
         if request_type == "list_tools":
+            """
+            Traiter une requête list_tools.
+            
+            @return: Réponse contenant la liste des outils disponibles
+            """
             result = await mcp_pool.list_tools(server_name)
             return {
                 "success": True,
@@ -155,6 +205,15 @@ async def handle_request(request: Dict[str, Any]) -> Dict[str, Any]:
             }
 
         elif request_type == "call_tool":
+            """
+            Traiter une requête call_tool.
+            
+            Requiert les champs supplémentaires :
+            - tool (str): Nom de l'outil à appeler
+            - arguments (dict): Arguments de l'outil
+            
+            @return: Réponse contenant le résultat de l'appel de l'outil
+            """
             if "tool" not in request:
                 return {"error": "Missing 'tool' field for call_tool request"}
 
@@ -174,6 +233,11 @@ async def handle_request(request: Dict[str, Any]) -> Dict[str, Any]:
             }
 
         elif request_type == "list_resources":
+            """
+            Traiter une requête list_resources.
+            
+            @return: Réponse contenant la liste des ressources disponibles
+            """
             result = await mcp_pool.list_resources(server_name)
             return {
                 "success": True,
@@ -182,6 +246,14 @@ async def handle_request(request: Dict[str, Any]) -> Dict[str, Any]:
             }
 
         elif request_type == "get_resource":
+            """
+            Traiter une requête get_resource.
+            
+            Requiert le champ supplémentaire :
+            - resource (str): URI de la ressource à récupérer
+            
+            @return: Réponse contenant le contenu de la ressource
+            """
             if "resource" not in request:
                 return {"error": "Missing 'resource' field for get_resource request"}
 
