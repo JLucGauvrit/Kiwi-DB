@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pytest.test_query &mdash; BDD Fédérée par Agent - Documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=05dadb3a"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/translations.js?v=e6b791cb"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            BDD Fédérée par Agent
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">📚 Contenu</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html">Guide de Démarrage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#configuration">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#demarrage-rapide-avec-docker">Démarrage Rapide avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#utilisation">Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#prochaines-etapes">Prochaines Étapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#ressources-supplementaires">Ressources Supplémentaires</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#composants-principaux">Composants Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#agents-specialises">Agents Spécialisés</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#communication-mcp">Communication MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#flux-de-requete-complet">Flux de Requête Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#securite-validation">Sécurité &amp; Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#performances">Performances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html">Les Agents du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#baseagent-classe-de-base">BaseAgent (Classe de Base)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#intentagent">IntentAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#retrieveragent">RetrieverAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#sqlagent">SQLAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#validatoragent">ValidatorAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#executoragent-queryrunner">ExecutorAgent (QueryRunner)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#composeragent">ComposerAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#registry-des-agents">Registry des Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html">Protocole MCP (Model Context Protocol)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#architecture-mcp">Architecture MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#outils-disponibles">Outils Disponibles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#flux-d-execution-complet">Flux d’Exécution Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#implementation-cote-client-orchestrateur">Implémentation côté Client (Orchestrateur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#implementation-cote-server-gateway">Implémentation côté Server (Gateway)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#securite-mcp">Sécurité MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#monitoring-debugging">Monitoring &amp; Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#exemples-complets">Exemples Complets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">Référence API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#endpoints-principaux">Endpoints Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#exemples-d-utilisation">Exemples d’Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#authentification-futur">Authentification (Futur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#rate-limiting">Rate Limiting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Référence des Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#orchestrateur">Orchestrateur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#mcp-gateway">MCP Gateway</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#query-management">Query Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html">Déploiement en Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#prerequis">Prérequis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#architectures-supportees">Architectures Supportées</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#deploiement-local-avec-docker">Déploiement Local avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#deploiement-kubernetes">Déploiement Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#deploiement-cloud-cloud-run">Déploiement Cloud (Cloud Run)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#monitoring-logs">Monitoring &amp; Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#maintenance">Maintenance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#depannage-deploiement">Dépannage Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#certificats-ssl-tls">Certificats SSL/TLS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#optimisations-performance">Optimisations Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#checklist-de-deploiement">Checklist de Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ (Questions Fréquemment Posées)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#installation-configuration">Installation &amp; Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#deploiement">Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#api-requetes">API &amp; Requêtes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#agents-modeles">Agents &amp; Modèles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#bases-de-donnees">Bases de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#performance-scalabilite">Performance &amp; Scalabilité</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#developpement">Développement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#support-ressources">Support &amp; Ressources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#voir-aussi">Voir aussi</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">BDD Fédérée par Agent - Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BDD Fédérée par Agent</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code du module</a></li>
+      <li class="breadcrumb-item active">pytest.test_query</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Code source de pytest.test_query</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Test script for executing SQL queries via MCP Gateway.</span>
+
+<span class="sd">Ce script teste la communication avec la passerelle MCP et l&#39;exécution</span>
+<span class="sd">des requêtes SQL sur les bases de données via les serveurs MCP.</span>
+
+<span class="sd">@author: PROCOM Team</span>
+<span class="sd">@version: 1.0</span>
+<span class="sd">@since: 2026-01-19</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">websockets</span>
+
+
+<div class="viewcode-block" id="test_sql_query">
+<a class="viewcode-back" href="../../modules.html#pytest.test_query.test_sql_query">[docs]</a>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_sql_query</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tester l&#39;exécution de requêtes SQL via la passerelle MCP.</span>
+<span class="sd">    </span>
+<span class="sd">    Se connecte à la passerelle MCP et envoie plusieurs requêtes</span>
+<span class="sd">    pour tester :</span>
+<span class="sd">    1. Listage des schémas de base de données</span>
+<span class="sd">    2. Listage des tables dans le schéma &#39;public&#39;</span>
+<span class="sd">    3. Listage des détails d&#39;une table</span>
+<span class="sd">    4. Exécution d&#39;une requête SQL</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">uri</span> <span class="o">=</span> <span class="s2">&quot;ws://localhost:9000/ws&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Connecting to </span><span class="si">{</span><span class="n">uri</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">websockets</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span> <span class="k">as</span> <span class="n">websocket</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[OK] Connected to gateway</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Test 1: List Database Schemas ===&quot;</span><span class="p">)</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;call_tool&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;server&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;tool&quot;</span><span class="p">:</span> <span class="s2">&quot;list_schemas&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;arguments&quot;</span><span class="p">:</span> <span class="p">{}</span>
+            <span class="p">}</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sending: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="n">response_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">response_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;success&quot;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[OK] Successfully listed schemas&quot;</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">response_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Result: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[ERROR] Error: </span><span class="si">{</span><span class="n">response_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Test 2: List Tables in &#39;public&#39; Schema ===&quot;</span><span class="p">)</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;call_tool&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;server&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;tool&quot;</span><span class="p">:</span> <span class="s2">&quot;list_objects&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;arguments&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;schema_name&quot;</span><span class="p">:</span> <span class="s2">&quot;public&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;table&quot;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sending: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="n">response_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">response_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;success&quot;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[OK] Successfully listed tables&quot;</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">response_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Result: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[ERROR] Error: </span><span class="si">{</span><span class="n">response_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Test 3: Execute SQL Query ===&quot;</span><span class="p">)</span>
+            <span class="n">sql_query</span> <span class="o">=</span> <span class="s2">&quot;SELECT version() as postgres_version;&quot;</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;call_tool&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;server&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;tool&quot;</span><span class="p">:</span> <span class="s2">&quot;execute_sql&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;arguments&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;sql&quot;</span><span class="p">:</span> <span class="n">sql_query</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SQL Query: </span><span class="si">{</span><span class="n">sql_query</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sending: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="n">response_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">response_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;success&quot;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[OK] Query executed successfully&quot;</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">response_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,</span> <span class="p">{})</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Result: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[ERROR] Error: </span><span class="si">{</span><span class="n">response_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Test 4: Get Current Database Time ===&quot;</span><span class="p">)</span>
+            <span class="n">sql_query</span> <span class="o">=</span> <span class="s2">&quot;SELECT NOW() as current_time, CURRENT_DATABASE() as database_name;&quot;</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;call_tool&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;server&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;tool&quot;</span><span class="p">:</span> <span class="s2">&quot;execute_sql&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;arguments&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;sql&quot;</span><span class="p">:</span> <span class="n">sql_query</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SQL Query: </span><span class="si">{</span><span class="n">sql_query</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sending: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="n">response_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">response_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;success&quot;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[OK] Query executed successfully&quot;</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">response_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,</span> <span class="p">{})</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Result: </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[ERROR] Error: </span><span class="si">{</span><span class="n">response_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[ERROR] Connection failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
+        <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">test_sql_query</span><span class="p">())</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2026, PROCOM Team.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

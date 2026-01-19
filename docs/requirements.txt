@@ -1,0 +1,12 @@
+sphinx==7.2.6
+sphinx-rtd-theme==2.0.0
+sphinx-autodoc-typehints==1.25.2
+sphinx-copybutton==0.5.2
+sphinx-autobuild==2024.2.4
+
+# Pour la génération autodoc des modules
+fastapi==0.104.1
+pydantic==2.5.0
+langchain==0.1.0
+langgraph==0.0.15
+langchain-core==0.1.0

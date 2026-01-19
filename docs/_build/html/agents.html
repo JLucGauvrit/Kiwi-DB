@@ -20,7 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Recherche" href="search.html" />
-    <link rel="prev" title="Référence API" href="api_reference.html" /> 
+    <link rel="next" title="Protocole MCP (Model Context Protocol)" href="mcp_protocol.html" />
+    <link rel="prev" title="Architecture du Système" href="architecture.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,7 +43,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contenu</span></p>
+              <p class="caption" role="heading"><span class="caption-text">📚 Contenu</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html">Guide de Démarrage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#installation">Installation</a></li>
@@ -63,14 +64,6 @@
 <li class="toctree-l1"><a class="reference internal" href="architecture.html#securite-validation">Sécurité &amp; Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html#performances">Performances</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html#voir-aussi">Voir aussi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html">Référence API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html#endpoints-principaux">Endpoints Principaux</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html#modeles-de-donnees">Modèles de Données</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html#exemples-d-utilisation">Exemples d’Utilisation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html#authentification-futur">Authentification (Futur)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html#rate-limiting">Rate Limiting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api_reference.html#voir-aussi">Voir aussi</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Les Agents du Système</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#vue-d-ensemble">Vue d’Ensemble</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#baseagent-classe-de-base">BaseAgent (Classe de Base)</a><ul>
@@ -129,6 +122,57 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html">Protocole MCP (Model Context Protocol)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#architecture-mcp">Architecture MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#outils-disponibles">Outils Disponibles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#flux-d-execution-complet">Flux d’Exécution Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#implementation-cote-client-orchestrateur">Implémentation côté Client (Orchestrateur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#implementation-cote-server-gateway">Implémentation côté Server (Gateway)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#securite-mcp">Sécurité MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#monitoring-debugging">Monitoring &amp; Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#exemples-complets">Exemples Complets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">Référence API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#endpoints-principaux">Endpoints Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#exemples-d-utilisation">Exemples d’Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#authentification-futur">Authentification (Futur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#rate-limiting">Rate Limiting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Référence des Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#orchestrateur">Orchestrateur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#mcp-gateway">MCP Gateway</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#query-management">Query Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Déploiement en Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#prerequis">Prérequis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#architectures-supportees">Architectures Supportées</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#deploiement-local-avec-docker">Déploiement Local avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#deploiement-kubernetes">Déploiement Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#deploiement-cloud-cloud-run">Déploiement Cloud (Cloud Run)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#monitoring-logs">Monitoring &amp; Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#maintenance">Maintenance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#depannage-deploiement">Dépannage Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#certificats-ssl-tls">Certificats SSL/TLS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#optimisations-performance">Optimisations Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#checklist-de-deploiement">Checklist de Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ (Questions Fréquemment Posées)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#installation-configuration">Installation &amp; Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#deploiement">Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#api-requetes">API &amp; Requêtes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#agents-modeles">Agents &amp; Modèles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#bases-de-donnees">Bases de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#performance-scalabilite">Performance &amp; Scalabilité</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#developpement">Développement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#support-ressources">Support &amp; Ressources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#voir-aussi">Voir aussi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">BDD Fédérée par Agent - Documentation</a></li>
@@ -795,7 +839,7 @@ Remarques:
 <ul class="simple">
 <li><p><a class="reference internal" href="architecture.html"><span class="doc">Architecture du Système</span></a> pour le flux global</p></li>
 <li><p><a class="reference internal" href="api_reference.html"><span class="doc">Référence API</span></a> pour les endpoints</p></li>
-<li><p><span class="xref std std-doc">mcp_protocol</span> pour la communication</p></li>
+<li><p><a class="reference internal" href="mcp_protocol.html"><span class="doc">Protocole MCP (Model Context Protocol)</span></a> pour la communication</p></li>
 </ul>
 </section>
 
@@ -803,7 +847,8 @@ Remarques:
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pied de page">
-        <a href="api_reference.html" class="btn btn-neutral float-left" title="Référence API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Précédent</a>
+        <a href="architecture.html" class="btn btn-neutral float-left" title="Architecture du Système" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Précédent</a>
+        <a href="mcp_protocol.html" class="btn btn-neutral float-right" title="Protocole MCP (Model Context Protocol)" accesskey="n" rel="next">Suivant <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

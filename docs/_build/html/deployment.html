@@ -1,0 +1,641 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Déploiement en Production &mdash; BDD Fédérée par Agent - Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=05dadb3a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=e6b791cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="next" title="FAQ (Questions Fréquemment Posées)" href="faq.html" />
+    <link rel="prev" title="Référence des Modules" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BDD Fédérée par Agent
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">📚 Contenu</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html">Guide de Démarrage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#configuration">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#demarrage-rapide-avec-docker">Démarrage Rapide avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#utilisation">Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#prochaines-etapes">Prochaines Étapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#ressources-supplementaires">Ressources Supplémentaires</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#composants-principaux">Composants Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#agents-specialises">Agents Spécialisés</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#communication-mcp">Communication MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#flux-de-requete-complet">Flux de Requête Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#securite-validation">Sécurité &amp; Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#performances">Performances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Les Agents du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#baseagent-classe-de-base">BaseAgent (Classe de Base)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#intentagent">IntentAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#retrieveragent">RetrieverAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#sqlagent">SQLAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#validatoragent">ValidatorAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#executoragent-queryrunner">ExecutorAgent (QueryRunner)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#composeragent">ComposerAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#registry-des-agents">Registry des Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html">Protocole MCP (Model Context Protocol)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#architecture-mcp">Architecture MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#outils-disponibles">Outils Disponibles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#flux-d-execution-complet">Flux d’Exécution Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#implementation-cote-client-orchestrateur">Implémentation côté Client (Orchestrateur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#implementation-cote-server-gateway">Implémentation côté Server (Gateway)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#securite-mcp">Sécurité MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#monitoring-debugging">Monitoring &amp; Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#exemples-complets">Exemples Complets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">Référence API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#endpoints-principaux">Endpoints Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#exemples-d-utilisation">Exemples d’Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#authentification-futur">Authentification (Futur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#rate-limiting">Rate Limiting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Référence des Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#orchestrateur">Orchestrateur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#mcp-gateway">MCP Gateway</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#query-management">Query Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Déploiement en Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#prerequis">Prérequis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#architectures-supportees">Architectures Supportées</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#deploiement-local-avec-docker">Déploiement Local avec Docker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preparer-les-fichiers">1. Préparer les Fichiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configurer-les-variables">2. Configurer les Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lancer-l-infrastructure">3. Lancer l’Infrastructure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verifier-le-deploiement">4. Vérifier le Déploiement</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#deploiement-kubernetes">Déploiement Kubernetes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Prérequis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fichiers-kubernetes">Fichiers Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deployer">Déployer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#deploiement-cloud-cloud-run">Déploiement Cloud (Cloud Run)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#google-cloud-run">Google Cloud Run</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#monitoring-logs">Monitoring &amp; Logs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prometheus">Prometheus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#logs-centralises-elk-stack">Logs Centralisés (ELK Stack)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#maintenance">Maintenance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#backup-base-de-donnees">Backup Base de Données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mise-a-jour">Mise à Jour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scaling-horizontal">Scaling Horizontal</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#depannage-deploiement">Dépannage Déploiement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#service-ne-demarre-pas">Service ne démarre pas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#port-deja-utilise">Port déjà utilisé</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#connexion-mcp-echouee">Connexion MCP échouée</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#certificats-ssl-tls">Certificats SSL/TLS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#generer-un-certificat-auto-signe">Générer un Certificat Auto-Signé</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configurer-nginx-avec-ssl">Configurer Nginx avec SSL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#optimisations-performance">Optimisations Performance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#caching">Caching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#connection-pooling">Connection Pooling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compression">Compression</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#checklist-de-deploiement">Checklist de Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ (Questions Fréquemment Posées)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#installation-configuration">Installation &amp; Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#deploiement">Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#api-requetes">API &amp; Requêtes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#agents-modeles">Agents &amp; Modèles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#bases-de-donnees">Bases de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#performance-scalabilite">Performance &amp; Scalabilité</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#developpement">Développement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#support-ressources">Support &amp; Ressources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#voir-aussi">Voir aussi</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">BDD Fédérée par Agent - Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BDD Fédérée par Agent</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Déploiement en Production</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/deployment.rst.txt" rel="nofollow"> Afficher la source de la page</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deploiement-en-production">
+<h1>Déploiement en Production<a class="headerlink" href="#deploiement-en-production" title="Lien vers cette rubrique"></a></h1>
+</section>
+<section id="prerequis">
+<h1>Prérequis<a class="headerlink" href="#prerequis" title="Lien vers cette rubrique"></a></h1>
+<ul class="simple">
+<li><p>Docker &amp; Docker Compose (version 1.25+)</p></li>
+<li><p>Git</p></li>
+<li><p>Un serveur avec au minimum 2 CPU et 4GB RAM</p></li>
+<li><p>PostgreSQL 15+ (optionnel si utilisation managed)</p></li>
+<li><p>Ollama (si déploiement local du LLM)</p></li>
+</ul>
+</section>
+<section id="architectures-supportees">
+<h1>Architectures Supportées<a class="headerlink" href="#architectures-supportees" title="Lien vers cette rubrique"></a></h1>
+<p><strong>Développement</strong>
+- Exécution locale avec Docker Compose
+- Idéal pour tester et développer
+- Temps de démarrage : ~30 secondes</p>
+<p><strong>Production</strong>
+- Kubernetes (GKE, EKS, AKS)
+- Cloud Managed Services (Cloud Run, App Engine)
+- Serveur dédié avec Docker Swarm</p>
+</section>
+<section id="deploiement-local-avec-docker">
+<h1>Déploiement Local avec Docker<a class="headerlink" href="#deploiement-local-avec-docker" title="Lien vers cette rubrique"></a></h1>
+<section id="preparer-les-fichiers">
+<h2>1. Préparer les Fichiers<a class="headerlink" href="#preparer-les-fichiers" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>&lt;repository-url&gt;
+<span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;BDD fédéré par agent&quot;</span>
+cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+</pre></div>
+</div>
+</section>
+<section id="configurer-les-variables">
+<h2>2. Configurer les Variables<a class="headerlink" href="#configurer-les-variables" title="Lien vers cette rubrique"></a></h2>
+<p>Éditer <code class="docutils literal notranslate"><span class="pre">.env</span></code> :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Orchestrateur</span>
+<span class="nv">OLLAMA_BASE_URL</span><span class="o">=</span>http://ollama:11434
+<span class="nv">MCP_GATEWAY_URL</span><span class="o">=</span>ws://mcp-gateway:8000/ws
+<span class="nv">LOG_LEVEL</span><span class="o">=</span>INFO
+
+<span class="c1"># PostgreSQL</span>
+<span class="nv">POSTGRES_USER</span><span class="o">=</span>procom
+<span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>secure_password_here
+<span class="nv">POSTGRES_DB</span><span class="o">=</span>federated_db
+
+<span class="c1"># Google Gemini (optionnel)</span>
+<span class="nv">GOOGLE_API_KEY</span><span class="o">=</span>your_api_key_here
+
+<span class="c1"># Environnement</span>
+<span class="nv">ENVIRONMENT</span><span class="o">=</span>production
+<span class="nv">DEBUG</span><span class="o">=</span><span class="nb">false</span>
+</pre></div>
+</div>
+</section>
+<section id="lancer-l-infrastructure">
+<h2>3. Lancer l’Infrastructure<a class="headerlink" href="#lancer-l-infrastructure" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construire et démarrer</span>
+docker-compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+
+<span class="c1"># Vérifier le statut</span>
+docker-compose<span class="w"> </span>ps
+
+<span class="c1"># Voir les logs</span>
+docker-compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>orchestrateur
+</pre></div>
+</div>
+</section>
+<section id="verifier-le-deploiement">
+<h2>4. Vérifier le Déploiement<a class="headerlink" href="#verifier-le-deploiement" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Attendre que tous les services soient prêts (~1 minute)</span>
+sleep<span class="w"> </span><span class="m">60</span>
+
+<span class="c1"># Tester la santé</span>
+curl<span class="w"> </span>http://localhost:8000/health
+
+<span class="c1"># Tester un endpoint</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/api/query<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;query&quot;: &quot;Test de déploiement&quot;}&#39;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="deploiement-kubernetes">
+<h1>Déploiement Kubernetes<a class="headerlink" href="#deploiement-kubernetes" title="Lien vers cette rubrique"></a></h1>
+<section id="id1">
+<h2>Prérequis<a class="headerlink" href="#id1" title="Lien vers cette rubrique"></a></h2>
+<ul class="simple">
+<li><p>Kubectl configuré</p></li>
+<li><p>Cluster Kubernetes (GKE, EKS, AKS, local)</p></li>
+<li><p>Helm 3+ (optionnel)</p></li>
+</ul>
+</section>
+<section id="fichiers-kubernetes">
+<h2>Fichiers Kubernetes<a class="headerlink" href="#fichiers-kubernetes" title="Lien vers cette rubrique"></a></h2>
+<p>Créer <code class="docutils literal notranslate"><span class="pre">k8s/namespace.yaml</span></code> :</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Namespace</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">procom</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">procom</span>
+</pre></div>
+</div>
+<p>Créer <code class="docutils literal notranslate"><span class="pre">k8s/configmap.yaml</span></code> :</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app-config</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">procom</span>
+<span class="nt">data</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">OLLAMA_BASE_URL</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://ollama:11434&quot;</span>
+<span class="w">  </span><span class="nt">MCP_GATEWAY_URL</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ws://mcp-gateway:8000/ws&quot;</span>
+<span class="w">  </span><span class="nt">LOG_LEVEL</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;INFO&quot;</span>
+<span class="w">  </span><span class="nt">ENVIRONMENT</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;production&quot;</span>
+</pre></div>
+</div>
+<p>Créer <code class="docutils literal notranslate"><span class="pre">k8s/orchestrator-deployment.yaml</span></code> :</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">orchestrator</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">procom</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">orchestrator</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">orchestrator</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">orchestrator</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">procom/orchestrator:latest</span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000</span>
+<span class="w">        </span><span class="nt">envFrom</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">configMapRef</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app-config</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;512Mi&quot;</span>
+<span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;500m&quot;</span>
+<span class="w">          </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2Gi&quot;</span>
+<span class="w">            </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1000m&quot;</span>
+<span class="w">        </span><span class="nt">livenessProbe</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/health</span>
+<span class="w">            </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000</span>
+<span class="w">          </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="w">          </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">        </span><span class="nt">readinessProbe</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">httpGet</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/health</span>
+<span class="w">            </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000</span>
+<span class="w">          </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">          </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</pre></div>
+</div>
+<p>Créer <code class="docutils literal notranslate"><span class="pre">k8s/service.yaml</span></code> :</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">orchestrator</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">procom</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LoadBalancer</span>
+<span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">orchestrator</span>
+</pre></div>
+</div>
+</section>
+<section id="deployer">
+<h2>Déployer<a class="headerlink" href="#deployer" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Créer le namespace et les ressources</span>
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>k8s/namespace.yaml
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>k8s/configmap.yaml
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>k8s/orchestrator-deployment.yaml
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>k8s/service.yaml
+
+<span class="c1"># Vérifier le déploiement</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>procom
+kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>procom
+
+<span class="c1"># Obtenir l&#39;IP externe</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>orchestrator<span class="w"> </span>-n<span class="w"> </span>procom
+</pre></div>
+</div>
+</section>
+</section>
+<section id="deploiement-cloud-cloud-run">
+<h1>Déploiement Cloud (Cloud Run)<a class="headerlink" href="#deploiement-cloud-cloud-run" title="Lien vers cette rubrique"></a></h1>
+<section id="google-cloud-run">
+<h2>Google Cloud Run<a class="headerlink" href="#google-cloud-run" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Construire l&#39;image</span>
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>gcr.io/PROJECT_ID/orchestrator<span class="w"> </span>orchestrateur/
+
+<span class="c1"># 2. Pousser vers Registry</span>
+docker<span class="w"> </span>push<span class="w"> </span>gcr.io/PROJECT_ID/orchestrator
+
+<span class="c1"># 3. Déployer sur Cloud Run</span>
+gcloud<span class="w"> </span>run<span class="w"> </span>deploy<span class="w"> </span>orchestrator<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--image<span class="w"> </span>gcr.io/PROJECT_ID/orchestrator<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--platform<span class="w"> </span>managed<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="w"> </span>europe-west1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--memory<span class="w"> </span>512Mi<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeout<span class="w"> </span><span class="m">300</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set-env-vars<span class="o">=</span><span class="s2">&quot;OLLAMA_BASE_URL=http://ollama:11434,MCP_GATEWAY_URL=ws://gateway:8000/ws&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="monitoring-logs">
+<h1>Monitoring &amp; Logs<a class="headerlink" href="#monitoring-logs" title="Lien vers cette rubrique"></a></h1>
+<section id="prometheus">
+<h2>Prometheus<a class="headerlink" href="#prometheus" title="Lien vers cette rubrique"></a></h2>
+<p>Créer <code class="docutils literal notranslate"><span class="pre">prometheus.yml</span></code> :</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">global</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">scrape_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15s</span>
+
+<span class="nt">scrape_configs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">job_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;orchestrator&#39;</span>
+<span class="w">    </span><span class="nt">static_configs</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;localhost:8000&#39;</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>Déployer Prometheus :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">9090</span>:9090<span class="w"> </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/prometheus.yml:/etc/prometheus/prometheus.yml<span class="w"> </span>prom/prometheus
+</pre></div>
+</div>
+</section>
+<section id="logs-centralises-elk-stack">
+<h2>Logs Centralisés (ELK Stack)<a class="headerlink" href="#logs-centralises-elk-stack" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Déployer ELK avec Docker Compose</span>
+docker-compose<span class="w"> </span>-f<span class="w"> </span>elk-compose.yml<span class="w"> </span>up<span class="w"> </span>-d
+
+<span class="c1"># Accéder à Kibana</span>
+<span class="c1"># http://localhost:5601</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="maintenance">
+<h1>Maintenance<a class="headerlink" href="#maintenance" title="Lien vers cette rubrique"></a></h1>
+<section id="backup-base-de-donnees">
+<h2>Backup Base de Données<a class="headerlink" href="#backup-base-de-donnees" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sauvegarder PostgreSQL</span>
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>procom_postgres_1<span class="w"> </span>pg_dump<span class="w"> </span>-U<span class="w"> </span>procom<span class="w"> </span>federated_db<span class="w"> </span>&gt;<span class="w"> </span>backup.sql
+
+<span class="c1"># Restaurer</span>
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-i<span class="w"> </span>procom_postgres_1<span class="w"> </span>psql<span class="w"> </span>-U<span class="w"> </span>procom<span class="w"> </span>federated_db<span class="w"> </span>&lt;<span class="w"> </span>backup.sql
+</pre></div>
+</div>
+</section>
+<section id="mise-a-jour">
+<h2>Mise à Jour<a class="headerlink" href="#mise-a-jour" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Récupérer les nouvelles sources</span>
+git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>main
+
+<span class="c1"># Reconstruire les images</span>
+docker-compose<span class="w"> </span>build
+
+<span class="c1"># Redémarrer les services</span>
+docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+
+<span class="c1"># Vérifier la santé</span>
+curl<span class="w"> </span>http://localhost:8000/health
+</pre></div>
+</div>
+</section>
+<section id="scaling-horizontal">
+<h2>Scaling Horizontal<a class="headerlink" href="#scaling-horizontal" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Augmenter le nombre de réplicas Orchestrator</span>
+docker-compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--scale<span class="w"> </span><span class="nv">orchestrator</span><span class="o">=</span><span class="m">3</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="depannage-deploiement">
+<h1>Dépannage Déploiement<a class="headerlink" href="#depannage-deploiement" title="Lien vers cette rubrique"></a></h1>
+<section id="service-ne-demarre-pas">
+<h2>Service ne démarre pas<a class="headerlink" href="#service-ne-demarre-pas" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vérifier les logs</span>
+docker-compose<span class="w"> </span>logs<span class="w"> </span>orchestrator
+
+<span class="c1"># Inspecter l&#39;image</span>
+docker<span class="w"> </span>inspect<span class="w"> </span>procom:orchestrator
+
+<span class="c1"># Vérifier les dépendances</span>
+docker-compose<span class="w"> </span>ps
+</pre></div>
+</div>
+</section>
+<section id="port-deja-utilise">
+<h2>Port déjà utilisé<a class="headerlink" href="#port-deja-utilise" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Changer le port dans docker-compose.yml</span>
+<span class="c1"># Ou tuer le processus</span>
+lsof<span class="w"> </span>-i<span class="w"> </span>:8000
+<span class="nb">kill</span><span class="w"> </span>-9<span class="w"> </span>&lt;PID&gt;
+</pre></div>
+</div>
+</section>
+<section id="connexion-mcp-echouee">
+<h2>Connexion MCP échouée<a class="headerlink" href="#connexion-mcp-echouee" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vérifier que la passerelle MCP est active</span>
+curl<span class="w"> </span>http://localhost:8000/servers
+
+<span class="c1"># Vérifier la configuration</span>
+cat<span class="w"> </span>config/servers.json
+
+<span class="c1"># Redémarrer le service</span>
+docker-compose<span class="w"> </span>restart<span class="w"> </span>mcp-gateway
+</pre></div>
+</div>
+</section>
+</section>
+<section id="certificats-ssl-tls">
+<h1>Certificats SSL/TLS<a class="headerlink" href="#certificats-ssl-tls" title="Lien vers cette rubrique"></a></h1>
+<section id="generer-un-certificat-auto-signe">
+<h2>Générer un Certificat Auto-Signé<a class="headerlink" href="#generer-un-certificat-auto-signe" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Générer clé privée et certificat</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-out<span class="w"> </span>cert.pem<span class="w"> </span>-keyout<span class="w"> </span>key.pem<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span>
+
+<span class="c1"># Placer dans certs/</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>certs
+mv<span class="w"> </span>cert.pem<span class="w"> </span>certs/
+mv<span class="w"> </span>key.pem<span class="w"> </span>certs/
+</pre></div>
+</div>
+</section>
+<section id="configurer-nginx-avec-ssl">
+<h2>Configurer Nginx avec SSL<a class="headerlink" href="#configurer-nginx-avec-ssl" title="Lien vers cette rubrique"></a></h2>
+<p>Dans <code class="docutils literal notranslate"><span class="pre">nginx/nginx.conf</span></code> :</p>
+<div class="highlight-nginx notranslate"><div class="highlight"><pre><span></span><span class="k">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="mi">443</span><span class="w"> </span><span class="s">ssl</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server_name</span><span class="w"> </span><span class="s">your-domain.com</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kn">ssl_certificate</span><span class="w"> </span><span class="s">/etc/nginx/certs/cert.pem</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">ssl_certificate_key</span><span class="w"> </span><span class="s">/etc/nginx/certs/key.pem</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="s">/</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://orchestrator:8000</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">Host</span><span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w"> </span><span class="s">X-Real-IP</span><span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="optimisations-performance">
+<h1>Optimisations Performance<a class="headerlink" href="#optimisations-performance" title="Lien vers cette rubrique"></a></h1>
+<section id="caching">
+<h2>Caching<a class="headerlink" href="#caching" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dans orchestrator/main.py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi_cache2</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPICache2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi_cache2.backends.redis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedisBackend</span>
+
+<span class="n">redis_url</span> <span class="o">=</span> <span class="s2">&quot;redis://redis:6379&quot;</span>
+<span class="n">FastAPICache2</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">RedisBackend</span><span class="p">(</span><span class="n">redis_url</span><span class="p">),</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;fastapi-cache&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="connection-pooling">
+<h2>Connection Pooling<a class="headerlink" href="#connection-pooling" title="Lien vers cette rubrique"></a></h2>
+<p>Augmenter la taille du pool MCP dans <code class="docutils literal notranslate"><span class="pre">mcp/mcp-gateway/main.py</span></code> :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pool_size</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Par défaut 10</span>
+<span class="n">mcp_client</span> <span class="o">=</span> <span class="n">MCPClientPool</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="n">pool_size</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="compression">
+<h2>Compression<a class="headerlink" href="#compression" title="Lien vers cette rubrique"></a></h2>
+<p>Dans <code class="docutils literal notranslate"><span class="pre">nginx/nginx.conf</span></code> :</p>
+<div class="highlight-nginx notranslate"><div class="highlight"><pre><span></span><span class="k">gzip</span><span class="w"> </span><span class="no">on</span><span class="p">;</span>
+<span class="k">gzip_types</span><span class="w"> </span><span class="s">text/plain</span><span class="w"> </span><span class="s">application/json</span><span class="w"> </span><span class="s">text/css</span><span class="p">;</span>
+<span class="k">gzip_min_length</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="checklist-de-deploiement">
+<h1>Checklist de Déploiement<a class="headerlink" href="#checklist-de-deploiement" title="Lien vers cette rubrique"></a></h1>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>✓ Variables d&#39;environnement configurées
+✓ Base de données initialisée
+✓ MCP Gateway accessible
+✓ Certificats SSL générés (production)
+✓ Health checks en place
+✓ Monitoring configuré
+✓ Logs centralisés
+✓ Backup automatisé
+✓ Alertes définies
+✓ Documentation mise à jour
+</pre></div>
+</div>
+</section>
+<section id="voir-aussi">
+<h1>Voir aussi<a class="headerlink" href="#voir-aussi" title="Lien vers cette rubrique"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="guide_demarrage.html"><span class="doc">Guide de Démarrage</span></a> pour installation locale</p></li>
+<li><p><a class="reference internal" href="architecture.html"><span class="doc">Architecture du Système</span></a> pour comprendre le système</p></li>
+<li><p><a class="reference external" href="https://docs.docker.com/">Docker Documentation</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/">Kubernetes Documentation</a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pied de page">
+        <a href="modules.html" class="btn btn-neutral float-left" title="Référence des Modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Précédent</a>
+        <a href="faq.html" class="btn btn-neutral float-right" title="FAQ (Questions Fréquemment Posées)" accesskey="n" rel="next">Suivant <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2026, PROCOM Team.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

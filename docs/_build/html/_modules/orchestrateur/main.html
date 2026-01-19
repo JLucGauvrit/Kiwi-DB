@@ -1,0 +1,392 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>orchestrateur.main &mdash; BDD Fédérée par Agent - Documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=05dadb3a"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/translations.js?v=e6b791cb"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            BDD Fédérée par Agent
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">📚 Contenu</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html">Guide de Démarrage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#configuration">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#demarrage-rapide-avec-docker">Démarrage Rapide avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#utilisation">Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#prochaines-etapes">Prochaines Étapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_demarrage.html#ressources-supplementaires">Ressources Supplémentaires</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#composants-principaux">Composants Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#agents-specialises">Agents Spécialisés</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#communication-mcp">Communication MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#flux-de-requete-complet">Flux de Requête Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#securite-validation">Sécurité &amp; Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#performances">Performances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html">Les Agents du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#baseagent-classe-de-base">BaseAgent (Classe de Base)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#intentagent">IntentAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#retrieveragent">RetrieverAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#sqlagent">SQLAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#validatoragent">ValidatorAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#executoragent-queryrunner">ExecutorAgent (QueryRunner)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#composeragent">ComposerAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#registry-des-agents">Registry des Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html">Protocole MCP (Model Context Protocol)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#architecture-mcp">Architecture MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#outils-disponibles">Outils Disponibles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#flux-d-execution-complet">Flux d’Exécution Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#implementation-cote-client-orchestrateur">Implémentation côté Client (Orchestrateur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#implementation-cote-server-gateway">Implémentation côté Server (Gateway)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#securite-mcp">Sécurité MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#monitoring-debugging">Monitoring &amp; Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#exemples-complets">Exemples Complets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp_protocol.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">Référence API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#endpoints-principaux">Endpoints Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#exemples-d-utilisation">Exemples d’Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#authentification-futur">Authentification (Futur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#rate-limiting">Rate Limiting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Référence des Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#orchestrateur">Orchestrateur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#mcp-gateway">MCP Gateway</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#query-management">Query Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html">Déploiement en Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#prerequis">Prérequis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#architectures-supportees">Architectures Supportées</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#deploiement-local-avec-docker">Déploiement Local avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#deploiement-kubernetes">Déploiement Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#deploiement-cloud-cloud-run">Déploiement Cloud (Cloud Run)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#monitoring-logs">Monitoring &amp; Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#maintenance">Maintenance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#depannage-deploiement">Dépannage Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#certificats-ssl-tls">Certificats SSL/TLS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#optimisations-performance">Optimisations Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#checklist-de-deploiement">Checklist de Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ (Questions Fréquemment Posées)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#installation-configuration">Installation &amp; Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#deploiement">Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#api-requetes">API &amp; Requêtes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#agents-modeles">Agents &amp; Modèles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#bases-de-donnees">Bases de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#performance-scalabilite">Performance &amp; Scalabilité</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#developpement">Développement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#support-ressources">Support &amp; Ressources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html#voir-aussi">Voir aussi</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">BDD Fédérée par Agent - Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BDD Fédérée par Agent</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code du module</a></li>
+      <li class="breadcrumb-item active">orchestrateur.main</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Code source de orchestrateur.main</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;FastAPI server for orchestrator.&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">HTTPException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.orchestrator.orchestrator</span><span class="w"> </span><span class="kn">import</span> <span class="n">FederatedRAGOrchestrator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+
+<span class="n">load_dotenv</span><span class="p">()</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;RAG Orchestrator&quot;</span><span class="p">)</span>
+
+<span class="c1"># Initialize orchestrator</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;mcp_gateway_url&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;MCP_GATEWAY_URL&quot;</span><span class="p">,</span> <span class="s2">&quot;ws://mcp-gateway:9000&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;google_api_key&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GOOGLE_API_KEY&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">orchestrator</span> <span class="o">=</span> <span class="n">FederatedRAGOrchestrator</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">QueryRequest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">QueryResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">result</span><span class="p">:</span> <span class="nb">dict</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">root</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">,</span> <span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;orchestrator&quot;</span><span class="p">}</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/api/query&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">QueryResponse</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">process_query</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">QueryRequest</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Process a federated RAG query.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">orchestrator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">QueryResponse</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">health</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;healthy&quot;</span><span class="p">}</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">uvicorn</span>
+    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">FastAPI server for orchestrator.</span>
+
+<span class="sd">Ce module implémente le serveur FastAPI qui orchestre les requêtes RAG fédérées.</span>
+<span class="sd">Il reçoit les requêtes utilisateur, les traite via l&#39;orchestrateur RAG fédéré,</span>
+<span class="sd">et retourne les résultats synthétisés.</span>
+
+<span class="sd">@author: PROCOM Team</span>
+<span class="sd">@version: 1.0</span>
+<span class="sd">@since: 2026-01-19</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">HTTPException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.orchestrator.orchestrator</span><span class="w"> </span><span class="kn">import</span> <span class="n">FederatedRAGOrchestrator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+
+<span class="n">load_dotenv</span><span class="p">()</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;RAG Orchestrator&quot;</span><span class="p">)</span>
+
+<span class="c1"># Initialisation de l&#39;orchestrateur avec la configuration depuis les variables d&#39;environnement</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;mcp_gateway_url&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;MCP_GATEWAY_URL&quot;</span><span class="p">,</span> <span class="s2">&quot;ws://mcp-gateway:9000&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;ollama_url&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OLLAMA_URL&quot;</span><span class="p">,</span> <span class="s2">&quot;http://ollama:11434&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;ollama_model&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OLLAMA_MODEL&quot;</span><span class="p">,</span> <span class="s2">&quot;llama3.2&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">orchestrator</span> <span class="o">=</span> <span class="n">FederatedRAGOrchestrator</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="QueryRequest">
+<a class="viewcode-back" href="../../modules.html#orchestrateur.main.QueryRequest">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">QueryRequest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modèle Pydantic pour les requêtes de requête utilisateur.</span>
+<span class="sd">    </span>
+<span class="sd">    @param query: La requête utilisateur en texte libre</span>
+<span class="sd">    @type query: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<div class="viewcode-block" id="QueryResponse">
+<a class="viewcode-back" href="../../modules.html#orchestrateur.main.QueryResponse">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">QueryResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modèle Pydantic pour les réponses de requête.</span>
+<span class="sd">    </span>
+<span class="sd">    @param result: Dictionnaire contenant les résultats de l&#39;orchestration RAG</span>
+<span class="sd">    @type result: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span><span class="p">:</span> <span class="nb">dict</span></div>
+
+
+
+<div class="viewcode-block" id="root">
+<a class="viewcode-back" href="../../modules.html#orchestrateur.main.root">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">root</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Point d&#39;entrée racine du serveur.</span>
+<span class="sd">    </span>
+<span class="sd">    @return: Statut du service</span>
+<span class="sd">    @rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">,</span> <span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;orchestrator&quot;</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="process_query">
+<a class="viewcode-back" href="../../modules.html#orchestrateur.main.process_query">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/api/query&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">QueryResponse</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">process_query</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">QueryRequest</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Traiter une requête RAG fédérée.</span>
+<span class="sd">    </span>
+<span class="sd">    Reçoit une requête utilisateur, la traite via l&#39;orchestrateur RAG fédéré</span>
+<span class="sd">    en passant par les agents d&#39;intention, de récupération, de génération SQL,</span>
+<span class="sd">    de validation, d&#39;exécution et de composition.</span>
+<span class="sd">    </span>
+<span class="sd">    @param request: La requête utilisateur</span>
+<span class="sd">    @type request: QueryRequest</span>
+<span class="sd">    @return: Réponse contenant les résultats du traitement RAG</span>
+<span class="sd">    @rtype: QueryResponse</span>
+<span class="sd">    @raise HTTPException: En cas d&#39;erreur lors du traitement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">orchestrator</span><span class="o">.</span><span class="n">run_async</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">QueryResponse</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="health">
+<a class="viewcode-back" href="../../modules.html#orchestrateur.main.health">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/health&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">health</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Endpoint de vérification de santé du service.</span>
+<span class="sd">    </span>
+<span class="sd">    @return: Statut de santé du service</span>
+<span class="sd">    @rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;healthy&quot;</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="test_mcp">
+<a class="viewcode-back" href="../../modules.html#orchestrateur.main.test_mcp">[docs]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/test-mcp&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_mcp</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test MCP connection without using LLM.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">src.mcp_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">MCPGatewayClient</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">MCPGatewayClient</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;mcp_gateway_url&quot;</span><span class="p">])</span>
+        
+        <span class="c1"># Test listing tools</span>
+        <span class="n">tools_response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">list_tools</span><span class="p">(</span><span class="s2">&quot;postgres&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Test calling describe_schema</span>
+        <span class="n">schema_response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span>
+            <span class="n">tool</span><span class="o">=</span><span class="s2">&quot;describe_schema&quot;</span><span class="p">,</span>
+            <span class="n">arguments</span><span class="o">=</span><span class="p">{},</span>
+            <span class="n">server</span><span class="o">=</span><span class="s2">&quot;postgres&quot;</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># Test a simple query</span>
+        <span class="n">query_response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span>
+            <span class="n">tool</span><span class="o">=</span><span class="s2">&quot;query&quot;</span><span class="p">,</span>
+            <span class="n">arguments</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sql&quot;</span><span class="p">:</span> <span class="s2">&quot;SELECT current_database(), version();&quot;</span><span class="p">},</span>
+            <span class="n">server</span><span class="o">=</span><span class="s2">&quot;postgres&quot;</span>
+        <span class="p">)</span>
+        
+        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tools&quot;</span><span class="p">:</span> <span class="n">tools_response</span><span class="p">,</span>
+            <span class="s2">&quot;schema&quot;</span><span class="p">:</span> <span class="n">schema_response</span><span class="p">,</span>
+            <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">query_response</span>
+        <span class="p">}</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="p">}</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">uvicorn</span>
+    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2026, PROCOM Team.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

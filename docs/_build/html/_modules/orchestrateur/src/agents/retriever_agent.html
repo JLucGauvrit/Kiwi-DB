@@ -1,0 +1,399 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>orchestrateur.src.agents.retriever_agent &mdash; BDD Fédérée par Agent - Documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=05dadb3a"></script>
+      <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../../_static/translations.js?v=e6b791cb"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BDD Fédérée par Agent
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">📚 Contenu</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide_demarrage.html">Guide de Démarrage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide_demarrage.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide_demarrage.html#configuration">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide_demarrage.html#demarrage-rapide-avec-docker">Démarrage Rapide avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide_demarrage.html#utilisation">Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide_demarrage.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide_demarrage.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide_demarrage.html#prochaines-etapes">Prochaines Étapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide_demarrage.html#ressources-supplementaires">Ressources Supplémentaires</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">Architecture du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html#composants-principaux">Composants Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html#agents-specialises">Agents Spécialisés</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html#communication-mcp">Communication MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html#flux-de-requete-complet">Flux de Requête Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html#securite-validation">Sécurité &amp; Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html#performances">Performances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html">Les Agents du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html#baseagent-classe-de-base">BaseAgent (Classe de Base)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html#intentagent">IntentAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html#retrieveragent">RetrieverAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html#sqlagent">SQLAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html#validatoragent">ValidatorAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html#executoragent-queryrunner">ExecutorAgent (QueryRunner)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html#composeragent">ComposerAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html#registry-des-agents">Registry des Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mcp_protocol.html">Protocole MCP (Model Context Protocol)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mcp_protocol.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mcp_protocol.html#architecture-mcp">Architecture MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mcp_protocol.html#outils-disponibles">Outils Disponibles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mcp_protocol.html#flux-d-execution-complet">Flux d’Exécution Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mcp_protocol.html#implementation-cote-client-orchestrateur">Implémentation côté Client (Orchestrateur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mcp_protocol.html#implementation-cote-server-gateway">Implémentation côté Server (Gateway)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mcp_protocol.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mcp_protocol.html#securite-mcp">Sécurité MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mcp_protocol.html#monitoring-debugging">Monitoring &amp; Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mcp_protocol.html#exemples-complets">Exemples Complets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../mcp_protocol.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">Référence API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html#endpoints-principaux">Endpoints Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html#exemples-d-utilisation">Exemples d’Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html#authentification-futur">Authentification (Futur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html#rate-limiting">Rate Limiting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">Référence des Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html#orchestrateur">Orchestrateur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html#mcp-gateway">MCP Gateway</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html#query-management">Query Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html">Déploiement en Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html#prerequis">Prérequis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html#architectures-supportees">Architectures Supportées</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html#deploiement-local-avec-docker">Déploiement Local avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html#deploiement-kubernetes">Déploiement Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html#deploiement-cloud-cloud-run">Déploiement Cloud (Cloud Run)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html#monitoring-logs">Monitoring &amp; Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html#maintenance">Maintenance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html#depannage-deploiement">Dépannage Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html#certificats-ssl-tls">Certificats SSL/TLS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html#optimisations-performance">Optimisations Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html#checklist-de-deploiement">Checklist de Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployment.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">FAQ (Questions Fréquemment Posées)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html#installation-configuration">Installation &amp; Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html#deploiement">Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html#api-requetes">API &amp; Requêtes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html#agents-modeles">Agents &amp; Modèles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html#bases-de-donnees">Bases de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html#performance-scalabilite">Performance &amp; Scalabilité</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html#developpement">Développement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html#support-ressources">Support &amp; Ressources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html#voir-aussi">Voir aussi</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">BDD Fédérée par Agent - Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BDD Fédérée par Agent</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Code du module</a></li>
+      <li class="breadcrumb-item active">orchestrateur.src.agents.retriever_agent</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Code source de orchestrateur.src.agents.retriever_agent</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Schema retrieval agent for fetching database schemas via MCP.</span>
+
+<span class="sd">Ce module implémente l&#39;agent de récupération de schémas qui interroge</span>
+<span class="sd">les serveurs MCP pour obtenir les structures de bases de données</span>
+<span class="sd">et les informations sur les tables et colonnes.</span>
+
+<span class="sd">@author: PROCOM Team</span>
+<span class="sd">@version: 1.0</span>
+<span class="sd">@since: 2026-01-19</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.agents.base_agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.mcp_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">MCPGatewayClient</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+
+<div class="viewcode-block" id="RetrieverAgent">
+<a class="viewcode-back" href="../../../../modules.html#orchestrateur.src.agents.retriever_agent.RetrieverAgent">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RetrieverAgent</span><span class="p">(</span><span class="n">BaseAgent</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Agent de récupération de schémas de base de données.</span>
+<span class="sd">    </span>
+<span class="sd">    Utilise la passerelle MCP pour interroger les serveurs MCP</span>
+<span class="sd">    et récupérer les informations de schéma des bases de données.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="RetrieverAgent.__init__">
+<a class="viewcode-back" href="../../../../modules.html#orchestrateur.src.agents.retriever_agent.RetrieverAgent.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialiser l&#39;agent de récupération.</span>
+<span class="sd">        </span>
+<span class="sd">        @param config: Configuration contenant l&#39;URL de la passerelle MCP</span>
+<span class="sd">        @type config: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mcp_client</span> <span class="o">=</span> <span class="n">MCPGatewayClient</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mcp_gateway_url&quot;</span><span class="p">))</span></div>
+
+    
+<div class="viewcode-block" id="RetrieverAgent.run">
+<a class="viewcode-back" href="../../../../modules.html#orchestrateur.src.agents.retriever_agent.RetrieverAgent.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intent</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Récupérer les schémas de base de données pertinents.</span>
+<span class="sd">        </span>
+<span class="sd">        Utilise les informations d&#39;intention pour déterminer quelles</span>
+<span class="sd">        bases de données consulter, puis récupère leurs schémas via MCP.</span>
+<span class="sd">        </span>
+<span class="sd">        @param intent: Dictionnaire contenant les informations d&#39;intention</span>
+<span class="sd">        @type intent: dict</span>
+<span class="sd">        @param intent[&#39;databases&#39;]: Liste des bases de données cibles</span>
+<span class="sd">        @type intent[&#39;databases&#39;]: list</span>
+<span class="sd">        @return: Liste des schémas de base de données avec tables et colonnes</span>
+<span class="sd">        @rtype: list of dict</span>
+<span class="sd">        @return_value:</span>
+<span class="sd">            - database (str): Nom de la base de données</span>
+<span class="sd">            - tables (list): Liste des noms de tables</span>
+<span class="sd">            - columns (dict): Mapping table_name -&gt; list of columns</span>
+<span class="sd">            - schema (dict): Information complète du schéma</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">databases</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;databases&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        
+        <span class="n">schemas</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">db</span> <span class="ow">in</span> <span class="n">databases</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">db</span> <span class="o">==</span> <span class="s2">&quot;postgres&quot;</span><span class="p">:</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">nest_asyncio</span>
+                <span class="n">nest_asyncio</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
+                <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+                <span class="n">schema_info</span> <span class="o">=</span> <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_schema_from_mcp</span><span class="p">(</span><span class="n">db</span><span class="p">))</span>
+                <span class="n">schemas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s2">&quot;database&quot;</span><span class="p">:</span> <span class="n">db</span><span class="p">,</span>
+                    <span class="s2">&quot;tables&quot;</span><span class="p">:</span> <span class="n">schema_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+                    <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="n">schema_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;columns&quot;</span><span class="p">,</span> <span class="p">{}),</span>
+                    <span class="s2">&quot;schema&quot;</span><span class="p">:</span> <span class="n">schema_info</span>
+                <span class="p">})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">schemas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s2">&quot;database&quot;</span><span class="p">:</span> <span class="n">db</span><span class="p">,</span>
+                    <span class="s2">&quot;tables&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="p">{},</span>
+                    <span class="s2">&quot;schema&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span>
+                <span class="p">})</span>
+        
+        <span class="k">return</span> <span class="n">schemas</span></div>
+
+    
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_get_schema_from_mcp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">database</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Récupérer les informations de schéma du serveur MCP.</span>
+<span class="sd">        </span>
+<span class="sd">        Appelle les outils MCP pour lister les tables et colonnes</span>
+<span class="sd">        de la base de données spécifiée.</span>
+<span class="sd">        </span>
+<span class="sd">        @param database: Nom de la base de données cible</span>
+<span class="sd">        @type database: str</span>
+<span class="sd">        @return: Dictionnaire contenant les informations de schéma</span>
+<span class="sd">        @rtype: dict</span>
+<span class="sd">        @return_keys:</span>
+<span class="sd">            - tables (list): Liste des noms de tables</span>
+<span class="sd">            - columns (dict): Mapping table_name -&gt; list of columns</span>
+<span class="sd">            - schema_description (str): Description des tables disponibles</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Lister les tables du schéma public</span>
+            <span class="n">objects_response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">mcp_client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span>
+                <span class="n">tool</span><span class="o">=</span><span class="s2">&quot;list_objects&quot;</span><span class="p">,</span>
+                <span class="n">arguments</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;schema_name&quot;</span><span class="p">:</span> <span class="s2">&quot;public&quot;</span><span class="p">,</span> <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;table&quot;</span><span class="p">},</span>
+                <span class="n">server</span><span class="o">=</span><span class="n">database</span>
+            <span class="p">)</span>
+            
+            <span class="n">tables</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">columns_by_table</span> <span class="o">=</span> <span class="p">{}</span>
+            
+            <span class="k">if</span> <span class="n">objects_response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;success&quot;</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">objects_response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="k">if</span> <span class="n">result</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    
+                    <span class="c1"># Essayer de parser en JSON d&#39;abord</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">table_list</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">table_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">table_list</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;name&#39;</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+                                    <span class="n">table_name</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+                                    <span class="n">tables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
+                                    
+                                    <span class="c1"># Récupérer les détails de colonne pour chaque table</span>
+                                    <span class="n">columns_by_table</span><span class="p">[</span><span class="n">table_name</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_table_columns</span><span class="p">(</span><span class="n">database</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+                        <span class="c1"># Fallback : parser en tant que texte</span>
+                        <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&#39;name&#39;:\s*&#39;([^&#39;]+)&#39;&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+                        <span class="n">tables</span> <span class="o">=</span> <span class="n">matches</span> <span class="k">if</span> <span class="n">matches</span> <span class="k">else</span> <span class="p">[]</span>
+                        
+                        <span class="c1"># Récupérer les colonnes pour chaque table</span>
+                        <span class="k">for</span> <span class="n">table_name</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+                            <span class="n">columns_by_table</span><span class="p">[</span><span class="n">table_name</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_table_columns</span><span class="p">(</span><span class="n">database</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;tables&quot;</span><span class="p">:</span> <span class="n">tables</span><span class="p">,</span>
+                <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="n">columns_by_table</span><span class="p">,</span>
+                <span class="s2">&quot;schema_description&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Available tables: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tables</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;tables&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">mcp_client</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span>
+    
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_get_table_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">database</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Récupérer les détails des colonnes pour une table spécifique.</span>
+<span class="sd">        </span>
+<span class="sd">        Appelle l&#39;outil MCP pour obtenir la définition de la table</span>
+<span class="sd">        et en extraire les informations de colonne.</span>
+<span class="sd">        </span>
+<span class="sd">        @param database: Nom de la base de données</span>
+<span class="sd">        @type database: str</span>
+<span class="sd">        @param table_name: Nom de la table</span>
+<span class="sd">        @type table_name: str</span>
+<span class="sd">        @return: Liste des colonnes avec leurs propriétés</span>
+<span class="sd">        @rtype: list of dict</span>
+<span class="sd">        @return_value:</span>
+<span class="sd">            - name (str): Nom de la colonne</span>
+<span class="sd">            - type (str): Type de données SQL</span>
+<span class="sd">            - nullable (bool): Indique si la colonne accepte NULL</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">details_response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">mcp_client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span>
+                <span class="n">tool</span><span class="o">=</span><span class="s2">&quot;get_object_details&quot;</span><span class="p">,</span>
+                <span class="n">arguments</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;schema_name&quot;</span><span class="p">:</span> <span class="s2">&quot;public&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;object_name&quot;</span><span class="p">:</span> <span class="n">table_name</span><span class="p">,</span>
+                    <span class="s2">&quot;object_type&quot;</span><span class="p">:</span> <span class="s2">&quot;table&quot;</span>
+                <span class="p">},</span>
+                <span class="n">server</span><span class="o">=</span><span class="n">database</span>
+            <span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">details_response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;success&quot;</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">details_response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    
+                    <span class="c1"># Essayer de parser les informations de colonne</span>
+                    <span class="n">columns</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="c1"># Essayer le parsing JSON</span>
+                        <span class="n">col_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">col_data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">col_data</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                                    <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">col</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">col</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                                        <span class="s2">&quot;nullable&quot;</span><span class="p">:</span> <span class="n">col</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nullable&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                                    <span class="p">})</span>
+                    <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+                        <span class="c1"># Fallback : parser en tant que texte</span>
+                        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="s2">&quot;|&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                                <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)]</span>
+                                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;Column&quot;</span><span class="p">:</span>
+                                    <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;unknown&quot;</span>
+                                    <span class="p">})</span>
+                    
+                    <span class="k">return</span> <span class="n">columns</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>
+        
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2026, PROCOM Team.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

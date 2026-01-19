@@ -1,0 +1,821 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocole MCP (Model Context Protocol) &mdash; BDD Fédérée par Agent - Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=05dadb3a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=e6b791cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="next" title="Référence API" href="api_reference.html" />
+    <link rel="prev" title="Les Agents du Système" href="agents.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BDD Fédérée par Agent
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">📚 Contenu</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html">Guide de Démarrage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#configuration">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#demarrage-rapide-avec-docker">Démarrage Rapide avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#utilisation">Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#prochaines-etapes">Prochaines Étapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#ressources-supplementaires">Ressources Supplémentaires</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#composants-principaux">Composants Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#agents-specialises">Agents Spécialisés</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#communication-mcp">Communication MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#flux-de-requete-complet">Flux de Requête Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#securite-validation">Sécurité &amp; Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#performances">Performances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Les Agents du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#baseagent-classe-de-base">BaseAgent (Classe de Base)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#intentagent">IntentAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#retrieveragent">RetrieverAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#sqlagent">SQLAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#validatoragent">ValidatorAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#executoragent-queryrunner">ExecutorAgent (QueryRunner)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#composeragent">ComposerAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#registry-des-agents">Registry des Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Protocole MCP (Model Context Protocol)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#architecture-mcp">Architecture MCP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#couches-de-communication">Couches de Communication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requete-mcp-standard">Requête MCP Standard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reponse-mcp-standard">Réponse MCP Standard</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#outils-disponibles">Outils Disponibles</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#liste-schemas">liste_schemas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get-schema">get_schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#execute-sql">execute_sql</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#flux-d-execution-complet">Flux d’Exécution Complet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#etape-1-requete">Étape 1 : Requête</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#etape-2-gateway-recoit">Étape 2 : Gateway Reçoit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#etape-3-routage-vers-server">Étape 3 : Routage vers Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#etape-4-execution-server">Étape 4 : Exécution Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#etape-5-retour-de-reponse">Étape 5 : Retour de Réponse</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#implementation-cote-client-orchestrateur">Implémentation côté Client (Orchestrateur)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mcpgatewayclient">MCPGatewayClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utilisation">Utilisation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#implementation-cote-server-gateway">Implémentation côté Server (Gateway)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mcpclientpool">MCPClientPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mcpclient-single-server">MCPClient (Single Server)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#gestion-des-erreurs">Gestion des Erreurs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#types-d-erreurs-mcp">Types d’Erreurs MCP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#codes-d-erreur-standard">Codes d’Erreur Standard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#handling-cote-orchestrateur">Handling côté Orchestrateur</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#securite-mcp">Sécurité MCP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#validation-requetes">Validation Requêtes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authentification">Authentification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#timeouts">Timeouts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#monitoring-debugging">Monitoring &amp; Debugging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#logs-mcp">Logs MCP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metriques-prometheus">Métriques Prometheus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tracing-distribue">Tracing Distribué</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#exemples-complets">Exemples Complets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#exemple-1-recuperer-schema">Exemple 1 : Récupérer Schéma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exemple-2-executer-requete-avec-gestion-d-erreur">Exemple 2 : Exécuter Requête avec Gestion d’Erreur</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">Référence API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#endpoints-principaux">Endpoints Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#exemples-d-utilisation">Exemples d’Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#authentification-futur">Authentification (Futur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#rate-limiting">Rate Limiting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Référence des Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#orchestrateur">Orchestrateur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#mcp-gateway">MCP Gateway</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#query-management">Query Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Déploiement en Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#prerequis">Prérequis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#architectures-supportees">Architectures Supportées</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#deploiement-local-avec-docker">Déploiement Local avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#deploiement-kubernetes">Déploiement Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#deploiement-cloud-cloud-run">Déploiement Cloud (Cloud Run)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#monitoring-logs">Monitoring &amp; Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#maintenance">Maintenance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#depannage-deploiement">Dépannage Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#certificats-ssl-tls">Certificats SSL/TLS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#optimisations-performance">Optimisations Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#checklist-de-deploiement">Checklist de Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ (Questions Fréquemment Posées)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#installation-configuration">Installation &amp; Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#deploiement">Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#api-requetes">API &amp; Requêtes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#agents-modeles">Agents &amp; Modèles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#bases-de-donnees">Bases de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#performance-scalabilite">Performance &amp; Scalabilité</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#developpement">Développement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#support-ressources">Support &amp; Ressources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#voir-aussi">Voir aussi</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">BDD Fédérée par Agent - Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BDD Fédérée par Agent</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Protocole MCP (Model Context Protocol)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/mcp_protocol.rst.txt" rel="nofollow"> Afficher la source de la page</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="protocole-mcp-model-context-protocol">
+<h1>Protocole MCP (Model Context Protocol)<a class="headerlink" href="#protocole-mcp-model-context-protocol" title="Lien vers cette rubrique"></a></h1>
+</section>
+<section id="vue-d-ensemble">
+<h1>Vue d’Ensemble<a class="headerlink" href="#vue-d-ensemble" title="Lien vers cette rubrique"></a></h1>
+<p>MCP est un protocole standardisé pour la communication entre les modèles de langage et les ressources externes (bases de données, APIs, fichiers, etc.).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌──────────────────┐
+│   Orchestrateur  │
+│   (Client MCP)   │
+└────────┬─────────┘
+         │
+         │ WebSocket
+         │
+┌────────▼─────────┐
+│  MCP Gateway     │
+│  (Server MCP)    │
+└────────┬─────────┘
+         │
+         │ SSE (Server-Sent Events)
+         │
+┌────────▼──────────────┐
+│  MCP Server Sessio    │
+│  (PostgreSQL, etc.)   │
+└───────────────────────┘
+</pre></div>
+</div>
+</section>
+<section id="architecture-mcp">
+<h1>Architecture MCP<a class="headerlink" href="#architecture-mcp" title="Lien vers cette rubrique"></a></h1>
+<section id="couches-de-communication">
+<h2>Couches de Communication<a class="headerlink" href="#couches-de-communication" title="Lien vers cette rubrique"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Transport Layer</strong> (Couche Transport)
+- WebSocket (Orchestrateur → Gateway)
+- SSE (Gateway → Serveur MCP)</p></li>
+<li><p><strong>Protocol Layer</strong> (Couche Protocole)
+- JSON-RPC 2.0
+- Requêtes/Réponses standardisées</p></li>
+<li><p><strong>Resource Layer</strong> (Couche Ressources)
+- Tools (Outils disponibles)
+- Resources (Ressources disponibles)</p></li>
+</ol>
+</section>
+<section id="requete-mcp-standard">
+<h2>Requête MCP Standard<a class="headerlink" href="#requete-mcp-standard" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;jsonrpc&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tools/call&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;execute_sql&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;arguments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;sql&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SELECT * FROM employees&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;database&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;postgres&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="reponse-mcp-standard">
+<h2>Réponse MCP Standard<a class="headerlink" href="#reponse-mcp-standard" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;jsonrpc&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Requête exécutée avec succès&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[{\&quot;id\&quot;: 1, \&quot;name\&quot;: \&quot;Alice\&quot;}, ...]&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="outils-disponibles">
+<h1>Outils Disponibles<a class="headerlink" href="#outils-disponibles" title="Lien vers cette rubrique"></a></h1>
+<section id="liste-schemas">
+<h2>liste_schemas<a class="headerlink" href="#liste-schemas" title="Lien vers cette rubrique"></a></h2>
+<p><strong>Description</strong> : Lister tous les schémas/bases disponibles</p>
+<p><strong>Requête</strong> :</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tools/call&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;list_schemas&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;arguments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;database&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;public&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Réponse</strong> :</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Schémas disponibles: public, information_schema&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="get-schema">
+<h2>get_schema<a class="headerlink" href="#get-schema" title="Lien vers cette rubrique"></a></h2>
+<p><strong>Description</strong> : Récupérer le schéma d’une table</p>
+<p><strong>Requête</strong> :</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tools/call&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;get_schema&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;arguments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;database&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;public&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;table&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;employees&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Réponse</strong> :</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Schéma de employees...&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="execute-sql">
+<h2>execute_sql<a class="headerlink" href="#execute-sql" title="Lien vers cette rubrique"></a></h2>
+<p><strong>Description</strong> : Exécuter une requête SQL</p>
+<p><strong>Requête</strong> :</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tools/call&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;execute_sql&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;arguments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;sql&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SELECT id, name FROM employees LIMIT 10&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;database&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;postgres&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Réponse</strong> :</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Résultats (10 lignes):&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[{\&quot;id\&quot;: 1, \&quot;name\&quot;: \&quot;Alice\&quot;, \&quot;email\&quot;: \&quot;alice@example.com\&quot;}, ...]&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="flux-d-execution-complet">
+<h1>Flux d’Exécution Complet<a class="headerlink" href="#flux-d-execution-complet" title="Lien vers cette rubrique"></a></h1>
+<section id="etape-1-requete">
+<h2>Étape 1 : Requête<a class="headerlink" href="#etape-1-requete" title="Lien vers cette rubrique"></a></h2>
+<p>L’orchestrateur envoie une requête MCP au gateway :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># orchestrateur/src/mcp_client.py</span>
+<span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">mcp_client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span>
+    <span class="s1">&#39;execute_sql&#39;</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;sql&#39;</span><span class="p">:</span> <span class="s1">&#39;SELECT * FROM employees&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;database&#39;</span><span class="p">:</span> <span class="s1">&#39;postgres&#39;</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="etape-2-gateway-recoit">
+<h2>Étape 2 : Gateway Reçoit<a class="headerlink" href="#etape-2-gateway-recoit" title="Lien vers cette rubrique"></a></h2>
+<p>Le gateway WebSocket reçoit et valide :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># mcp/mcp-gateway/main.py</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">websocket</span><span class="p">(</span><span class="s2">&quot;/ws&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">websocket_endpoint</span><span class="p">(</span><span class="n">websocket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">):</span>
+    <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">receive_json</span><span class="p">()</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">handle_request</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">send_json</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="etape-3-routage-vers-server">
+<h2>Étape 3 : Routage vers Server<a class="headerlink" href="#etape-3-routage-vers-server" title="Lien vers cette rubrique"></a></h2>
+<p>Le gateway appelle le bon serveur MCP :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># mcp/mcp-gateway/mcp_client.py</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">call_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">database</span><span class="p">,</span> <span class="n">tool_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">):</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_pool</span><span class="o">.</span><span class="n">get_client</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span><span class="n">tool_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</section>
+<section id="etape-4-execution-server">
+<h2>Étape 4 : Exécution Server<a class="headerlink" href="#etape-4-execution-server" title="Lien vers cette rubrique"></a></h2>
+<p>Le serveur MCP exécute le tool :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># PostgreSQL MCP Server</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute_sql</span><span class="p">(</span><span class="n">arguments</span><span class="p">):</span>
+    <span class="n">sql</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="s1">&#39;sql&#39;</span><span class="p">]</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="k">await</span> <span class="n">get_connection</span><span class="p">()</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">format_result</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="etape-5-retour-de-reponse">
+<h2>Étape 5 : Retour de Réponse<a class="headerlink" href="#etape-5-retour-de-reponse" title="Lien vers cette rubrique"></a></h2>
+<p>Le résultat remonte à l’orchestrateur :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;rows&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">...</span><span class="p">],</span>
+    <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+    <span class="s1">&#39;execution_time&#39;</span><span class="p">:</span> <span class="mf">0.125</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="implementation-cote-client-orchestrateur">
+<h1>Implémentation côté Client (Orchestrateur)<a class="headerlink" href="#implementation-cote-client-orchestrateur" title="Lien vers cette rubrique"></a></h1>
+<section id="mcpgatewayclient">
+<h2>MCPGatewayClient<a class="headerlink" href="#mcpgatewayclient" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MCPGatewayClient</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Client WebSocket pour MCP Gateway.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gateway_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialiser le client.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gateway_url</span> <span class="o">=</span> <span class="n">gateway_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">websocket</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Établir la connexion WebSocket.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">websocket</span> <span class="o">=</span> <span class="k">await</span> <span class="n">websockets</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;ws://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">gateway_url</span><span class="si">}</span><span class="s2">/ws&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Envoyer une requête et attendre la réponse.&quot;&quot;&quot;</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">websocket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">websocket</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">call_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Appeler un tool MCP.&quot;&quot;&quot;</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;tools/call&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">tool_name</span><span class="p">,</span>
+                <span class="s1">&#39;arguments&#39;</span><span class="p">:</span> <span class="n">arguments</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="utilisation">
+<h2>Utilisation<a class="headerlink" href="#utilisation" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Créer le client</span>
+<span class="n">mcp_client</span> <span class="o">=</span> <span class="n">MCPGatewayClient</span><span class="p">(</span><span class="s1">&#39;localhost:8000&#39;</span><span class="p">)</span>
+
+<span class="c1"># Connecter</span>
+<span class="k">await</span> <span class="n">mcp_client</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+
+<span class="c1"># Appeler un tool</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">mcp_client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span>
+    <span class="s1">&#39;execute_sql&#39;</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;sql&#39;</span><span class="p">:</span> <span class="s1">&#39;SELECT * FROM employees&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;database&#39;</span><span class="p">:</span> <span class="s1">&#39;postgres&#39;</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="implementation-cote-server-gateway">
+<h1>Implémentation côté Server (Gateway)<a class="headerlink" href="#implementation-cote-server-gateway" title="Lien vers cette rubrique"></a></h1>
+<section id="mcpclientpool">
+<h2>MCPClientPool<a class="headerlink" href="#mcpclientpool" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MCPClientPool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gère plusieurs connexions MCP vers différents serveurs.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">servers_config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialiser le pool.</span>
+
+<span class="sd">        @param servers_config: Dict {database: {uri, env}}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clients</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">servers_config</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialiser tous les clients.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">db_config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">MCPClient</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">db_config</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="p">[</span><span class="n">db_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">client</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">call_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">database</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tool_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                       <span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Appeler un tool sur un serveur spécifique.&quot;&quot;&quot;</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clients</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">client</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Database </span><span class="si">{</span><span class="n">database</span><span class="si">}</span><span class="s2"> not found&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span><span class="n">tool_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="mcpclient-single-server">
+<h2>MCPClient (Single Server)<a class="headerlink" href="#mcpclient-single-server" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MCPClient</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Client MCP pour un serveur unique.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialiser le client.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;uri&#39;</span><span class="p">]</span>  <span class="c1"># sse://localhost:8000/sse</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Se connecter au serveur MCP.&quot;&quot;&quot;</span>
+        <span class="c1"># SSE connection via sse_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="k">await</span> <span class="n">sse_client</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">call_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Appeler un tool.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span><span class="n">tool_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="gestion-des-erreurs">
+<h1>Gestion des Erreurs<a class="headerlink" href="#gestion-des-erreurs" title="Lien vers cette rubrique"></a></h1>
+<section id="types-d-erreurs-mcp">
+<h2>Types d’Erreurs MCP<a class="headerlink" href="#types-d-erreurs-mcp" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;jsonrpc&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-32600</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Invalid Request&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Missing &#39;sql&#39; parameter&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="codes-d-erreur-standard">
+<h2>Codes d’Erreur Standard<a class="headerlink" href="#codes-d-erreur-standard" title="Lien vers cette rubrique"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 10.0%" />
+<col style="width: 25.0%" />
+<col style="width: 65.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Code</p></th>
+<th class="head"><p>Signification</p></th>
+<th class="head"><p>Explication</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>-32700</p></td>
+<td><p>Parse error</p></td>
+<td><p>Erreur parsing JSON</p></td>
+</tr>
+<tr class="row-odd"><td><p>-32600</p></td>
+<td><p>Invalid Request</p></td>
+<td><p>Requête invalide</p></td>
+</tr>
+<tr class="row-even"><td><p>-32601</p></td>
+<td><p>Method not found</p></td>
+<td><p>Outil inexistant</p></td>
+</tr>
+<tr class="row-odd"><td><p>-32602</p></td>
+<td><p>Invalid params</p></td>
+<td><p>Paramètres invalides</p></td>
+</tr>
+<tr class="row-even"><td><p>-32603</p></td>
+<td><p>Internal error</p></td>
+<td><p>Erreur interne serveur</p></td>
+</tr>
+<tr class="row-odd"><td><p>-32000</p></td>
+<td><p>Server error</p></td>
+<td><p>Erreur serveur générale</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="handling-cote-orchestrateur">
+<h2>Handling côté Orchestrateur<a class="headerlink" href="#handling-cote-orchestrateur" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute_with_retry</span><span class="p">(</span><span class="n">tool_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                             <span class="n">max_retries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exécuter un tool avec retry.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_retries</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">mcp_client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span><span class="n">tool_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">attempt</span> <span class="o">==</span> <span class="n">max_retries</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">attempt</span><span class="p">)</span>  <span class="c1"># Exponential backoff</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="securite-mcp">
+<h1>Sécurité MCP<a class="headerlink" href="#securite-mcp" title="Lien vers cette rubrique"></a></h1>
+<section id="validation-requetes">
+<h2>Validation Requêtes<a class="headerlink" href="#validation-requetes" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dans le Gateway</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_sql_query</span><span class="p">(</span><span class="n">sql</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Valider une requête SQL.&quot;&quot;&quot;</span>
+    <span class="n">dangerous_patterns</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s1">&#39;DROP\s+TABLE&#39;</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s1">&#39;TRUNCATE&#39;</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s1">&#39;DELETE.*FROM&#39;</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s1">&#39;UPDATE\s+&#39;</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s1">&#39;INSERT\s+INTO&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">dangerous_patterns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Requête dangereuse détectée&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="authentification">
+<h2>Authentification<a class="headerlink" href="#authentification" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Futur: Ajouter authentification JWT</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">websocket</span><span class="p">(</span><span class="s2">&quot;/ws&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">websocket_endpoint</span><span class="p">(</span><span class="n">websocket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">):</span>
+    <span class="c1"># Valider le token</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">websocket</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Authorization&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_valid_token</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
+        <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="mi">1008</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="timeouts">
+<h2>Timeouts<a class="headerlink" href="#timeouts" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">call_tool_with_timeout</span><span class="p">(</span><span class="n">tool_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+                                 <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Appeler un tool avec timeout.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span>
+            <span class="n">mcp_client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span><span class="n">tool_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">),</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tool </span><span class="si">{</span><span class="n">tool_name</span><span class="si">}</span><span class="s2"> timed out after </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="monitoring-debugging">
+<h1>Monitoring &amp; Debugging<a class="headerlink" href="#monitoring-debugging" title="Lien vers cette rubrique"></a></h1>
+<section id="logs-mcp">
+<h2>Logs MCP<a class="headerlink" href="#logs-mcp" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sending MCP request: </span><span class="si">{</span><span class="n">request</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tool </span><span class="si">{</span><span class="n">tool_name</span><span class="si">}</span><span class="s2"> executed in </span><span class="si">{</span><span class="n">elapsed_time</span><span class="si">}</span><span class="s2">ms&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MCP error: </span><span class="si">{</span><span class="n">error_message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="metriques-prometheus">
+<h2>Métriques Prometheus<a class="headerlink" href="#metriques-prometheus" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">prometheus_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">Histogram</span>
+
+<span class="n">mcp_calls</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="s1">&#39;mcp_calls_total&#39;</span><span class="p">,</span> <span class="s1">&#39;Total MCP calls&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;tool&#39;</span><span class="p">])</span>
+<span class="n">mcp_duration</span> <span class="o">=</span> <span class="n">Histogram</span><span class="p">(</span><span class="s1">&#39;mcp_duration_seconds&#39;</span><span class="p">,</span> <span class="s1">&#39;MCP call duration&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;tool&#39;</span><span class="p">])</span>
+
+<span class="nd">@mcp_duration</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">tool</span><span class="o">=</span><span class="n">tool_name</span><span class="p">)</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">():</span>
+    <span class="n">mcp_calls</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">tool</span><span class="o">=</span><span class="n">tool_name</span><span class="p">)</span><span class="o">.</span><span class="n">inc</span><span class="p">()</span>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">mcp_client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span><span class="n">tool_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="tracing-distribue">
+<h2>Tracing Distribué<a class="headerlink" href="#tracing-distribue" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">trace</span>
+
+<span class="n">tracer</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">get_tracer</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">call_tool</span><span class="p">(</span><span class="n">tool_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tracer</span><span class="o">.</span><span class="n">start_as_current_span</span><span class="p">(</span><span class="s2">&quot;mcp.call_tool&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">span</span><span class="p">:</span>
+        <span class="n">span</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s2">&quot;tool.name&quot;</span><span class="p">,</span> <span class="n">tool_name</span><span class="p">)</span>
+        <span class="n">span</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s2">&quot;tool.arguments&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">arguments</span><span class="p">))</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">mcp_client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span><span class="n">tool_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">span</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s2">&quot;tool.success&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="exemples-complets">
+<h1>Exemples Complets<a class="headerlink" href="#exemples-complets" title="Lien vers cette rubrique"></a></h1>
+<section id="exemple-1-recuperer-schema">
+<h2>Exemple 1 : Récupérer Schéma<a class="headerlink" href="#exemple-1-recuperer-schema" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_database_schema</span><span class="p">(</span><span class="n">database</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Récupérer le schéma d&#39;une table.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="k">await</span> <span class="n">mcp_client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span>
+            <span class="s1">&#39;get_schema&#39;</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;database&#39;</span><span class="p">:</span> <span class="n">database</span><span class="p">,</span>
+                <span class="s1">&#39;table&#39;</span><span class="p">:</span> <span class="n">table</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">schema</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to get schema: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</section>
+<section id="exemple-2-executer-requete-avec-gestion-d-erreur">
+<h2>Exemple 2 : Exécuter Requête avec Gestion d’Erreur<a class="headerlink" href="#exemple-2-executer-requete-avec-gestion-d-erreur" title="Lien vers cette rubrique"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute_sql_safe</span><span class="p">(</span><span class="n">sql</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">database</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exécuter une requête SQL de manière sécurisée.&quot;&quot;&quot;</span>
+    <span class="c1"># Valider la requête</span>
+    <span class="n">validate_sql_query</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+
+    <span class="c1"># Exécuter avec timeout</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span>
+            <span class="n">mcp_client</span><span class="o">.</span><span class="n">call_tool</span><span class="p">(</span>
+                <span class="s1">&#39;execute_sql&#39;</span><span class="p">,</span>
+                <span class="p">{</span><span class="s1">&#39;sql&#39;</span><span class="p">:</span> <span class="n">sql</span><span class="p">,</span> <span class="s1">&#39;database&#39;</span><span class="p">:</span> <span class="n">database</span><span class="p">}</span>
+            <span class="p">),</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">}</span>
+    <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Timeout&#39;</span><span class="p">}</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="voir-aussi">
+<h1>Voir aussi<a class="headerlink" href="#voir-aussi" title="Lien vers cette rubrique"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="architecture.html"><span class="doc">Architecture du Système</span></a> pour l’architecture complète</p></li>
+<li><p><a class="reference internal" href="api_reference.html"><span class="doc">Référence API</span></a> pour les endpoints</p></li>
+<li><p><a class="reference external" href="https://modelcontextprotocol.io">MCP Official Spec</a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pied de page">
+        <a href="agents.html" class="btn btn-neutral float-left" title="Les Agents du Système" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Précédent</a>
+        <a href="api_reference.html" class="btn btn-neutral float-right" title="Référence API" accesskey="n" rel="next">Suivant <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2026, PROCOM Team.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -5,14 +5,14 @@ Bienvenue dans la documentation complète du projet **BDD Fédérée par Agent**
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contenu
+   :caption: 📚 Contenu
 
    guide_demarrage
    architecture
-   modules
-   api_reference
    agents
    mcp_protocol
+   api_reference
+   modules
    deployment
    faq
 

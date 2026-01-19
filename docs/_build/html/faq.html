@@ -1,0 +1,730 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ (Questions Fréquemment Posées) &mdash; BDD Fédérée par Agent - Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=05dadb3a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=e6b791cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="prev" title="Déploiement en Production" href="deployment.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BDD Fédérée par Agent
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">📚 Contenu</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html">Guide de Démarrage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#configuration">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#demarrage-rapide-avec-docker">Démarrage Rapide avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#utilisation">Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#prochaines-etapes">Prochaines Étapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#ressources-supplementaires">Ressources Supplémentaires</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#composants-principaux">Composants Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#agents-specialises">Agents Spécialisés</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#communication-mcp">Communication MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#flux-de-requete-complet">Flux de Requête Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#securite-validation">Sécurité &amp; Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#performances">Performances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Les Agents du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#baseagent-classe-de-base">BaseAgent (Classe de Base)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#intentagent">IntentAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#retrieveragent">RetrieverAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#sqlagent">SQLAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#validatoragent">ValidatorAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#executoragent-queryrunner">ExecutorAgent (QueryRunner)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#composeragent">ComposerAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#registry-des-agents">Registry des Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html">Protocole MCP (Model Context Protocol)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#architecture-mcp">Architecture MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#outils-disponibles">Outils Disponibles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#flux-d-execution-complet">Flux d’Exécution Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#implementation-cote-client-orchestrateur">Implémentation côté Client (Orchestrateur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#implementation-cote-server-gateway">Implémentation côté Server (Gateway)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#securite-mcp">Sécurité MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#monitoring-debugging">Monitoring &amp; Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#exemples-complets">Exemples Complets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">Référence API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#endpoints-principaux">Endpoints Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#exemples-d-utilisation">Exemples d’Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#authentification-futur">Authentification (Futur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#rate-limiting">Rate Limiting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Référence des Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#orchestrateur">Orchestrateur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#mcp-gateway">MCP Gateway</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#query-management">Query Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Déploiement en Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#prerequis">Prérequis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#architectures-supportees">Architectures Supportées</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#deploiement-local-avec-docker">Déploiement Local avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#deploiement-kubernetes">Déploiement Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#deploiement-cloud-cloud-run">Déploiement Cloud (Cloud Run)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#monitoring-logs">Monitoring &amp; Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#maintenance">Maintenance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#depannage-deploiement">Dépannage Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#certificats-ssl-tls">Certificats SSL/TLS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#optimisations-performance">Optimisations Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#checklist-de-deploiement">Checklist de Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ (Questions Fréquemment Posées)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#installation-configuration">Installation &amp; Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-installer-le-projet">Q: Comment installer le projet?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-quels-sont-les-prerequis-systeme">Q: Quels sont les prérequis système?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-configurer-les-variables-d-environnement">Q: Comment configurer les variables d’environnement?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-peut-on-utiliser-le-projet-sans-docker">Q: Peut-on utiliser le projet sans Docker?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#deploiement">Déploiement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-deployer-en-production">Q: Comment déployer en production?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-quel-serveur-pour-la-production">Q: Quel serveur pour la production?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-configurer-les-logs-en-production">Q: Comment configurer les logs en production?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#api-requetes">API &amp; Requêtes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-appeler-l-api">Q: Comment appeler l’API?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-quels-types-de-requetes-sont-supportees">Q: Quels types de requêtes sont supportées?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-quel-est-le-delai-d-une-requete">Q: Quel est le délai d’une requête?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-y-a-t-il-une-limite-de-taille-de-requete">Q: Y a-t-il une limite de taille de requête?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-ajouter-l-authentification">Q: Comment ajouter l’authentification?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#agents-modeles">Agents &amp; Modèles</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-personnaliser-les-prompts-des-agents">Q: Comment personnaliser les prompts des agents?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-peut-on-changer-le-modele-llm">Q: Peut-on changer le modèle LLM?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-peut-on-utiliser-un-modele-externe">Q: Peut-on utiliser un modèle externe?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-ameliorer-la-qualite-des-reponses">Q: Comment améliorer la qualité des réponses?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#bases-de-donnees">Bases de Données</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#q-quelles-bases-de-donnees-sont-supportees">Q: Quelles bases de données sont supportées?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-ajouter-une-nouvelle-base-de-donnees">Q: Comment ajouter une nouvelle base de données?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-optimiser-les-requetes-sql-generees">Q: Comment optimiser les requêtes SQL générées?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-gerer-les-gros-volumes-de-donnees">Q: Comment gérer les gros volumes de données?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#performance-scalabilite">Performance &amp; Scalabilité</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-ameliorer-les-performances">Q: Comment améliorer les performances?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-peut-on-scaler-horizontalement">Q: Peut-on scaler horizontalement?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-quelle-est-la-capacite-maximale">Q: Quelle est la capacité maximale?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#depannage">Dépannage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#q-modulenotfounderror-no-module-named-src">Q: « ModuleNotFoundError: No module named “src” »</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-connection-refused-au-lancement">Q: « Connection refused » au lancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-mcp-gateway-ne-se-connecte-pas">Q: MCP Gateway ne se connecte pas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-requete-qui-timeout">Q: Requête qui timeout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-erreur-de-memoire-outofmemory">Q: Erreur de mémoire (OutOfMemory)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#developpement">Développement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-contribuer-au-projet">Q: Comment contribuer au projet?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-executer-les-tests">Q: Comment exécuter les tests?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-deboguer-le-systeme">Q: Comment déboguer le système?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-ou-sont-les-fichiers-de-log">Q: Où sont les fichiers de log?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#documentation">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-generer-la-documentation">Q: Comment générer la documentation?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-mettre-a-jour-la-documentation">Q: Comment mettre à jour la documentation?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-ou-trouver-la-documentation-complete">Q: Où trouver la documentation complète?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#support-ressources">Support &amp; Ressources</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#q-comment-obtenir-de-l-aide">Q: Comment obtenir de l’aide?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-ou-trouver-des-exemples">Q: Où trouver des exemples?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-y-a-t-il-une-roadmap">Q: Y a-t-il une roadmap?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#voir-aussi">Voir aussi</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">BDD Fédérée par Agent - Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BDD Fédérée par Agent</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">FAQ (Questions Fréquemment Posées)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/faq.rst.txt" rel="nofollow"> Afficher la source de la page</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="faq-questions-frequemment-posees">
+<h1>FAQ (Questions Fréquemment Posées)<a class="headerlink" href="#faq-questions-frequemment-posees" title="Lien vers cette rubrique"></a></h1>
+</section>
+<section id="installation-configuration">
+<h1>Installation &amp; Configuration<a class="headerlink" href="#installation-configuration" title="Lien vers cette rubrique"></a></h1>
+<section id="q-comment-installer-le-projet">
+<h2>Q: Comment installer le projet?<a class="headerlink" href="#q-comment-installer-le-projet" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Voir <a class="reference internal" href="guide_demarrage.html"><span class="doc">Guide de Démarrage</span></a> pour les instructions complètes.</p>
+<p>Résumé rapide:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>&lt;url&gt;
+<span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;BDD fédéré par agent&quot;</span>
+docker-compose<span class="w"> </span>up<span class="w"> </span>--build
+curl<span class="w"> </span>http://localhost:8000/health
+</pre></div>
+</div>
+</section>
+<section id="q-quels-sont-les-prerequis-systeme">
+<h2>Q: Quels sont les prérequis système?<a class="headerlink" href="#q-quels-sont-les-prerequis-systeme" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ul class="simple">
+<li><p><strong>OS</strong> : Windows, macOS, Linux</p></li>
+<li><p><strong>RAM</strong> : 4GB minimum (8GB recommandé)</p></li>
+<li><p><strong>CPU</strong> : 2 cores minimum (4 cores recommandé)</p></li>
+<li><p><strong>Disque</strong> : 10GB d’espace libre</p></li>
+<li><p><strong>Logiciels</strong> : Docker 20.10+, Docker Compose 1.29+</p></li>
+</ul>
+</section>
+<section id="q-comment-configurer-les-variables-d-environnement">
+<h2>Q: Comment configurer les variables d’environnement?<a class="headerlink" href="#q-comment-configurer-les-variables-d-environnement" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Créer un fichier <cite>.env</cite> à la racine:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copier le template</span>
+cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+
+<span class="c1"># Éditer avec votre éditeur</span>
+nano<span class="w"> </span>.env
+</pre></div>
+</div>
+</section>
+<section id="q-peut-on-utiliser-le-projet-sans-docker">
+<h2>Q: Peut-on utiliser le projet sans Docker?<a class="headerlink" href="#q-peut-on-utiliser-le-projet-sans-docker" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Oui, mais c’est plus complexe. Il faut :</p>
+<ol class="arabic simple">
+<li><p>Installer Python 3.9+</p></li>
+<li><p>Installer PostgreSQL 15+</p></li>
+<li><p>Installer Ollama</p></li>
+<li><p>Installer les dépendances pip</p></li>
+<li><p>Configurer les variables d’environnement</p></li>
+<li><p>Démarrer chaque service manuellement</p></li>
+</ol>
+<p><strong>Recommandation</strong> : Utilisez Docker pour simplifier le déploiement.</p>
+</section>
+</section>
+<section id="deploiement">
+<h1>Déploiement<a class="headerlink" href="#deploiement" title="Lien vers cette rubrique"></a></h1>
+<section id="q-comment-deployer-en-production">
+<h2>Q: Comment déployer en production?<a class="headerlink" href="#q-comment-deployer-en-production" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Voir <a class="reference internal" href="deployment.html"><span class="doc">Déploiement en Production</span></a> pour des instructions détaillées.</p>
+<p>Options disponibles:</p>
+<ol class="arabic simple">
+<li><p><strong>Docker Compose</strong> : Pour serveur unique</p></li>
+<li><p><strong>Kubernetes</strong> : Pour haute disponibilité</p></li>
+<li><p><strong>Cloud Run</strong> : Pour serverless</p></li>
+<li><p><strong>Heroku</strong> : Pour simple déploiement</p></li>
+</ol>
+</section>
+<section id="q-quel-serveur-pour-la-production">
+<h2>Q: Quel serveur pour la production?<a class="headerlink" href="#q-quel-serveur-pour-la-production" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Recommandations:</p>
+<ul class="simple">
+<li><p><strong>Petite charge</strong> (&lt; 100 req/min) : 1 CPU, 2GB RAM</p></li>
+<li><p><strong>Charge moyenne</strong> (100-500 req/min) : 2 CPU, 4GB RAM</p></li>
+<li><p><strong>Haute charge</strong> (&gt; 500 req/min) : 4+ CPU, 8GB+ RAM</p></li>
+</ul>
+<p>Utiliser un load balancer si plusieurs instances.</p>
+</section>
+<section id="q-comment-configurer-les-logs-en-production">
+<h2>Q: Comment configurer les logs en production?<a class="headerlink" href="#q-comment-configurer-les-logs-en-production" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Dans <cite>docker-compose.yml</cite>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">orchestrator</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">LOG_LEVEL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">INFO</span>
+<span class="w">      </span><span class="nt">LOG_FILE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/log/orchestrator.log</span>
+</pre></div>
+</div>
+<p>Utiliser ELK Stack ou Datadog pour centraliser.</p>
+</section>
+</section>
+<section id="api-requetes">
+<h1>API &amp; Requêtes<a class="headerlink" href="#api-requetes" title="Lien vers cette rubrique"></a></h1>
+<section id="q-comment-appeler-l-api">
+<h2>Q: Comment appeler l’API?<a class="headerlink" href="#q-comment-appeler-l-api" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Voir <a class="reference internal" href="api_reference.html"><span class="doc">Référence API</span></a> pour documentation complète.</p>
+<p>Exemple simple:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/api/query&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;query&quot;: &quot;Quelle est la capitale de la France?&quot;}&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="q-quels-types-de-requetes-sont-supportees">
+<h2>Q: Quels types de requêtes sont supportées?<a class="headerlink" href="#q-quels-types-de-requetes-sont-supportees" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Connaissances générales</strong> : « Quelle est la capitale de la France? »</p></li>
+<li><p><strong>Requêtes SQL</strong> : « Liste les employés du département IT »</p></li>
+<li><p><strong>Analyses</strong> : « Analysez les ventes de 2025 »</p></li>
+<li><p><strong>Recherche</strong> : « Trouve tous les clients à Paris »</p></li>
+</ol>
+<p>Le système détecte automatiquement le type.</p>
+</section>
+<section id="q-quel-est-le-delai-d-une-requete">
+<h2>Q: Quel est le délai d’une requête?<a class="headerlink" href="#q-quel-est-le-delai-d-une-requete" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Typiquement 1-3 secondes:</p>
+<ul class="simple">
+<li><p>100-200ms : Analyse intention</p></li>
+<li><p>100-200ms : Récupération schémas</p></li>
+<li><p>100-200ms : Génération SQL</p></li>
+<li><p>50-100ms : Validation</p></li>
+<li><p>100-1000ms : Exécution (dépend de la BD)</p></li>
+<li><p>50-100ms : Composition réponse</p></li>
+</ul>
+</section>
+<section id="q-y-a-t-il-une-limite-de-taille-de-requete">
+<h2>Q: Y a-t-il une limite de taille de requête?<a class="headerlink" href="#q-y-a-t-il-une-limite-de-taille-de-requete" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ul class="simple">
+<li><p><strong>Requête utilisateur</strong> : 500 caractères par défaut</p></li>
+<li><p><strong>Requête SQL générée</strong> : 10000 caractères max</p></li>
+<li><p><strong>Résultats retournés</strong> : 10 lignes par défaut (configurable)</p></li>
+</ul>
+<p>Configurable via variables d’environnement.</p>
+</section>
+<section id="q-comment-ajouter-l-authentification">
+<h2>Q: Comment ajouter l’authentification?<a class="headerlink" href="#q-comment-ajouter-l-authentification" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Le projet supporte (à implémenter):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dans orchestrateur/main.py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.security</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPBearer</span>
+
+<span class="n">security</span> <span class="o">=</span> <span class="n">HTTPBearer</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/api/query&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">process_query</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">QueryRequest</span><span class="p">,</span>
+    <span class="n">credentials</span><span class="p">:</span> <span class="n">HTTPAuthCredentials</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">security</span><span class="p">)</span>
+<span class="p">):</span>
+    <span class="c1"># Valider le token JWT</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">validate_token</span><span class="p">(</span><span class="n">credentials</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="agents-modeles">
+<h1>Agents &amp; Modèles<a class="headerlink" href="#agents-modeles" title="Lien vers cette rubrique"></a></h1>
+<section id="q-comment-personnaliser-les-prompts-des-agents">
+<h2>Q: Comment personnaliser les prompts des agents?<a class="headerlink" href="#q-comment-personnaliser-les-prompts-des-agents" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Éditer les fichiers agents:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># orchestrateur/src/agents/intent_agent.py</span>
+<span class="n">INTENT_PROMPT</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Votre prompt personnalisé ici...</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="q-peut-on-changer-le-modele-llm">
+<h2>Q: Peut-on changer le modèle LLM?<a class="headerlink" href="#q-peut-on-changer-le-modele-llm" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Oui! Dans <cite>orchestrateur/src/agents/base_agent.py</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOllama</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;mistral&quot;</span><span class="p">,</span>  <span class="c1"># Changer ici</span>
+    <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;http://ollama:11434&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Modèles Ollama disponibles:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Lancer Ollama</span>
+ollama<span class="w"> </span>pull<span class="w"> </span>mistral
+ollama<span class="w"> </span>pull<span class="w"> </span>neural-chat
+ollama<span class="w"> </span>pull<span class="w"> </span>dolphin2.2-mvc
+</pre></div>
+</div>
+</section>
+<section id="q-peut-on-utiliser-un-modele-externe">
+<h2>Q: Peut-on utiliser un modèle externe?<a class="headerlink" href="#q-peut-on-utiliser-un-modele-externe" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Oui, par exemple Google Gemini:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_google_genai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatGoogleGenerativeAI</span>
+
+<span class="bp">self</span><span class="o">.</span><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatGoogleGenerativeAI</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gemini-pro&quot;</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;YOUR_API_KEY&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="q-comment-ameliorer-la-qualite-des-reponses">
+<h2>Q: Comment améliorer la qualité des réponses?<a class="headerlink" href="#q-comment-ameliorer-la-qualite-des-reponses" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Améliorer les prompts</strong> : Rendre plus spécifiques</p></li>
+<li><p><strong>Fine-tuning</strong> : Entraîner sur données propres</p></li>
+<li><p><strong>Few-shot learning</strong> : Ajouter des exemples</p></li>
+<li><p><strong>Retrieval amélioration</strong> : Meilleurs schémas de BD</p></li>
+<li><p><strong>Validation stricte</strong> : Plus de règles</p></li>
+</ol>
+</section>
+</section>
+<section id="bases-de-donnees">
+<h1>Bases de Données<a class="headerlink" href="#bases-de-donnees" title="Lien vers cette rubrique"></a></h1>
+<section id="q-quelles-bases-de-donnees-sont-supportees">
+<h2>Q: Quelles bases de données sont supportées?<a class="headerlink" href="#q-quelles-bases-de-donnees-sont-supportees" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Le système supporte:</p>
+<ul class="simple">
+<li><p><strong>PostgreSQL</strong> : Natif (avec pgvector)</p></li>
+<li><p><strong>MySQL</strong> : Via adaptateur MCP</p></li>
+<li><p><strong>MongoDB</strong> : Via adaptateur MCP</p></li>
+<li><p><strong>Autres</strong> : Créer un serveur MCP personnalisé</p></li>
+</ul>
+<p>Voir <a class="reference internal" href="mcp_protocol.html"><span class="doc">Protocole MCP (Model Context Protocol)</span></a> pour détails.</p>
+</section>
+<section id="q-comment-ajouter-une-nouvelle-base-de-donnees">
+<h2>Q: Comment ajouter une nouvelle base de données?<a class="headerlink" href="#q-comment-ajouter-une-nouvelle-base-de-donnees" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ol class="arabic simple">
+<li><p>Créer un serveur MCP pour la BD</p></li>
+<li><p>Configurer dans <cite>config/servers.json</cite></p></li>
+<li><p>Redémarrer le gateway</p></li>
+<li><p>Les agents peuvent l’utiliser automatiquement</p></li>
+</ol>
+</section>
+<section id="q-comment-optimiser-les-requetes-sql-generees">
+<h2>Q: Comment optimiser les requêtes SQL générées?<a class="headerlink" href="#q-comment-optimiser-les-requetes-sql-generees" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Améliorer le SQLAgent</strong> : Meilleur prompt</p></li>
+<li><p><strong>Créer des indexes</strong> : Sur colonnes fréquentes</p></li>
+<li><p><strong>Valider les requêtes</strong> : Plus strict</p></li>
+<li><p><strong>Utiliser des vues</strong> : Pour requêtes complexes</p></li>
+<li><p><strong>Limiter les résultats</strong> : Pagination</p></li>
+</ol>
+</section>
+<section id="q-comment-gerer-les-gros-volumes-de-donnees">
+<h2>Q: Comment gérer les gros volumes de données?<a class="headerlink" href="#q-comment-gerer-les-gros-volumes-de-donnees" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Pagination</strong> : Limiter résultats par page</p></li>
+<li><p><strong>Aggregation</strong> : Grouper plutôt que retourner tout</p></li>
+<li><p><strong>Indexes</strong> : Pour recherches rapides</p></li>
+<li><p><strong>Caching</strong> : Mettre en cache les schémas</p></li>
+<li><p><strong>Parallelisation</strong> : Exécution fédérée en parallèle</p></li>
+</ol>
+</section>
+</section>
+<section id="performance-scalabilite">
+<h1>Performance &amp; Scalabilité<a class="headerlink" href="#performance-scalabilite" title="Lien vers cette rubrique"></a></h1>
+<section id="q-comment-ameliorer-les-performances">
+<h2>Q: Comment améliorer les performances?<a class="headerlink" href="#q-comment-ameliorer-les-performances" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Caching</strong> : Redis pour schémas/résultats</p></li>
+<li><p><strong>Connection pooling</strong> : Réutiliser connexions</p></li>
+<li><p><strong>Compression</strong> : Gzip pour réponses</p></li>
+<li><p><strong>Parallelisation</strong> : Requests concurrentes</p></li>
+<li><p><strong>Load balancing</strong> : Distribuer charge</p></li>
+<li><p><strong>Hardware</strong> : Plus CPU/RAM</p></li>
+</ol>
+</section>
+<section id="q-peut-on-scaler-horizontalement">
+<h2>Q: Peut-on scaler horizontalement?<a class="headerlink" href="#q-peut-on-scaler-horizontalement" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Oui! Le système est stateless:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scale orchestrator à 3 instances</span>
+docker-compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--scale<span class="w"> </span><span class="nv">orchestrator</span><span class="o">=</span><span class="m">3</span>
+
+<span class="c1"># Avec Kubernetes</span>
+kubectl<span class="w"> </span>scale<span class="w"> </span>deployment<span class="w"> </span>orchestrator<span class="w"> </span>--replicas<span class="o">=</span><span class="m">3</span>
+</pre></div>
+</div>
+</section>
+<section id="q-quelle-est-la-capacite-maximale">
+<h2>Q: Quelle est la capacité maximale?<a class="headerlink" href="#q-quelle-est-la-capacite-maximale" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Dépend de:</p>
+<ul class="simple">
+<li><p><strong>Orchestrateur</strong> : ~100-500 req/s par instance</p></li>
+<li><p><strong>MCP Gateway</strong> : ~1000 req/s (connection pooling)</p></li>
+<li><p><strong>Base de données</strong> : Dépend du hardware</p></li>
+<li><p><strong>Réseau</strong> : Latence + bande passante</p></li>
+</ul>
+<p>Testez avec votre charge réelle.</p>
+</section>
+</section>
+<section id="depannage">
+<h1>Dépannage<a class="headerlink" href="#depannage" title="Lien vers cette rubrique"></a></h1>
+<section id="q-modulenotfounderror-no-module-named-src">
+<h2>Q: « ModuleNotFoundError: No module named “src” »<a class="headerlink" href="#q-modulenotfounderror-no-module-named-src" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Cause: PYTHONPATH non configuré</p>
+<p>Solution:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ajouter au PYTHONPATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="s2">&quot;./orchestrateur:</span><span class="nv">$PYTHONPATH</span><span class="s2">&quot;</span>
+python<span class="w"> </span>-m<span class="w"> </span>orchestrateur.main
+</pre></div>
+</div>
+</section>
+<section id="q-connection-refused-au-lancement">
+<h2>Q: « Connection refused » au lancement<a class="headerlink" href="#q-connection-refused-au-lancement" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Les services ne sont pas prêts</p>
+<p>Solution:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Attendre 30 secondes</span>
+sleep<span class="w"> </span><span class="m">30</span>
+
+<span class="c1"># Vérifier statut</span>
+docker-compose<span class="w"> </span>ps
+
+<span class="c1"># Voir les logs</span>
+docker-compose<span class="w"> </span>logs<span class="w"> </span>orchestrator
+</pre></div>
+</div>
+</section>
+<section id="q-mcp-gateway-ne-se-connecte-pas">
+<h2>Q: MCP Gateway ne se connecte pas<a class="headerlink" href="#q-mcp-gateway-ne-se-connecte-pas" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Cause: Mauvaise configuration MCP</p>
+<p>Vérifier:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vérifier config</span>
+cat<span class="w"> </span>config/servers.json
+
+<span class="c1"># Tester connexion</span>
+curl<span class="w"> </span>http://localhost:8000/servers
+
+<span class="c1"># Voir logs du gateway</span>
+docker-compose<span class="w"> </span>logs<span class="w"> </span>mcp-gateway
+</pre></div>
+</div>
+</section>
+<section id="q-requete-qui-timeout">
+<h2>Q: Requête qui timeout<a class="headerlink" href="#q-requete-qui-timeout" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Cause: Requête SQL trop lente</p>
+<p>Solutions:</p>
+<ol class="arabic simple">
+<li><p><strong>Augmenter timeout</strong> : Dans config</p></li>
+<li><p><strong>Optimiser SQL</strong> : Ajouter indexes</p></li>
+<li><p><strong>Limiter résultats</strong> : Pagination</p></li>
+<li><p><strong>Augmenter hardware</strong> : Plus CPU/RAM</p></li>
+<li><p><strong>Cacher résultats</strong> : Redis</p></li>
+</ol>
+</section>
+<section id="q-erreur-de-memoire-outofmemory">
+<h2>Q: Erreur de mémoire (OutOfMemory)<a class="headerlink" href="#q-erreur-de-memoire-outofmemory" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Cause: Trop de données</p>
+<p>Solutions:</p>
+<ol class="arabic simple">
+<li><p><strong>Paginer résultats</strong> : Limiter max_results</p></li>
+<li><p><strong>Augmenter RAM</strong> : Allouer plus à Docker</p></li>
+<li><p><strong>Optimiser requêtes</strong> : Sélectionner colonnes</p></li>
+<li><p><strong>Nettoyer cache</strong> : Redémarrer services</p></li>
+<li><p><strong>Monitorer</strong> : Vérifier utilisation mémoire</p></li>
+</ol>
+</section>
+</section>
+<section id="developpement">
+<h1>Développement<a class="headerlink" href="#developpement" title="Lien vers cette rubrique"></a></h1>
+<section id="q-comment-contribuer-au-projet">
+<h2>Q: Comment contribuer au projet?<a class="headerlink" href="#q-comment-contribuer-au-projet" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ol class="arabic simple">
+<li><p>Fork le repository</p></li>
+<li><p>Créer une branche (<cite>git checkout -b feature/xyz</cite>)</p></li>
+<li><p>Faire les changements</p></li>
+<li><p>Écrire les tests</p></li>
+<li><p>Push et créer Pull Request</p></li>
+</ol>
+</section>
+<section id="q-comment-executer-les-tests">
+<h2>Q: Comment exécuter les tests?<a class="headerlink" href="#q-comment-executer-les-tests" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>pytest
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+pytest<span class="w"> </span>-v
+</pre></div>
+</div>
+<p>Pour les tests spécifiques:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest<span class="w"> </span>test_query.py<span class="w"> </span>-v
+pytest<span class="w"> </span>test_BDD.py::test_connection<span class="w"> </span>-v
+</pre></div>
+</div>
+</section>
+<section id="q-comment-deboguer-le-systeme">
+<h2>Q: Comment déboguer le système?<a class="headerlink" href="#q-comment-deboguer-le-systeme" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Logs</strong> : <cite>docker-compose logs -f [service]</cite></p></li>
+<li><p><strong>Breakpoints</strong> : Debug mode dans IDE</p></li>
+<li><p><strong>Curl</strong> : Tester endpoints manuellement</p></li>
+<li><p><strong>Monitoring</strong> : Prometheus + Grafana</p></li>
+<li><p><strong>Tracing</strong> : Jaeger pour requêtes distribuées</p></li>
+</ol>
+</section>
+<section id="q-ou-sont-les-fichiers-de-log">
+<h2>Q: Où sont les fichiers de log?<a class="headerlink" href="#q-ou-sont-les-fichiers-de-log" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ul class="simple">
+<li><p><strong>Docker</strong> : <cite>docker-compose logs [service]</cite></p></li>
+<li><p><strong>Fichiers</strong> : <cite>/var/log/orchestrator.log</cite> (si configuré)</p></li>
+<li><p><strong>Centralisés</strong> : Kibana si ELK déployé</p></li>
+<li><p><strong>Cloud</strong> : CloudWatch/Stackdriver si cloud</p></li>
+</ul>
+</section>
+</section>
+<section id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Lien vers cette rubrique"></a></h1>
+<section id="q-comment-generer-la-documentation">
+<h2>Q: Comment générer la documentation?<a class="headerlink" href="#q-comment-generer-la-documentation" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>docs
+make<span class="w"> </span>html
+
+<span class="c1"># Ou manuellement</span>
+sphinx-build<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span>.<span class="w"> </span>_build/html
+
+<span class="c1"># Servir localement</span>
+python<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8000</span><span class="w"> </span>-d<span class="w"> </span>_build/html
+</pre></div>
+</div>
+</section>
+<section id="q-comment-mettre-a-jour-la-documentation">
+<h2>Q: Comment mettre à jour la documentation?<a class="headerlink" href="#q-comment-mettre-a-jour-la-documentation" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ol class="arabic simple">
+<li><p>Éditer les fichiers <cite>.rst</cite> dans <cite>docs/</cite></p></li>
+<li><p>Vérifier: <cite>sphinx-build -W –keep-going -b html . _build/html</cite></p></li>
+<li><p>Pousser vers main: Documentation déployée automatiquement</p></li>
+</ol>
+</section>
+<section id="q-ou-trouver-la-documentation-complete">
+<h2>Q: Où trouver la documentation complète?<a class="headerlink" href="#q-ou-trouver-la-documentation-complete" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ul class="simple">
+<li><p><strong>Locale</strong> : <a class="reference external" href="http://localhost:8000">http://localhost:8000</a> (après <cite>make serve</cite>)</p></li>
+<li><p><strong>GitHub Pages</strong> : <a class="reference external" href="https://github.com/.../docs">https://github.com/…/docs</a></p></li>
+<li><p><strong>Code source</strong> : PyDoc dans les fichiers Python</p></li>
+</ul>
+</section>
+</section>
+<section id="support-ressources">
+<h1>Support &amp; Ressources<a class="headerlink" href="#support-ressources" title="Lien vers cette rubrique"></a></h1>
+<section id="q-comment-obtenir-de-l-aide">
+<h2>Q: Comment obtenir de l’aide?<a class="headerlink" href="#q-comment-obtenir-de-l-aide" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Documentation</strong> : Lire les guides</p></li>
+<li><p><strong>Issues GitHub</strong> : Signaler bugs</p></li>
+<li><p><strong>Discussions</strong> : Questions/partage</p></li>
+<li><p><strong>Email</strong> : <a class="reference external" href="mailto:contact&#37;&#52;&#48;procom&#46;fr">contact<span>&#64;</span>procom<span>&#46;</span>fr</a></p></li>
+</ol>
+</section>
+<section id="q-ou-trouver-des-exemples">
+<h2>Q: Où trouver des exemples?<a class="headerlink" href="#q-ou-trouver-des-exemples" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong></p>
+<ul class="simple">
+<li><p><strong>Code source</strong> : Voir <cite>orchestrateur/main.py</cite></p></li>
+<li><p><strong>Tests</strong> : Voir <cite>pytest/test_*.py</cite></p></li>
+<li><p><strong>Documentation</strong> : Tous les fichiers RST</p></li>
+<li><p><strong>GitHub</strong> : Repository public</p></li>
+</ul>
+</section>
+<section id="q-y-a-t-il-une-roadmap">
+<h2>Q: Y a-t-il une roadmap?<a class="headerlink" href="#q-y-a-t-il-une-roadmap" title="Lien vers cette rubrique"></a></h2>
+<p><strong>R:</strong> Prévu pour les prochaines versions:</p>
+<ul class="simple">
+<li><p>✓ Version 1.0 : Release stable</p></li>
+<li><p>⏳ Version 1.1 : Authentification JWT</p></li>
+<li><p>⏳ Version 1.2 : Cache Redis</p></li>
+<li><p>⏳ Version 2.0 : Interface web graphique</p></li>
+<li><p>⏳ Version 2.1 : Support multi-langues</p></li>
+</ul>
+<p>Voir les issues GitHub pour détails.</p>
+</section>
+</section>
+<section id="voir-aussi">
+<h1>Voir aussi<a class="headerlink" href="#voir-aussi" title="Lien vers cette rubrique"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="guide_demarrage.html"><span class="doc">Guide de Démarrage</span></a> pour installation</p></li>
+<li><p><a class="reference internal" href="architecture.html"><span class="doc">Architecture du Système</span></a> pour comprendre le système</p></li>
+<li><p><a class="reference internal" href="deployment.html"><span class="doc">Déploiement en Production</span></a> pour la mise en production</p></li>
+<li><p><a class="reference internal" href="api_reference.html"><span class="doc">Référence API</span></a> pour les endpoints</p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pied de page">
+        <a href="deployment.html" class="btn btn-neutral float-left" title="Déploiement en Production" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Précédent</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2026, PROCOM Team.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

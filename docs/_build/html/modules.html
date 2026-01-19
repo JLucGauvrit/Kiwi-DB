@@ -1,0 +1,1104 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Référence des Modules &mdash; BDD Fédérée par Agent - Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=05dadb3a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=e6b791cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="next" title="Déploiement en Production" href="deployment.html" />
+    <link rel="prev" title="Référence API" href="api_reference.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BDD Fédérée par Agent
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">📚 Contenu</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html">Guide de Démarrage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#configuration">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#demarrage-rapide-avec-docker">Démarrage Rapide avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#utilisation">Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#tests">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#prochaines-etapes">Prochaines Étapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide_demarrage.html#ressources-supplementaires">Ressources Supplémentaires</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#composants-principaux">Composants Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#agents-specialises">Agents Spécialisés</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#communication-mcp">Communication MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#flux-de-requete-complet">Flux de Requête Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#securite-validation">Sécurité &amp; Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#performances">Performances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Les Agents du Système</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#baseagent-classe-de-base">BaseAgent (Classe de Base)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#intentagent">IntentAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#retrieveragent">RetrieverAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#sqlagent">SQLAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#validatoragent">ValidatorAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#executoragent-queryrunner">ExecutorAgent (QueryRunner)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#composeragent">ComposerAgent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#registry-des-agents">Registry des Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html">Protocole MCP (Model Context Protocol)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#vue-d-ensemble">Vue d’Ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#architecture-mcp">Architecture MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#outils-disponibles">Outils Disponibles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#flux-d-execution-complet">Flux d’Exécution Complet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#implementation-cote-client-orchestrateur">Implémentation côté Client (Orchestrateur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#implementation-cote-server-gateway">Implémentation côté Server (Gateway)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#securite-mcp">Sécurité MCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#monitoring-debugging">Monitoring &amp; Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#exemples-complets">Exemples Complets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp_protocol.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">Référence API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#endpoints-principaux">Endpoints Principaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#modeles-de-donnees">Modèles de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#exemples-d-utilisation">Exemples d’Utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#gestion-des-erreurs">Gestion des Erreurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#authentification-futur">Authentification (Futur)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#rate-limiting">Rate Limiting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Référence des Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#orchestrateur">Orchestrateur</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#modules-principaux">Modules Principaux</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.main">orchestrateur.main</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.main.QueryRequest"><code class="docutils literal notranslate"><span class="pre">QueryRequest</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.main.QueryResponse"><code class="docutils literal notranslate"><span class="pre">QueryResponse</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.main.root"><code class="docutils literal notranslate"><span class="pre">root()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.main.process_query"><code class="docutils literal notranslate"><span class="pre">process_query()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.main.health"><code class="docutils literal notranslate"><span class="pre">health()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.main.test_mcp"><code class="docutils literal notranslate"><span class="pre">test_mcp()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.src.orchestrator">orchestrateur.src.orchestrator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.src.orchestrator.orchestrator">orchestrateur.src.orchestrator.orchestrator</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.src.orchestrator.orchestrator.QueryState"><code class="docutils literal notranslate"><span class="pre">QueryState</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.src.orchestrator.orchestrator.FederatedRAGOrchestrator"><code class="docutils literal notranslate"><span class="pre">FederatedRAGOrchestrator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.src.orchestrator.agent_registry">orchestrateur.src.orchestrator.agent_registry</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.src.orchestrator.agent_registry.AgentRegistry"><code class="docutils literal notranslate"><span class="pre">AgentRegistry</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#agents">Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.src.agents">orchestrateur.src.agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.src.agents.base_agent">orchestrateur.src.agents.base_agent</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.src.agents.base_agent.BaseAgent"><code class="docutils literal notranslate"><span class="pre">BaseAgent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.src.agents.intent_agent">orchestrateur.src.agents.intent_agent</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.src.agents.intent_agent.IntentAgent"><code class="docutils literal notranslate"><span class="pre">IntentAgent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.src.agents.retriever_agent">orchestrateur.src.agents.retriever_agent</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.src.agents.retriever_agent.RetrieverAgent"><code class="docutils literal notranslate"><span class="pre">RetrieverAgent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.src.agents.sql_agent">orchestrateur.src.agents.sql_agent</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.src.agents.sql_agent.SQLAgent"><code class="docutils literal notranslate"><span class="pre">SQLAgent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.src.agents.validator_agent">orchestrateur.src.agents.validator_agent</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.src.agents.validator_agent.ValidatorAgent"><code class="docutils literal notranslate"><span class="pre">ValidatorAgent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.src.agents.composer_agent">orchestrateur.src.agents.composer_agent</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.src.agents.composer_agent.ComposerAgent"><code class="docutils literal notranslate"><span class="pre">ComposerAgent</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#execution">Exécution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.src.executor">orchestrateur.src.executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.src.executor.query_runner">orchestrateur.src.executor.query_runner</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.src.executor.query_runner.QueryRunner"><code class="docutils literal notranslate"><span class="pre">QueryRunner</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#client-mcp">Client MCP</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-orchestrateur.src.mcp_client">orchestrateur.src.mcp_client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#orchestrateur.src.mcp_client.MCPGatewayClient"><code class="docutils literal notranslate"><span class="pre">MCPGatewayClient</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#mcp-gateway">MCP Gateway</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#query-management">Query Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#tests">Tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pytest.test_query.test_sql_query"><code class="docutils literal notranslate"><span class="pre">test_sql_query()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pytest.test_BDD.extract_pdf_from_database"><code class="docutils literal notranslate"><span class="pre">extract_pdf_from_database()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pytest.test_db_available.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Déploiement en Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#prerequis">Prérequis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#architectures-supportees">Architectures Supportées</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#deploiement-local-avec-docker">Déploiement Local avec Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#deploiement-kubernetes">Déploiement Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#deploiement-cloud-cloud-run">Déploiement Cloud (Cloud Run)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#monitoring-logs">Monitoring &amp; Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#maintenance">Maintenance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#depannage-deploiement">Dépannage Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#certificats-ssl-tls">Certificats SSL/TLS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#optimisations-performance">Optimisations Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#checklist-de-deploiement">Checklist de Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html#voir-aussi">Voir aussi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ (Questions Fréquemment Posées)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#installation-configuration">Installation &amp; Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#deploiement">Déploiement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#api-requetes">API &amp; Requêtes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#agents-modeles">Agents &amp; Modèles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#bases-de-donnees">Bases de Données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#performance-scalabilite">Performance &amp; Scalabilité</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#depannage">Dépannage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#developpement">Développement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#support-ressources">Support &amp; Ressources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html#voir-aussi">Voir aussi</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">BDD Fédérée par Agent - Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BDD Fédérée par Agent</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Référence des Modules</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modules.rst.txt" rel="nofollow"> Afficher la source de la page</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="reference-des-modules">
+<h1>Référence des Modules<a class="headerlink" href="#reference-des-modules" title="Lien vers cette rubrique"></a></h1>
+<p>Cette section fournit la documentation auto-générée de tous les modules Python.</p>
+</section>
+<section id="orchestrateur">
+<h1>Orchestrateur<a class="headerlink" href="#orchestrateur" title="Lien vers cette rubrique"></a></h1>
+<section id="modules-principaux">
+<h2>Modules Principaux<a class="headerlink" href="#modules-principaux" title="Lien vers cette rubrique"></a></h2>
+<section id="module-orchestrateur.main">
+<span id="orchestrateur-main"></span><h3>orchestrateur.main<a class="headerlink" href="#module-orchestrateur.main" title="Lien vers cette rubrique"></a></h3>
+<p>FastAPI server for orchestrator.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="orchestrateur.main.QueryRequest">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.main.</span></span><span class="sig-name descname"><span class="pre">QueryRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Séparateur de paramètres par mot-clé uniquement (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/main.html#QueryRequest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.main.QueryRequest" title="Lien vers cette définition"></a></dt>
+<dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Modèle Pydantic pour les requêtes de requête utilisateur.</p>
+<p>&#64;param query: La requête utilisateur en texte libre
+&#64;type query: str</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orchestrateur.main.QueryRequest.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></span><a class="headerlink" href="#orchestrateur.main.QueryRequest.model_config" title="Lien vers cette définition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orchestrateur.main.QueryRequest.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#orchestrateur.main.QueryRequest.query" title="Lien vers cette définition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="orchestrateur.main.QueryResponse">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.main.</span></span><span class="sig-name descname"><span class="pre">QueryResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Séparateur de paramètres par mot-clé uniquement (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/main.html#QueryResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.main.QueryResponse" title="Lien vers cette définition"></a></dt>
+<dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Modèle Pydantic pour les réponses de requête.</p>
+<p>&#64;param result: Dictionnaire contenant les résultats de l’orchestration RAG
+&#64;type result: dict</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orchestrateur.main.QueryResponse.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></span><a class="headerlink" href="#orchestrateur.main.QueryResponse.model_config" title="Lien vers cette définition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orchestrateur.main.QueryResponse.result">
+<span class="sig-name descname"><span class="pre">result</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span><a class="headerlink" href="#orchestrateur.main.QueryResponse.result" title="Lien vers cette définition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orchestrateur.main.root">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.main.</span></span><span class="sig-name descname"><span class="pre">root</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/main.html#root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.main.root" title="Lien vers cette définition"></a></dt>
+<dd><p>Point d’entrée racine du serveur.</p>
+<p>&#64;return: Statut du service
+&#64;rtype: dict</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orchestrateur.main.process_query">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.main.</span></span><span class="sig-name descname"><span class="pre">process_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#orchestrateur.main.QueryRequest" title="orchestrateur.main.QueryRequest"><span class="pre">QueryRequest</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/main.html#process_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.main.process_query" title="Lien vers cette définition"></a></dt>
+<dd><p>Traiter une requête RAG fédérée.</p>
+<p>Reçoit une requête utilisateur, la traite via l’orchestrateur RAG fédéré
+en passant par les agents d’intention, de récupération, de génération SQL,
+de validation, d’exécution et de composition.</p>
+<p>&#64;param request: La requête utilisateur
+&#64;type request: QueryRequest
+&#64;return: Réponse contenant les résultats du traitement RAG
+&#64;rtype: QueryResponse
+&#64;raise HTTPException: En cas d’erreur lors du traitement</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orchestrateur.main.health">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.main.</span></span><span class="sig-name descname"><span class="pre">health</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/main.html#health"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.main.health" title="Lien vers cette définition"></a></dt>
+<dd><p>Endpoint de vérification de santé du service.</p>
+<p>&#64;return: Statut de santé du service
+&#64;rtype: dict</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="orchestrateur.main.test_mcp">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.main.</span></span><span class="sig-name descname"><span class="pre">test_mcp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/main.html#test_mcp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.main.test_mcp" title="Lien vers cette définition"></a></dt>
+<dd><p>Test MCP connection without using LLM.</p>
+</dd></dl>
+
+</section>
+<section id="module-orchestrateur.src.orchestrator">
+<span id="orchestrateur-src-orchestrator"></span><h3>orchestrateur.src.orchestrator<a class="headerlink" href="#module-orchestrateur.src.orchestrator" title="Lien vers cette rubrique"></a></h3>
+<p>Package d’orchestration du pipeline RAG fédéré.</p>
+<p>Ce package contient les composants responsables de l’orchestration
+du pipeline RAG fédéré basé sur LangGraph, incluant :
+- FederatedRAGOrchestrator : Orchestrateur principal basé sur LangGraph
+- AgentRegistry : Registre des agents spécialisés</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+</section>
+<section id="module-orchestrateur.src.orchestrator.orchestrator">
+<span id="orchestrateur-src-orchestrator-orchestrator"></span><h3>orchestrateur.src.orchestrator.orchestrator<a class="headerlink" href="#module-orchestrateur.src.orchestrator.orchestrator" title="Lien vers cette rubrique"></a></h3>
+<p>LangGraph orchestrator for federated RAG query flow.</p>
+<p>Ce module implémente l’orchestrateur RAG fédéré basé sur LangGraph.
+Il gère le flux de traitement des requêtes utilisateur à travers
+un pipeline d’agents spécialisés : intention, récupération de schéma,
+génération SQL, validation, exécution et composition.</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.orchestrator.QueryState">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.src.orchestrator.orchestrator.</span></span><span class="sig-name descname"><span class="pre">QueryState</span></span><a class="reference internal" href="_modules/orchestrateur/src/orchestrator/orchestrator.html#QueryState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.orchestrator.orchestrator.QueryState" title="Lien vers cette définition"></a></dt>
+<dd><p>Bases : <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.TypedDict" title="(dans Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></a></p>
+<p>État partagé pour le flux de traitement des requêtes.</p>
+<p>Cet état est passé entre tous les nœuds du graphe LangGraph
+et accumule les résultats intermédiaires du traitement.</p>
+<p>&#64;var query: Requête utilisateur originale
+&#64;type query: str
+&#64;var intent: Résultats de la classification d’intention
+&#64;type intent: dict
+&#64;var schemas: Schémas de base de données récupérés
+&#64;type schemas: list
+&#64;var sql_queries: Requêtes SQL générées pour chaque base de données
+&#64;type sql_queries: dict
+&#64;var validation_results: Résultats de la validation des requêtes SQL
+&#64;type validation_results: dict
+&#64;var execution_results: Résultats de l’exécution des requêtes SQL
+&#64;type execution_results: dict
+&#64;var final_output: Réponse finale composée pour l’utilisateur
+&#64;type final_output: str
+&#64;var errors: Liste des erreurs rencontrées pendant le traitement
+&#64;type errors: list</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.orchestrator.QueryState.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#orchestrateur.src.orchestrator.orchestrator.QueryState.query" title="Lien vers cette définition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.orchestrator.QueryState.intent">
+<span class="sig-name descname"><span class="pre">intent</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span><a class="headerlink" href="#orchestrateur.src.orchestrator.orchestrator.QueryState.intent" title="Lien vers cette définition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.orchestrator.QueryState.schemas">
+<span class="sig-name descname"><span class="pre">schemas</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(dans Python v3.14)"><span class="pre">list</span></a></span><a class="headerlink" href="#orchestrateur.src.orchestrator.orchestrator.QueryState.schemas" title="Lien vers cette définition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.orchestrator.QueryState.sql_queries">
+<span class="sig-name descname"><span class="pre">sql_queries</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span><a class="headerlink" href="#orchestrateur.src.orchestrator.orchestrator.QueryState.sql_queries" title="Lien vers cette définition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.orchestrator.QueryState.validation_results">
+<span class="sig-name descname"><span class="pre">validation_results</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span><a class="headerlink" href="#orchestrateur.src.orchestrator.orchestrator.QueryState.validation_results" title="Lien vers cette définition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.orchestrator.QueryState.execution_results">
+<span class="sig-name descname"><span class="pre">execution_results</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span><a class="headerlink" href="#orchestrateur.src.orchestrator.orchestrator.QueryState.execution_results" title="Lien vers cette définition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.orchestrator.QueryState.final_output">
+<span class="sig-name descname"><span class="pre">final_output</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#orchestrateur.src.orchestrator.orchestrator.QueryState.final_output" title="Lien vers cette définition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.orchestrator.QueryState.errors">
+<span class="sig-name descname"><span class="pre">errors</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(dans Python v3.14)"><span class="pre">list</span></a></span><a class="headerlink" href="#orchestrateur.src.orchestrator.orchestrator.QueryState.errors" title="Lien vers cette définition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.orchestrator.FederatedRAGOrchestrator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.src.orchestrator.orchestrator.</span></span><span class="sig-name descname"><span class="pre">FederatedRAGOrchestrator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/orchestrator/orchestrator.html#FederatedRAGOrchestrator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.orchestrator.orchestrator.FederatedRAGOrchestrator" title="Lien vers cette définition"></a></dt>
+<dd><p>Bases : <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(dans Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Orchestrateur RAG fédéré basé sur LangGraph.</p>
+<p>Gère le flux complet de traitement des requêtes utilisateur
+à travers plusieurs agents spécialisés en utilisant LangGraph
+pour l’orchestration du pipeline.</p>
+<p>&#64;param config: Configuration de l’orchestrateur
+&#64;type config: dict</p>
+<p>&#64;ivar config: Configuration contenant les URLs et paramètres
+&#64;ivar registry: Registre des agents disponibles
+&#64;ivar graph: Graphe LangGraph compilé du pipeline</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.orchestrator.FederatedRAGOrchestrator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/orchestrator/orchestrator.html#FederatedRAGOrchestrator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.orchestrator.orchestrator.FederatedRAGOrchestrator.__init__" title="Lien vers cette définition"></a></dt>
+<dd><p>Initialiser l’orchestrateur RAG fédéré.</p>
+<p>&#64;param config: Configuration contenant les URLs des services et paramètres du modèle
+&#64;type config: dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.orchestrator.FederatedRAGOrchestrator.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="_modules/orchestrateur/src/orchestrator/orchestrator.html#FederatedRAGOrchestrator.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.orchestrator.orchestrator.FederatedRAGOrchestrator.run" title="Lien vers cette définition"></a></dt>
+<dd><p>Exécuter le pipeline synchrone pour une requête donnée.</p>
+<p>&#64;param query: Requête utilisateur
+&#64;type query: str
+&#64;return: État final contenant tous les résultats du traitement
+&#64;rtype: dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.orchestrator.FederatedRAGOrchestrator.run_async">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">run_async</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="_modules/orchestrateur/src/orchestrator/orchestrator.html#FederatedRAGOrchestrator.run_async"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.orchestrator.orchestrator.FederatedRAGOrchestrator.run_async" title="Lien vers cette définition"></a></dt>
+<dd><p>Exécuter le pipeline asynchrone pour une requête donnée.</p>
+<p>&#64;param query: Requête utilisateur
+&#64;type query: str
+&#64;return: État final contenant tous les résultats du traitement
+&#64;rtype: dict</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-orchestrateur.src.orchestrator.agent_registry">
+<span id="orchestrateur-src-orchestrator-agent-registry"></span><h3>orchestrateur.src.orchestrator.agent_registry<a class="headerlink" href="#module-orchestrateur.src.orchestrator.agent_registry" title="Lien vers cette rubrique"></a></h3>
+<p>Agent registry for managing and instantiating specialized agents.</p>
+<p>Ce module implémente le registre des agents qui gère l’instanciation
+et l’accès à tous les agents spécialisés du système.</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.agent_registry.AgentRegistry">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.src.orchestrator.agent_registry.</span></span><span class="sig-name descname"><span class="pre">AgentRegistry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/orchestrator/agent_registry.html#AgentRegistry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.orchestrator.agent_registry.AgentRegistry" title="Lien vers cette définition"></a></dt>
+<dd><p>Bases : <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(dans Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Registre centralisé pour la gestion des agents spécialisés.</p>
+<p>Instancie et fournit l’accès à tous les agents du système RAG fédéré.</p>
+<p>&#64;param config: Configuration partagée pour tous les agents
+&#64;type config: dict</p>
+<p>&#64;ivar config: Configuration stockée
+&#64;ivar agents: Dictionnaire contenant les instances des agents</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.agent_registry.AgentRegistry.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/orchestrator/agent_registry.html#AgentRegistry.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.orchestrator.agent_registry.AgentRegistry.__init__" title="Lien vers cette définition"></a></dt>
+<dd><p>Initialiser le registre des agents.</p>
+<p>Instancie tous les agents spécialisés avec la configuration fournie.</p>
+<p>&#64;param config: Configuration contenant les paramètres pour les agents
+&#64;type config: dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.orchestrator.agent_registry.AgentRegistry.get_agent">
+<span class="sig-name descname"><span class="pre">get_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/orchestrator/agent_registry.html#AgentRegistry.get_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.orchestrator.agent_registry.AgentRegistry.get_agent" title="Lien vers cette définition"></a></dt>
+<dd><p>Récupérer un agent par son nom.</p>
+<p>&#64;param agent_name: Nom de l’agent à récupérer
+&#64;type agent_name: str
+&#64;return: Instance de l’agent demandé
+&#64;raise ValueError: Si le nom de l’agent n’existe pas</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="agents">
+<h2>Agents<a class="headerlink" href="#agents" title="Lien vers cette rubrique"></a></h2>
+<section id="module-orchestrateur.src.agents">
+<span id="orchestrateur-src-agents"></span><h3>orchestrateur.src.agents<a class="headerlink" href="#module-orchestrateur.src.agents" title="Lien vers cette rubrique"></a></h3>
+<p>Package des agents spécialisés du système RAG fédéré.</p>
+<p>Ce package contient les différents agents spécialisés :
+- IntentAgent : Classification de l’intention des requêtes
+- RetrieverAgent : Récupération des schémas de base de données
+- SQLAgent : Génération des requêtes SQL
+- ValidatorAgent : Validation des requêtes SQL
+- ComposerAgent : Composition des réponses finales</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+</section>
+<section id="module-orchestrateur.src.agents.base_agent">
+<span id="orchestrateur-src-agents-base-agent"></span><h3>orchestrateur.src.agents.base_agent<a class="headerlink" href="#module-orchestrateur.src.agents.base_agent" title="Lien vers cette rubrique"></a></h3>
+<p>Base agent class for all specialized agents.</p>
+<p>Ce module définit la classe de base abstraite pour tous les agents
+spécialisés du système RAG fédéré. Les agents héritent de cette classe
+et implémentent leur propre logique métier via la méthode run().</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.base_agent.BaseAgent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.src.agents.base_agent.</span></span><span class="sig-name descname"><span class="pre">BaseAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/agents/base_agent.html#BaseAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.base_agent.BaseAgent" title="Lien vers cette définition"></a></dt>
+<dd><p>Bases : <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(dans Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>Classe de base abstraite pour tous les agents du système.</p>
+<p>Fournit les fonctionnalités communes pour l’interaction avec
+le modèle de langage Ollama. Les agents spécialisés héritent
+de cette classe et implémentent leur logique métier.</p>
+<p>&#64;param config: Configuration contenant les paramètres du modèle
+&#64;type config: dict</p>
+<p>&#64;ivar config: Configuration stockée de l’agent
+&#64;ivar llm: Instance du modèle de langage ChatOllama</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.base_agent.BaseAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/agents/base_agent.html#BaseAgent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.base_agent.BaseAgent.__init__" title="Lien vers cette définition"></a></dt>
+<dd><p>Initialiser l’agent de base avec la configuration.</p>
+<p>&#64;param config: Configuration contenant les URLs Ollama et le modèle à utiliser
+&#64;type config: dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.base_agent.BaseAgent.invoke">
+<span class="sig-name descname"><span class="pre">invoke</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></span><a class="reference internal" href="_modules/orchestrateur/src/agents/base_agent.html#BaseAgent.invoke"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.base_agent.BaseAgent.invoke" title="Lien vers cette définition"></a></dt>
+<dd><p>Invoquer le modèle de langage avec un prompt.</p>
+<p>Envoie un prompt au modèle Ollama et retourne la réponse textuelle.
+Cette méthode est généralement appelée par les agents spécialisés
+pour obtenir les résultats du modèle de langage.</p>
+<p>&#64;param prompt: Le prompt à envoyer au modèle de langage
+&#64;type prompt: str
+&#64;return: La réponse textuelle du modèle de langage
+&#64;rtype: str</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.base_agent.BaseAgent.run">
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/agents/base_agent.html#BaseAgent.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.base_agent.BaseAgent.run" title="Lien vers cette définition"></a></dt>
+<dd><p>Exécuter la logique métier de l’agent.</p>
+<p>Cette méthode abstraite doit être implémentée par tous les agents spécialisés.
+Elle contient la logique métier spécifique à l’agent pour traiter les entrées
+et produire les résultats appropriés.</p>
+<p>&#64;param args: Arguments positionnels spécifiques à chaque agent
+&#64;param kwargs: Arguments nommés spécifiques à chaque agent
+&#64;return: Résultat du traitement de l’agent
+&#64;rtype: Varie selon l’agent (dict, list, str, etc.)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-orchestrateur.src.agents.intent_agent">
+<span id="orchestrateur-src-agents-intent-agent"></span><h3>orchestrateur.src.agents.intent_agent<a class="headerlink" href="#module-orchestrateur.src.agents.intent_agent" title="Lien vers cette rubrique"></a></h3>
+<p>Intent classification agent for determining query requirements.</p>
+<p>Ce module implémente l’agent de classification d’intention qui analyse
+les requêtes utilisateur pour déterminer si elles nécessitent un accès
+à la base de données ou s’il s’agit de questions de connaissances générales.</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.intent_agent.IntentAgent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.src.agents.intent_agent.</span></span><span class="sig-name descname"><span class="pre">IntentAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/agents/intent_agent.html#IntentAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.intent_agent.IntentAgent" title="Lien vers cette définition"></a></dt>
+<dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAgent</span></code></p>
+<p>Agent de classification d’intention des requêtes utilisateur.</p>
+<p>Analyse les requêtes utilisateur et détermine :
+- Si la requête nécessite un accès à la base de données
+- Le type d’intention (recherche, agrégation, connaissances générales)
+- Les entités mentionnées dans la requête
+- Les bases de données pertinentes</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.intent_agent.IntentAgent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="_modules/orchestrateur/src/agents/intent_agent.html#IntentAgent.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.intent_agent.IntentAgent.run" title="Lien vers cette définition"></a></dt>
+<dd><p>Classifier l’intention de la requête utilisateur.</p>
+<p>Envoie la requête au modèle de langage pour déterminer son intention
+et retourne un dictionnaire avec les informations sur l’intention.</p>
+<p>&#64;param query: La requête utilisateur à analyser
+&#64;type query: str
+&#64;return: Dictionnaire contenant les résultats de la classification d’intention
+&#64;rtype: dict
+&#64;return_keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>requires_database (bool): Indique si l’accès à la base de données est nécessaire</p></li>
+<li><p>intent_type (str): Type d’intention (« search », « aggregate », « general_knowledge »)</p></li>
+<li><p>entities (list): Liste des entités mentionnées dans la requête</p></li>
+<li><p>databases (list): Bases de données pertinentes (ex: [« postgres »])</p></li>
+<li><p>reason (str): Explication brève de la classification</p></li>
+<li><p>raw_response (str): Réponse brute du modèle de langage</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-orchestrateur.src.agents.retriever_agent">
+<span id="orchestrateur-src-agents-retriever-agent"></span><h3>orchestrateur.src.agents.retriever_agent<a class="headerlink" href="#module-orchestrateur.src.agents.retriever_agent" title="Lien vers cette rubrique"></a></h3>
+<p>Schema retrieval agent for fetching database schemas via MCP.</p>
+<p>Ce module implémente l’agent de récupération de schémas qui interroge
+les serveurs MCP pour obtenir les structures de bases de données
+et les informations sur les tables et colonnes.</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.retriever_agent.RetrieverAgent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.src.agents.retriever_agent.</span></span><span class="sig-name descname"><span class="pre">RetrieverAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/agents/retriever_agent.html#RetrieverAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.retriever_agent.RetrieverAgent" title="Lien vers cette définition"></a></dt>
+<dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAgent</span></code></p>
+<p>Agent de récupération de schémas de base de données.</p>
+<p>Utilise la passerelle MCP pour interroger les serveurs MCP
+et récupérer les informations de schéma des bases de données.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.retriever_agent.RetrieverAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/agents/retriever_agent.html#RetrieverAgent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.retriever_agent.RetrieverAgent.__init__" title="Lien vers cette définition"></a></dt>
+<dd><p>Initialiser l’agent de récupération.</p>
+<p>&#64;param config: Configuration contenant l’URL de la passerelle MCP
+&#64;type config: dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.retriever_agent.RetrieverAgent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(dans Python v3.14)"><span class="pre">list</span></a></span></span><a class="reference internal" href="_modules/orchestrateur/src/agents/retriever_agent.html#RetrieverAgent.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.retriever_agent.RetrieverAgent.run" title="Lien vers cette définition"></a></dt>
+<dd><p>Récupérer les schémas de base de données pertinents.</p>
+<p>Utilise les informations d’intention pour déterminer quelles
+bases de données consulter, puis récupère leurs schémas via MCP.</p>
+<p>&#64;param intent: Dictionnaire contenant les informations d’intention
+&#64;type intent: dict
+&#64;param intent[“databases”]: Liste des bases de données cibles
+&#64;type intent[“databases”]: list
+&#64;return: Liste des schémas de base de données avec tables et colonnes
+&#64;rtype: list of dict
+&#64;return_value:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>database (str): Nom de la base de données</p></li>
+<li><p>tables (list): Liste des noms de tables</p></li>
+<li><p>columns (dict): Mapping table_name -&gt; list of columns</p></li>
+<li><p>schema (dict): Information complète du schéma</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-orchestrateur.src.agents.sql_agent">
+<span id="orchestrateur-src-agents-sql-agent"></span><h3>orchestrateur.src.agents.sql_agent<a class="headerlink" href="#module-orchestrateur.src.agents.sql_agent" title="Lien vers cette rubrique"></a></h3>
+<p>SQL generation agent for creating database queries.</p>
+<p>Ce module implémente l’agent de génération SQL qui génère les requêtes SQL
+basées sur l’intention de l’utilisateur et les schémas de base de données
+disponibles. Il utilise un modèle de langage pour la génération intelligente
+avec un fallback sur une génération par règles.</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.sql_agent.SQLAgent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.src.agents.sql_agent.</span></span><span class="sig-name descname"><span class="pre">SQLAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/agents/sql_agent.html#SQLAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.sql_agent.SQLAgent" title="Lien vers cette définition"></a></dt>
+<dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAgent</span></code></p>
+<p>Agent de génération de requêtes SQL.</p>
+<p>Génère des requêtes SQL valides basées sur l’intention utilisateur
+et les schémas de base de données disponibles. Essaie d’abord une
+génération basée sur le modèle de langage, avec un fallback sur
+une génération par règles simples.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.sql_agent.SQLAgent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(dans Python v3.14)"><span class="pre">list</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="_modules/orchestrateur/src/agents/sql_agent.html#SQLAgent.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.sql_agent.SQLAgent.run" title="Lien vers cette définition"></a></dt>
+<dd><p>Générer les requêtes SQL pour chaque base de données.</p>
+<p>&#64;param intent: Dictionnaire contenant les informations d’intention
+&#64;type intent: dict
+&#64;param intent[“requires_database”]: Si l’accès à la base est nécessaire
+&#64;param intent[“entities”]: Entités mentionnées dans la requête
+&#64;param intent[“reason”]: Raison de la classification
+&#64;param intent[“intent_type”]: Type d’intention (search, aggregate, etc.)
+&#64;param schemas: Liste des schémas de base de données disponibles
+&#64;type schemas: list
+&#64;return: Dictionnaire contenant les requêtes SQL générées
+&#64;rtype: dict
+&#64;return_value:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>database_name (str): {</dt><dd><ul>
+<li><p>query (str): Requête SQL valide</p></li>
+<li><p>params (list): Paramètres pour la requête préparée</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>}</p>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-orchestrateur.src.agents.validator_agent">
+<span id="orchestrateur-src-agents-validator-agent"></span><h3>orchestrateur.src.agents.validator_agent<a class="headerlink" href="#module-orchestrateur.src.agents.validator_agent" title="Lien vers cette rubrique"></a></h3>
+<p>SQL validation agent for validating generated queries.</p>
+<p>Ce module implémente l’agent de validation qui vérifie que les requêtes SQL
+générées sont valides et conformes aux schémas de base de données disponibles.</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.validator_agent.ValidatorAgent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.src.agents.validator_agent.</span></span><span class="sig-name descname"><span class="pre">ValidatorAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/agents/validator_agent.html#ValidatorAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.validator_agent.ValidatorAgent" title="Lien vers cette définition"></a></dt>
+<dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAgent</span></code></p>
+<p>Agent de validation des requêtes SQL.</p>
+<p>Valide que les requêtes SQL générées sont correctes,
+conformes aux schémas disponibles et exécutables.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.validator_agent.ValidatorAgent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql_queries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(dans Python v3.14)"><span class="pre">list</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="_modules/orchestrateur/src/agents/validator_agent.html#ValidatorAgent.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.validator_agent.ValidatorAgent.run" title="Lien vers cette définition"></a></dt>
+<dd><p>Valider les requêtes SQL générées.</p>
+<p>Effectue des vérifications de base sur les requêtes SQL
+pour s’assurer qu’elles sont valides avant exécution.</p>
+<p>&#64;param sql_queries: Dictionnaire contenant les requêtes SQL générées
+&#64;type sql_queries: dict
+&#64;param sql_queries format:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>database_name (str): {</dt><dd><ul>
+<li><p>query (str): Requête SQL à valider</p></li>
+<li><p>params (list): Paramètres pour la requête</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>}</p>
+</div></blockquote>
+<p>&#64;param schemas: Schémas de base de données pour la validation
+&#64;type schemas: list
+&#64;return: Résultats de la validation
+&#64;rtype: dict
+&#64;return_keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>valid (bool): Indique si toutes les requêtes sont valides</p></li>
+<li><p>issues (list): Liste des problèmes identifiés</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-orchestrateur.src.agents.composer_agent">
+<span id="orchestrateur-src-agents-composer-agent"></span><h3>orchestrateur.src.agents.composer_agent<a class="headerlink" href="#module-orchestrateur.src.agents.composer_agent" title="Lien vers cette rubrique"></a></h3>
+<p>Response composition agent for generating natural language responses.</p>
+<p>Ce module implémente l’agent de composition qui génère des réponses
+en langage naturel basées sur les résultats de l’exécution des requêtes SQL.</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.composer_agent.ComposerAgent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.src.agents.composer_agent.</span></span><span class="sig-name descname"><span class="pre">ComposerAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/agents/composer_agent.html#ComposerAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.composer_agent.ComposerAgent" title="Lien vers cette définition"></a></dt>
+<dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAgent</span></code></p>
+<p>Agent de composition de réponse finale.</p>
+<p>Prend les résultats de l’exécution des requêtes SQL et génère
+une réponse naturelle et compréhensible pour l’utilisateur.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.agents.composer_agent.ComposerAgent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">execution_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sql_queries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></span><a class="reference internal" href="_modules/orchestrateur/src/agents/composer_agent.html#ComposerAgent.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.agents.composer_agent.ComposerAgent.run" title="Lien vers cette définition"></a></dt>
+<dd><p>Composer une réponse naturelle basée sur les résultats d’exécution.</p>
+<p>Utilise le modèle de langage pour transformer les résultats SQL
+bruts en une réponse en langage naturel cohérente et lisible.</p>
+<p>&#64;param query: Requête utilisateur originale
+&#64;type query: str
+&#64;param execution_results: Résultats de l’exécution des requêtes SQL
+&#64;type execution_results: dict
+&#64;param execution_results format:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>database_name (str): {</dt><dd><ul>
+<li><p>success (bool): Indique si l’exécution a réussi</p></li>
+<li><p>data (list): Données retournées par la requête</p></li>
+<li><p>error (str): Message d’erreur si l’exécution a échoué</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>}</p>
+</div></blockquote>
+<p>&#64;param sql_queries: Requêtes SQL qui ont été exécutées (pour le contexte)
+&#64;type sql_queries: dict
+&#64;return: Réponse en langage naturel
+&#64;rtype: str</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="execution">
+<h2>Exécution<a class="headerlink" href="#execution" title="Lien vers cette rubrique"></a></h2>
+<section id="module-orchestrateur.src.executor">
+<span id="orchestrateur-src-executor"></span><h3>orchestrateur.src.executor<a class="headerlink" href="#module-orchestrateur.src.executor" title="Lien vers cette rubrique"></a></h3>
+<p>Package d’exécution des requêtes via MCP.</p>
+<p>Ce package contient les composants responsables de l’exécution
+des requêtes SQL sur les bases de données via la passerelle MCP.</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+</section>
+<section id="module-orchestrateur.src.executor.query_runner">
+<span id="orchestrateur-src-executor-query-runner"></span><h3>orchestrateur.src.executor.query_runner<a class="headerlink" href="#module-orchestrateur.src.executor.query_runner" title="Lien vers cette rubrique"></a></h3>
+<p>Query execution engine for federated database queries via MCP.</p>
+<p>Ce module implémente le moteur d’exécution des requêtes qui execute
+les requêtes SQL sur les bases de données via la passerelle MCP.</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="orchestrateur.src.executor.query_runner.QueryRunner">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.src.executor.query_runner.</span></span><span class="sig-name descname"><span class="pre">QueryRunner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/executor/query_runner.html#QueryRunner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.executor.query_runner.QueryRunner" title="Lien vers cette définition"></a></dt>
+<dd><p>Bases : <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(dans Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Moteur d’exécution de requêtes SQL fédérées.</p>
+<p>Exécute les requêtes SQL sur plusieurs bases de données
+via la passerelle MCP, en gestion asynchrone.</p>
+<p>&#64;param config: Configuration contenant l’URL de la passerelle MCP
+&#64;type config: dict</p>
+<p>&#64;ivar config: Configuration de l’exécuteur
+&#64;ivar mcp_client: Client pour communiquer avec la passerelle MCP</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.executor.query_runner.QueryRunner.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/executor/query_runner.html#QueryRunner.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.executor.query_runner.QueryRunner.__init__" title="Lien vers cette définition"></a></dt>
+<dd><p>Initialiser le moteur d’exécution de requêtes.</p>
+<p>&#64;param config: Configuration contenant les paramètres de connexion
+&#64;type config: dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.executor.query_runner.QueryRunner.execute_federated">
+<span class="sig-name descname"><span class="pre">execute_federated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql_queries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(dans Python v3.14)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="_modules/orchestrateur/src/executor/query_runner.html#QueryRunner.execute_federated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.executor.query_runner.QueryRunner.execute_federated" title="Lien vers cette définition"></a></dt>
+<dd><p>Exécuter les requêtes SQL sur plusieurs bases de données.</p>
+<p>Exécute chaque requête SQL sur sa base de données cible
+et retourne les résultats ou les erreurs.</p>
+<p>&#64;param sql_queries: Dictionnaire contenant les requêtes SQL
+&#64;type sql_queries: dict
+&#64;param sql_queries format:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>database_name (str): {</dt><dd><ul>
+<li><p>query (str): Requête SQL à exécuter</p></li>
+<li><p>params (list): Paramètres pour la requête préparée</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>}</p>
+</div></blockquote>
+<p>&#64;return: Résultats d’exécution pour chaque base de données
+&#64;rtype: dict
+&#64;return_value:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>database_name (str): {</dt><dd><ul>
+<li><p>success (bool): Indique si l’exécution a réussi</p></li>
+<li><p>data (list): Données retournées par la requête</p></li>
+<li><p>rows (int): Nombre de lignes retournées</p></li>
+<li><p>error (str): Message d’erreur si l’exécution a échoué</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>}</p>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="client-mcp">
+<h2>Client MCP<a class="headerlink" href="#client-mcp" title="Lien vers cette rubrique"></a></h2>
+<section id="module-orchestrateur.src.mcp_client">
+<span id="orchestrateur-src-mcp-client"></span><h3>orchestrateur.src.mcp_client<a class="headerlink" href="#module-orchestrateur.src.mcp_client" title="Lien vers cette rubrique"></a></h3>
+<p>WebSocket client for MCP Gateway communication.</p>
+<p>Ce module implémente un client WebSocket pour communiquer avec la passerelle MCP.
+Il permet l’envoi de requêtes et la réception de réponses via WebSocket.</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="orchestrateur.src.mcp_client.MCPGatewayClient">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">orchestrateur.src.mcp_client.</span></span><span class="sig-name descname"><span class="pre">MCPGatewayClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gateway_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/mcp_client.html#MCPGatewayClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.mcp_client.MCPGatewayClient" title="Lien vers cette définition"></a></dt>
+<dd><p>Bases : <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(dans Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Client WebSocket pour la communication avec la passerelle MCP.</p>
+<p>Établit une connexion WebSocket avec la passerelle MCP et fournit
+des méthodes pour appeler les outils et ressources des serveurs MCP.</p>
+<p>&#64;param gateway_url: URL de la passerelle MCP (format: host:port)
+&#64;type gateway_url: str</p>
+<p>&#64;ivar gateway_url: URL de la passerelle MCP
+&#64;ivar ws: Connexion WebSocket active (ou None)
+&#64;ivar _lock: Lock pour les opérations asynchrones</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.mcp_client.MCPGatewayClient.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gateway_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/mcp_client.html#MCPGatewayClient.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.mcp_client.MCPGatewayClient.__init__" title="Lien vers cette définition"></a></dt>
+<dd><p>Initialiser le client de passerelle MCP.</p>
+<p>&#64;param gateway_url: URL de la passerelle MCP (avec ou sans ws://)
+&#64;type gateway_url: str</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.mcp_client.MCPGatewayClient.connect">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/mcp_client.html#MCPGatewayClient.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.mcp_client.MCPGatewayClient.connect" title="Lien vers cette définition"></a></dt>
+<dd><p>Établir une connexion WebSocket avec la passerelle MCP.</p>
+<p>&#64;raise Exception: Si la connexion échoue</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.mcp_client.MCPGatewayClient.disconnect">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/orchestrateur/src/mcp_client.html#MCPGatewayClient.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.mcp_client.MCPGatewayClient.disconnect" title="Lien vers cette définition"></a></dt>
+<dd><p>Fermer la connexion WebSocket avec la passerelle MCP.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.mcp_client.MCPGatewayClient.send_request">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">send_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(dans Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(dans Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(dans Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(dans Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/orchestrateur/src/mcp_client.html#MCPGatewayClient.send_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.mcp_client.MCPGatewayClient.send_request" title="Lien vers cette définition"></a></dt>
+<dd><p>Envoyer une requête à la passerelle MCP et attendre la réponse.</p>
+<p>&#64;param request: Dictionnaire de requête à envoyer
+&#64;type request: dict
+&#64;return: Réponse de la passerelle MCP
+&#64;rtype: dict
+&#64;raise Exception: En cas d’erreur lors de la communication</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.mcp_client.MCPGatewayClient.list_tools">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">list_tools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'postgres'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(dans Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(dans Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/orchestrateur/src/mcp_client.html#MCPGatewayClient.list_tools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.mcp_client.MCPGatewayClient.list_tools" title="Lien vers cette définition"></a></dt>
+<dd><p>Lister les outils disponibles sur le serveur MCP.</p>
+<p>&#64;param server: Nom du serveur MCP cible
+&#64;type server: str
+&#64;return: Liste des outils disponibles
+&#64;rtype: dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.mcp_client.MCPGatewayClient.call_tool">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">call_tool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(dans Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(dans Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'postgres'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(dans Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(dans Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/orchestrateur/src/mcp_client.html#MCPGatewayClient.call_tool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.mcp_client.MCPGatewayClient.call_tool" title="Lien vers cette définition"></a></dt>
+<dd><p>Appeler un outil sur le serveur MCP.</p>
+<p>&#64;param tool: Nom de l’outil à appeler
+&#64;type tool: str
+&#64;param arguments: Arguments pour l’outil
+&#64;type arguments: dict
+&#64;param server: Nom du serveur MCP cible
+&#64;type server: str
+&#64;return: Résultat de l’appel de l’outil
+&#64;rtype: dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.mcp_client.MCPGatewayClient.list_resources">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">list_resources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'postgres'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(dans Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(dans Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/orchestrateur/src/mcp_client.html#MCPGatewayClient.list_resources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.mcp_client.MCPGatewayClient.list_resources" title="Lien vers cette définition"></a></dt>
+<dd><p>Lister les ressources disponibles sur le serveur MCP.</p>
+<p>&#64;param server: Nom du serveur MCP cible
+&#64;type server: str
+&#64;return: Liste des ressources disponibles
+&#64;rtype: dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="orchestrateur.src.mcp_client.MCPGatewayClient.get_resource">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'postgres'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(dans Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(dans Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/orchestrateur/src/mcp_client.html#MCPGatewayClient.get_resource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#orchestrateur.src.mcp_client.MCPGatewayClient.get_resource" title="Lien vers cette définition"></a></dt>
+<dd><p>Récupérer une ressource du serveur MCP.</p>
+<p>&#64;param resource: URI de la ressource à récupérer
+&#64;type resource: str
+&#64;param server: Nom du serveur MCP cible
+&#64;type server: str
+&#64;return: Contenu de la ressource
+&#64;rtype: dict</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+<section id="mcp-gateway">
+<h1>MCP Gateway<a class="headerlink" href="#mcp-gateway" title="Lien vers cette rubrique"></a></h1>
+</section>
+<section id="query-management">
+<h1>Query Management<a class="headerlink" href="#query-management" title="Lien vers cette rubrique"></a></h1>
+</section>
+<section id="tests">
+<h1>Tests<a class="headerlink" href="#tests" title="Lien vers cette rubrique"></a></h1>
+<p id="module-pytest.test_query">Test script for executing SQL queries via MCP Gateway.</p>
+<p>Ce script teste la communication avec la passerelle MCP et l’exécution
+des requêtes SQL sur les bases de données via les serveurs MCP.</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest.test_query.test_sql_query">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pytest.test_query.</span></span><span class="sig-name descname"><span class="pre">test_sql_query</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pytest/test_query.html#test_sql_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest.test_query.test_sql_query" title="Lien vers cette définition"></a></dt>
+<dd><p>Tester l’exécution de requêtes SQL via la passerelle MCP.</p>
+<p>Se connecte à la passerelle MCP et envoie plusieurs requêtes
+pour tester :
+1. Listage des schémas de base de données
+2. Listage des tables dans le schéma “public”
+3. Listage des détails d’une table
+4. Exécution d’une requête SQL</p>
+</dd></dl>
+
+<p id="module-pytest.test_BDD">Database connection test and PDF extraction from PostgreSQL.</p>
+<p>Ce script teste la connexion à la base de données PostgreSQL et
+démontre l’extraction de documents PDF stockés dans la base de données.</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest.test_BDD.extract_pdf_from_database">
+<span class="sig-prename descclassname"><span class="pre">pytest.test_BDD.</span></span><span class="sig-name descname"><span class="pre">extract_pdf_from_database</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pytest/test_BDD.html#extract_pdf_from_database"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest.test_BDD.extract_pdf_from_database" title="Lien vers cette définition"></a></dt>
+<dd><p>Extraire un document PDF de la base de données et l’enregistrer localement.</p>
+<p>Se connecte à la base de données PostgreSQL “entreprise” et récupère
+le premier document PDF non-null de la table “company_documents”.
+Le document est ensuite enregistré dans un fichier local.</p>
+<p>&#64;return: Chemin du fichier créé
+&#64;rtype: str
+&#64;raise psycopg2.Error: En cas d’erreur de connexion ou de requête</p>
+</dd></dl>
+
+<p id="module-pytest.test_db_available">Database availability check from static servers.json configuration.</p>
+<p>Ce script lit un fichier servers.json statique et vérifie l’état
+de connexion de tous les serveurs MCP configurés.</p>
+<p>&#64;author: PROCOM Team
+&#64;version: 1.0
+&#64;since: 2026-01-19</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest.test_db_available.main">
+<span class="sig-prename descclassname"><span class="pre">pytest.test_db_available.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pytest/test_db_available.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest.test_db_available.main" title="Lien vers cette définition"></a></dt>
+<dd><p>Vérifier la disponibilité des serveurs depuis le fichier servers.json.</p>
+<p>Lit le fichier servers.json, vérifie que tous les serveurs sont
+connectés et affiche leur statut.</p>
+<p>&#64;exit: 0 si tous les serveurs sont connectés, 1 sinon
+&#64;raise FileNotFoundError: Si le fichier servers.json n’existe pas
+&#64;raise json.JSONDecodeError: Si le fichier JSON est malformé</p>
+</dd></dl>
+
+</section>
+<section id="voir-aussi">
+<h1>Voir aussi<a class="headerlink" href="#voir-aussi" title="Lien vers cette rubrique"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="architecture.html"><span class="doc">Architecture du Système</span></a> pour la vue d’ensemble</p></li>
+<li><p><a class="reference internal" href="agents.html"><span class="doc">Les Agents du Système</span></a> pour les détails des agents</p></li>
+<li><p><a class="reference internal" href="api_reference.html"><span class="doc">Référence API</span></a> pour les endpoints</p></li>
+<li><p><a class="reference internal" href="mcp_protocol.html"><span class="doc">Protocole MCP (Model Context Protocol)</span></a> pour le protocole MCP</p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pied de page">
+        <a href="api_reference.html" class="btn btn-neutral float-left" title="Référence API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Précédent</a>
+        <a href="deployment.html" class="btn btn-neutral float-right" title="Déploiement en Production" accesskey="n" rel="next">Suivant <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2026, PROCOM Team.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
