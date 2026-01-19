@@ -23,6 +23,7 @@ jobs:
       contents: read
       pages: write
       id-token: write
+      deployments: write 
 
     steps:
       - name: Checkout code
@@ -54,7 +55,7 @@ jobs:
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
 
       - name: Comment on PR
         if: github.event_name == 'pull_request'
