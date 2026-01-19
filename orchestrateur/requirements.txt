@@ -6,3 +6,14 @@ langchain-google-genai
 python-dotenv
 httpx
 pydantic
+fastapi
+uvicorn[standard]
+langgraph
+langchain
+langchain-core
+langchain-ollama
+python-dotenv
+httpx
+pydantic
+websockets
+nest-asyncio

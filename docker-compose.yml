@@ -2,75 +2,202 @@
 #version: '3.8'
 
 services:
+
+  ######################################################
+  # NGINX REVERSE PROXY + SSL TERMINATION
+  ######################################################
+  nginx:
+    build: ./nginx
+    container_name: nginx-reverse-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"      # HTTP (redirigé vers HTTPS)
+      - "443:443"    # HTTPS (principal)
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/letsencrypt/live/certs:rw
+      - ./nginx/logs:/var/log/nginx
+    networks:
+      - query_network
+    depends_on:
+      open-webui:
+        condition: service_started
+      query-management:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
   ######################################################
   #                  FRONTEND OPEN WEB UI              #
   ######################################################
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
     container_name: open-webui
-    restart: always
-    ports:
-      - "3000:8080"
+    restart: unless-stopped
     environment:
       - 'OLLAMA_BASE_URL=http://orchestrator:8000'
     volumes:
       - open-webui-data:/app/backend/data
     networks:
       - query_network
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     depends_on:
-      - orchestrator
+      orchestrator:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
   ######################################################
   #                   ORCHESTRATOR LLM                 #
   ######################################################
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - query_network
+  
   orchestrator:
     build: ./orchestrateur
     container_name: orchestrator
     restart: always
+    ports:
+      - "8001:8000"
+    env_file:
+      - .env
     environment:
       MCP_GATEWAY_URL: ws://mcp-gateway:9000
+      OLLAMA_URL: http://ollama:11434
+      OLLAMA_MODEL: llama3.2
     networks:
       - query_network
       - bdd_network
+    depends_on:
+      ollama:
+        condition: service_started
+      mcp-gateway:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
   
   query-management:
     build: ./query-management
     container_name: query-management
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
     ports:
-      - "5000:5000"
+      - "220:220"
     environment:
       ORCHESTRATOR_URL: http://orchestrator:8000
     depends_on:
-      - orchestrator
+      orchestrator:
+        condition: service_started
     networks:
       - query_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:220/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
   
   ######################################################
   #                     MCP GATEWAY                    #
   ######################################################
- 
-  # MCP Gateway
+  mcp-gateway:
+    build: ./mcp/mcp-gateway
+    container_name: mcp-gateway
+    restart: always
+    ports:
+      - "9000:9000"
+    networks:
+      - query_network
+      - bdd_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      postgres-pgvector:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health" ]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   ######################################################
   #                SERVEURS MCP (DB CONNECTORS)        #
   ######################################################
-  # Postgres MCP Server
+  # Postgres MCP Server (CrystalDBA Pro)
   mcp-postgres:
-    image: mcp/postgres
+    image: crystaldba/postgres-mcp
     container_name: mcp-postgres
-    restart: always
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
     environment:
-      POSTGRES_URL: postgres://user:password@postgres:5432/dbname
-      MCP_PORT: 7000
-    expose:
-      - "7000"
+      DATABASE_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    command:
+      - "--access-mode=unrestricted"
+      - "--transport=sse"
+      - "--sse-host=0.0.0.0"
+      - "--sse-port=8000"
+    ports:
+      - "8002:8000"
     networks:
       - bdd_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  ######################################################
+  #                   POSTGRES-PGVECTOR                #
+  ######################################################
+  postgres-pgvector:
+    build:
+      context: ./DataBase/postgres-pgvector
+    container_name: postgres-pgvector
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dbname
+    volumes:
+      - pgdata_pgvector:/var/lib/postgresql/data
+      - ./DataBase/postgres-pgvector/dataset_droit_travail.sql:/docker-entrypoint-initdb.d/03-droit-travail-data.sql
+    ports:
+      - "5433:5432"
+    networks:
+      - bdd_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -h localhost -p 5432"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
   ######################################################
   #                BASES DE DONNÉES RÉELLES            #
@@ -78,16 +205,69 @@ services:
   postgres:
     image: postgres:16
     container_name: postgres
-    restart: always
+    restart: unless-stopped
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dbname
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./DataBase/postgres:/docker-entrypoint-initdb.d
+    ports:
+      - "5434:5432"
+    networks:
+      - bdd_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} -h localhost -p 5432"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  ######################################################
+  #                      MONGODB                      #
+  ######################################################
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: safety_db
+    volumes:
+      - mongo_data:/data/db
+      - ./DataBase/mongo/mongo-init:/docker-entrypoint-initdb.d
+    ports:
+      - "27017:27017"
     networks:
       - bdd_network
 
+  ######################################################
+  #                  MONGO DATA LOADER                 #
+  ######################################################
+  mongo-loader:
+    build:
+      context: ./DataBase/mongo/mongo-loader
+    container_name: mongo-loader
+    depends_on:
+      mongo:
+        condition: service_started
+    environment:
+      MONGO_URI: mongodb://root:example@mongo:27017
+      MONGO_DB: safety_db
+      MONGO_COLLECTION: procedures
+    networks:
+      - bdd_network
+    restart: 'no'
+    healthcheck:
+      test: ["CMD", "echo", "Loading complete"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 ########################################################
 #                       RÉSEAUX                         #
@@ -102,7 +282,13 @@ networks:
 #                      VOLUMES                          #
 ########################################################
 volumes:
-  postgres_data:
-  mysql_data:
   mongo_data:
+    driver: local
+  postgres_data:
+    driver: local
+  pgdata_pgvector:
+    driver: local
   open-webui-data:
+    driver: local
+  ollama_data:
+    driver: local
