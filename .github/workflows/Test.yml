@@ -14,14 +14,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    env:
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER || 'user' }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD || 'password' }}
-      POSTGRES_DB: ${{ secrets.POSTGRES_DB || 'entreprise' }}
-      POSTGRES_URL: ${{ secrets.POSTGRES_URL || 'postgresql://user:password@postgres:5432/entreprise' }}
-      TEST_DB_HOST: postgres
-
+    
     services:
       postgres:
         image: postgres:16
@@ -72,18 +65,11 @@ jobs:
                   time.sleep(2)
           "
 
-      - name: Run Database Tests
-        working-directory: ./pytest
-        env:
-          PGHOST: localhost
-          PGUSER: user
-          PGPASSWORD: password
-          PGDATABASE: entreprise
+      - name: Discover tests
         run: |
-          pytest test_db_available.py -v --tb=short
+          pytest --collect-only -q
 
-      - name: Run Pytest Tests
-        working-directory: ./pytest
+      - name: Run tests
         env:
           PGHOST: localhost
           PGUSER: user
@@ -91,8 +77,3 @@ jobs:
           PGDATABASE: entreprise
         run: |
           pytest -v --tb=short
-
-      - name: Generate Test Report
-        if: always()
-        run: |
-          echo "Test execution completed"

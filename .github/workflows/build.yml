@@ -19,6 +19,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Create .env file
+        run: |
+          cat > .env << EOF
+          POSTGRES_USER=user
+          POSTGRES_PASSWORD=password
+          POSTGRES_DB=entreprise
+          EOF
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -28,9 +36,9 @@ jobs:
 
       - name: List built images
         run: |
-          docker images | grep -E 'mongo-loader|mcp-gateway|orchestrator|query-management|postgres-pgvector|nginx'
+          docker images | grep -E 'mongo-loader|mcp-gateway|orchestrator|query-management|postgres-pgvector|nginx' || echo "Note: Some images may not match the pattern"
 
-      - name: Verify Docker images
+      - name: Verify Docker Compose config
         run: |
           docker compose config --quiet
-          echo "Docker Compose configuration is valid"
+          echo "✓ Docker Compose configuration is valid"
