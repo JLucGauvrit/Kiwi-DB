@@ -1,0 +1,19 @@
+# Sphinx core
+sphinx>=7.0
+sphinx-rtd-theme
+sphinx-autodoc-typehints
+sphinx-copybutton
+
+# Project dependencies (pour autodoc)
+fastapi
+pydantic
+langchain
+langchain-ollama
+langgraph
+websockets
+psycopg2-binary
+pgvector
+
+# -r orchestrateur/requirements.txt
+# -r mcp/requirements.txt
+# -r agent/requirements.txt
