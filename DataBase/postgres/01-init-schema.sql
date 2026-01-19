@@ -1,12 +1,14 @@
-```sql
-CREATE TABLE users (
+-- Se connecter à la base de données entreprise
+\connect entreprise
+
+CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
@@ -14,7 +16,7 @@ CREATE TABLE products (
     category VARCHAR(50)
 );
 
-CREATE TABLE orders (
+CREATE TABLE IF NOT EXISTS orders (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id),
     product_id INT REFERENCES products(id),
@@ -46,4 +48,3 @@ INSERT INTO orders (user_id, product_id, quantity, status) VALUES
     (3, 3, 2, 'completed'),
     (4, 5, 1, 'shipped'),
     (5, 7, 1, 'pending');
-```

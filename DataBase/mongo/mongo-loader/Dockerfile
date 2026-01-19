@@ -18,10 +18,9 @@ RUN python3 -m pip install --upgrade pip setuptools wheel && \
 
 # Copy loader script and any other app files
 COPY scripts /app/scripts
-COPY scripts/load_mongo_from_dataset.py /app/scripts/load_mongo_from_dataset.py
 
 # Copy an entrypoint that waits for Mongo and runs the loader
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

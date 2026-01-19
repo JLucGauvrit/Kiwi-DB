@@ -14,8 +14,10 @@ import asyncio
 import json
 import sys
 import websockets
+import pytest
 
 
+@pytest.mark.asyncio
 async def test_sql_query():
     """
     Tester l'exécution de requêtes SQL via la passerelle MCP.
