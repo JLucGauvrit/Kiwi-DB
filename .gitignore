@@ -2,3 +2,5 @@
 logs
 certs
 .venv
+__pycache__/
+*.pyc
