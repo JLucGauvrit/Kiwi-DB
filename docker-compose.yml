@@ -4,33 +4,6 @@
 services:
 
   ######################################################
-  # NGINX REVERSE PROXY + SSL TERMINATION
-  ######################################################
-  nginx:
-    build: ./nginx
-    container_name: nginx-reverse-proxy
-    restart: unless-stopped
-    ports:
-      - "80:80"      # HTTP (redirigé vers HTTPS)
-      - "443:443"    # HTTPS (principal)
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./certs:/etc/letsencrypt/live/certs:rw
-      - ./nginx/logs:/var/log/nginx
-    networks:
-      - query_network
-    depends_on:
-      open-webui:
-        condition: service_started
-      query-management:
-        condition: service_started
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 15s
-  ######################################################
   #                  FRONTEND OPEN WEB UI              #
   ######################################################
   open-webui:
@@ -43,9 +16,8 @@ services:
       - open-webui-data:/app/backend/data
     networks:
       - query_network
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
+    ports:
+      - "8080:8080"
     depends_on:
       orchestrator:
         condition: service_started
@@ -81,7 +53,7 @@ services:
     environment:
       MCP_GATEWAY_URL: ws://mcp-gateway:9000
       OLLAMA_URL: http://ollama:11434
-      OLLAMA_MODEL: llama3.2
+      OLLAMA_MODEL: llama3.2:1b
     networks:
       - query_network
       - bdd_network
@@ -90,12 +62,6 @@ services:
         condition: service_started
       mcp-gateway:
         condition: service_started
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
   
   query-management:
     build: ./query-management
@@ -112,12 +78,6 @@ services:
         condition: service_started
     networks:
       - query_network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:220/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
   
   ######################################################
   #                     MCP GATEWAY                    #
@@ -136,12 +96,6 @@ services:
         condition: service_healthy
       postgres-pgvector:
         condition: service_started
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/health" ]
-      interval: 20s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
 
   ######################################################
   #                SERVEURS MCP (DB CONNECTORS)        #
@@ -166,12 +120,6 @@ services:
       - "8002:8000"
     networks:
       - bdd_network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 15s
 
   ######################################################
   #                   POSTGRES-PGVECTOR                #
@@ -192,12 +140,6 @@ services:
       - "5433:5432"
     networks:
       - bdd_network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -h localhost -p 5432"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 20s
 
   ######################################################
   #                BASES DE DONNÉES RÉELLES            #
@@ -221,11 +163,11 @@ services:
     networks:
       - bdd_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} -h localhost -p 5432"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 30s
+      start_period: 10s
 
   ######################################################
   #                      MONGODB                      #
@@ -263,11 +205,6 @@ services:
     networks:
       - bdd_network
     restart: 'no'
-    healthcheck:
-      test: ["CMD", "echo", "Loading complete"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
 
 ########################################################
 #                       RÉSEAUX                         #
