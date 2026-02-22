@@ -1,6 +1,7 @@
 """
 Serveur FastAPI pour l'orchestrateur.
 Simule une API Ollama pour être compatible nativement avec OpenWebUI.
+Utilise le nouvel orchestrateur avec MCP Agent et tool calling.
 """
 import os
 import logging
@@ -57,6 +58,9 @@ class OllamaGenerateRequest(BaseModel):
 class OllamaShowRequest(BaseModel):
     name: str
 
+class QueryRequest(BaseModel):
+    query: str
+
 # --- Endpoints API (Compatibilité Ollama) ---
 
 @app.get("/")
@@ -76,13 +80,12 @@ async def api_version():
 async def api_tags():
     """
     Liste les modèles disponibles.
-    CORRECTION: Ajout de ':latest' pour satisfaire OpenWebUI.
     """
     return {
         "models": [
             {
-                "name": "Kiwi-Orchestrator:latest",  # <-- IMPORTANT: :latest ajouté
-                "model": "Kiwi-Orchestrator:latest", # <-- IMPORTANT: :latest ajouté
+                "name": "Kiwi-Orchestrator:latest",
+                "model": "Kiwi-Orchestrator:latest",
                 "modified_at": "2024-01-01T00:00:00Z",
                 "size": 0,
                 "digest": "sha256:1234567890abcdef",
@@ -103,7 +106,6 @@ async def api_show(request: OllamaShowRequest):
     """
     Retourne les métadonnées du modèle.
     """
-    # On accepte n'importe quel nom pour éviter les erreurs 404
     return {
         "license": "MIT",
         "modelfile": f"# Modelfile for {request.name}\nFROM llama3",
@@ -125,29 +127,29 @@ async def api_show(request: OllamaShowRequest):
 async def api_chat(request: OllamaChatRequest):
     """
     Endpoint principal pour la conversation.
+    Utilise le nouvel orchestrateur avec MCP Agent.
     """
     logger.info(f"Chat request received for model: {request.model}")
-    
-    # Validation basique
+
     if not request.messages:
         raise HTTPException(status_code=400, detail="No messages provided")
-    
+
     user_query = request.messages[-1].content
-    
-    # Mesure du temps pour les stats Ollama
+
     start_time = time.time()
-    
+
     try:
-        # Exécution de l'orchestrateur (LangGraph)
+        # Exécution de l'orchestrateur avec MCP Agent
         result = await orchestrator.run_async(user_query)
-        
+
         # Extraction de la réponse finale
-        # On sécurise l'accès au dictionnaire result
         if isinstance(result, dict):
-            response_content = result.get("final_output", str(result))
-            # Gestion des erreurs internes rapportées par l'agent
-            if result.get("errors"):
-                logger.error(f"Orchestrator logic errors: {result['errors']}")
+            # Le nouvel orchestrateur retourne 'answer' au lieu de 'final_output'
+            response_content = result.get("answer") or result.get("final_output", str(result))
+
+            if result.get("error"):
+                logger.error(f"Orchestrator error: {result['error']}")
+                response_content = f"Erreur: {result['error']}"
         else:
             response_content = str(result)
 
@@ -155,7 +157,6 @@ async def api_chat(request: OllamaChatRequest):
         logger.error(f"Critical error executing orchestrator: {e}", exc_info=True)
         response_content = f"Je rencontre une erreur technique : {str(e)}"
 
-    # Calcul de la durée en nanosecondes (requis par spec Ollama)
     duration_ns = int((time.time() - start_time) * 1e9)
 
     return {
@@ -175,21 +176,18 @@ async def api_chat(request: OllamaChatRequest):
 @app.post("/api/generate")
 async def api_generate(request: OllamaGenerateRequest):
     """
-    Endpoint pour la génération de texte simple (titres, suggestions).
+    Endpoint pour la génération de texte simple.
     """
     logger.info(f"Generate request received: {request.prompt[:50]}...")
-    
+
     try:
-        # Pour la génération de titre, on peut appeler l'orchestrateur 
-        # ou un LLM direct si l'orchestrateur est trop lourd.
-        # Ici on utilise l'orchestrateur pour rester simple.
         result = await orchestrator.run_async(request.prompt)
-        
+
         if isinstance(result, dict):
-            response_content = result.get("final_output", str(result))
+            response_content = result.get("answer") or result.get("final_output", str(result))
         else:
             response_content = str(result)
-        
+
         return {
             "model": request.model,
             "created_at": "2024-01-01T00:00:00Z",
@@ -208,14 +206,44 @@ async def api_generate(request: OllamaGenerateRequest):
             "done": True
         }
 
-# --- Endpoints Utilitaires ---
+# --- Endpoints Spécifiques ---
+
+@app.post("/api/query")
+async def process_query(request: QueryRequest):
+    """Process a direct RAG query (non-Ollama endpoint)."""
+    try:
+        result = await orchestrator.run_async(request.query)
+        return {"result": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/health")
 async def health_check():
     """Health check standard."""
     return {"status": "healthy"}
 
+@app.get("/tools")
+async def list_tools():
+    """Liste tous les outils MCP disponibles."""
+    try:
+        if not orchestrator.mcp_agent.mcp_tools:
+            await orchestrator.mcp_agent.initialize()
+
+        tools = []
+        for tool in orchestrator.mcp_agent.mcp_tools:
+            tools.append({
+                "name": tool["function"]["name"],
+                "description": tool["function"]["description"],
+                "parameters": tool["function"]["parameters"]
+            })
+
+        return {
+            "total": len(tools),
+            "tools": tools
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-    

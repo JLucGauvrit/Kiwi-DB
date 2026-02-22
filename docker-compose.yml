@@ -18,15 +18,11 @@ services:
       - query_network
     ports:
       - "8080:8080"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     depends_on:
-      orchestrator:
-        condition: service_started
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
+      - orchestrator
 
   ######################################################
   #                   ORCHESTRATOR LLM                 #
@@ -45,7 +41,7 @@ services:
   orchestrator:
     build: ./orchestrateur
     container_name: orchestrator
-    restart: unless-stopped
+    restart: always
     ports:
       - "8001:8000"
     env_file:
@@ -53,29 +49,25 @@ services:
     environment:
       MCP_GATEWAY_URL: ws://mcp-gateway:9000
       OLLAMA_URL: http://ollama:11434
-      OLLAMA_MODEL: llama3.2:1b
+      OLLAMA_MODEL: llama3.2
     networks:
       - query_network
       - bdd_network
     depends_on:
-      ollama:
-        condition: service_started
-      mcp-gateway:
-        condition: service_started
+      - ollama
   
   query-management:
     build: ./query-management
     container_name: query-management
     restart: unless-stopped
     env_file:
-      - .env
+      - .env.dev
     ports:
       - "220:220"
     environment:
       ORCHESTRATOR_URL: http://orchestrator:8000
     depends_on:
-      orchestrator:
-        condition: service_started
+      - orchestrator
     networks:
       - query_network
   
@@ -85,17 +77,17 @@ services:
   mcp-gateway:
     build: ./mcp/mcp-gateway
     container_name: mcp-gateway
-    restart: unless-stopped
+    restart: always
     ports:
       - "9000:9000"
     networks:
       - query_network
       - bdd_network
     depends_on:
+      mcp-postgres:
+        condition: service_started
       postgres:
         condition: service_healthy
-      postgres-pgvector:
-        condition: service_started
 
   ######################################################
   #                SERVEURS MCP (DB CONNECTORS)        #
@@ -108,7 +100,7 @@ services:
       postgres:
         condition: service_healthy
     env_file:
-      - .env
+      - .env.dev
     environment:
       DATABASE_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     command:
@@ -120,7 +112,23 @@ services:
       - "8002:8000"
     networks:
       - bdd_network
-
+  mcp-mongo:
+    image: node:20-alpine
+    container_name: mcp-mongo
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      # URI correspondant à ton service 'mongo' défini plus bas
+      - MONGO_URI=mongodb://root:example@mongo:27017/?authSource=admin
+    # On utilise supergateway pour convertir le serveur officiel (stdio) en serveur SSE sur le port 8003
+    command: >
+      sh -c "npm install -g supergateway mongodb-mcp-server &&
+      supergateway --port 8003 --stdio 'npx mongodb-mcp-server ${MONGO_URI}'"
+    ports:
+      - "8003:8003"
+    networks:
+      - bdd_network
   ######################################################
   #                   POSTGRES-PGVECTOR                #
   ######################################################
@@ -129,10 +137,8 @@ services:
       context: ./DataBase/postgres-pgvector
     container_name: postgres-pgvector
     restart: unless-stopped
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dbname
+    env_file:
+      - .env.dev
     volumes:
       - pgdata_pgvector:/var/lib/postgresql/data
       - ./DataBase/postgres-pgvector/dataset_droit_travail.sql:/docker-entrypoint-initdb.d/03-droit-travail-data.sql
@@ -149,12 +155,7 @@ services:
     container_name: postgres
     restart: unless-stopped
     env_file:
-      - .env
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_HOST=postgres
+      - .env.dev
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./DataBase/postgres:/docker-entrypoint-initdb.d
@@ -163,11 +164,14 @@ services:
     networks:
       - bdd_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 10s
+
+  ######################################################
+  # SEEDER (génère les données au premier lancement) #
+  ######################################################
 
   ######################################################
   #                      MONGODB                      #
@@ -175,7 +179,7 @@ services:
   mongo:
     image: mongo:6.0
     container_name: mongo
-    restart: unless-stopped
+    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -196,8 +200,7 @@ services:
       context: ./DataBase/mongo/mongo-loader
     container_name: mongo-loader
     depends_on:
-      mongo:
-        condition: service_started
+      - mongo
     environment:
       MONGO_URI: mongodb://root:example@mongo:27017
       MONGO_DB: safety_db
@@ -219,10 +222,8 @@ networks:
 #                      VOLUMES                          #
 ########################################################
 volumes:
-  mongo_data:
-    driver: local
   postgres_data:
-    driver: local
+  mongo_data:
   pgdata_pgvector:
     driver: local
   open-webui-data:

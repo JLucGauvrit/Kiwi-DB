@@ -1,4 +1,3 @@
-```sql
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
@@ -46,4 +45,3 @@ INSERT INTO orders (user_id, product_id, quantity, status) VALUES
     (3, 3, 2, 'completed'),
     (4, 5, 1, 'shipped'),
     (5, 7, 1, 'pending');
-```
