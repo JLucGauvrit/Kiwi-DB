@@ -3,6 +3,7 @@ MCP Client Pool - Manages connections to multiple MCP servers (Version 2 - Sans 
 """
 import asyncio
 import logging
+import httpx
 from typing import Dict, Any, List, Optional
 from mcp import ClientSession
 from mcp.client.sse import sse_client
@@ -29,7 +30,14 @@ class MCPClient:
         try:
             logger.info(f"Starting connection task for '{self.name}' at {self.url}")
 
-            async with sse_client(self.url) as (read, write):
+            # <-- DÉBUT DE LA MODIFICATION
+            # Désactive tous les timeouts (connexion, lecture, écriture, pool)
+            timeout = httpx.Timeout(None)
+            
+            # On passe le paramètre timeout à sse_client
+            async with sse_client(self.url, timeout=timeout) as (read, write):
+            # <-- FIN DE LA MODIFICATION
+                
                 logger.info(f"SSE connection established for '{self.name}'")
 
                 async with ClientSession(read, write) as session:

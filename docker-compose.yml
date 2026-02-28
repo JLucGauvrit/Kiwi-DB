@@ -37,7 +37,14 @@ services:
       - ollama_data:/root/.ollama
     networks:
       - query_network
-  
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
   orchestrator:
     build: ./orchestrateur
     container_name: orchestrator
@@ -49,27 +56,11 @@ services:
     environment:
       MCP_GATEWAY_URL: ws://mcp-gateway:9000
       OLLAMA_URL: http://ollama:11434
-      OLLAMA_MODEL: llama3.2
     networks:
       - query_network
       - bdd_network
     depends_on:
       - ollama
-  
-  query-management:
-    build: ./query-management
-    container_name: query-management
-    restart: unless-stopped
-    env_file:
-      - .env.dev
-    ports:
-      - "220:220"
-    environment:
-      ORCHESTRATOR_URL: http://orchestrator:8000
-    depends_on:
-      - orchestrator
-    networks:
-      - query_network
   
   ######################################################
   #                     MCP GATEWAY                    #
@@ -100,7 +91,7 @@ services:
       postgres:
         condition: service_healthy
     env_file:
-      - .env.dev
+      - .env
     environment:
       DATABASE_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     command:
@@ -138,7 +129,7 @@ services:
     container_name: postgres-pgvector
     restart: unless-stopped
     env_file:
-      - .env.dev
+      - .env
     volumes:
       - pgdata_pgvector:/var/lib/postgresql/data
       - ./DataBase/postgres-pgvector/dataset_droit_travail.sql:/docker-entrypoint-initdb.d/03-droit-travail-data.sql
@@ -155,7 +146,7 @@ services:
     container_name: postgres
     restart: unless-stopped
     env_file:
-      - .env.dev
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./DataBase/postgres:/docker-entrypoint-initdb.d
@@ -164,7 +155,7 @@ services:
     networks:
       - bdd_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
