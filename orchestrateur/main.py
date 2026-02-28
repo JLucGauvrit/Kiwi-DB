@@ -1,188 +1,247 @@
-"""FastAPI server for orchestrator."""
+"""
+Serveur FastAPI pour l'orchestrateur.
+Simule une API Ollama pour être compatible nativement avec OpenWebUI.
+Utilise le nouvel orchestrateur avec MCP Agent et tool calling.
+"""
 import os
-from fastapi import FastAPI, HTTPException
+import logging
+import time
+from typing import List, Optional, Dict, Any
+from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
-from src.orchestrator.orchestrator import FederatedRAGOrchestrator
 from dotenv import load_dotenv
+
+# Import de votre logique d'orchestration
+from src.orchestrator.orchestrator import FederatedRAGOrchestrator
+
+# Configuration du logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
-app = FastAPI(title="RAG Orchestrator")
+app = FastAPI(title="Kiwi Orchestrator (Ollama Compatible)")
 
-# Initialize orchestrator
+# --- Configuration & Initialisation ---
 config = {
     "mcp_gateway_url": os.getenv("MCP_GATEWAY_URL", "ws://mcp-gateway:9000"),
     "google_api_key": os.getenv("GOOGLE_API_KEY")
 }
 
+# On initialise l'orchestrateur au démarrage
 orchestrator = FederatedRAGOrchestrator(config)
 
+# --- Modèles Pydantic (Protocole Ollama) ---
+
+class Message(BaseModel):
+    role: str
+    content: str
+    images: Optional[List[str]] = None
+
+class OllamaChatRequest(BaseModel):
+    model: str
+    messages: List[Message]
+    stream: bool = False
+    options: Optional[Dict[str, Any]] = None
+    keep_alive: Optional[Any] = None
+
+class OllamaGenerateRequest(BaseModel):
+    model: str
+    prompt: str
+    stream: bool = False
+    system: Optional[str] = None
+    template: Optional[str] = None
+    context: Optional[List[int]] = None
+    options: Optional[Dict[str, Any]] = None
+
+class OllamaShowRequest(BaseModel):
+    name: str
 
 class QueryRequest(BaseModel):
     query: str
 
-
-class QueryResponse(BaseModel):
-    result: dict
-
+# --- Endpoints API (Compatibilité Ollama) ---
 
 @app.get("/")
 async def root():
-    return {"status": "ok", "service": "orchestrator"}
+    """Vérification rapide que le service tourne."""
+    return "Ollama is running"
 
+@app.get("/api/version")
+async def api_version():
+    """
+    Requis par OpenWebUI pour valider la connexion.
+    Retourne une version fictive d'Ollama.
+    """
+    return {"version": "0.1.30"}
 
-@app.post("/api/query", response_model=QueryResponse)
-async def process_query(request: QueryRequest):
-    """Process a federated RAG query."""
+@app.get("/api/tags")
+async def api_tags():
+    """
+    Liste les modèles disponibles.
+    """
+    return {
+        "models": [
+            {
+                "name": "Kiwi-Orchestrator:latest",
+                "model": "Kiwi-Orchestrator:latest",
+                "modified_at": "2024-01-01T00:00:00Z",
+                "size": 0,
+                "digest": "sha256:1234567890abcdef",
+                "details": {
+                    "parent_model": "",
+                    "format": "gguf",
+                    "family": "llama",
+                    "families": ["llama"],
+                    "parameter_size": "7B",
+                    "quantization_level": "Q4_0"
+                }
+            }
+        ]
+    }
+
+@app.post("/api/show")
+async def api_show(request: OllamaShowRequest):
+    """
+    Retourne les métadonnées du modèle.
+    """
+    return {
+        "license": "MIT",
+        "modelfile": f"# Modelfile for {request.name}\nFROM llama3",
+        "parameters": "",
+        "template": "",
+        "system": "Tu es un orchestrateur intelligent connecté à plusieurs bases de données.",
+        "details": {
+            "parent_model": "",
+            "format": "gguf",
+            "family": "llama",
+            "families": ["llama"],
+            "parameter_size": "7B",
+            "quantization_level": "Q4_0"
+        },
+        "messages": []
+    }
+
+@app.post("/api/chat")
+async def api_chat(request: OllamaChatRequest):
+    """
+    Endpoint principal pour la conversation.
+    Utilise le nouvel orchestrateur avec MCP Agent.
+    """
+    logger.info(f"Chat request received for model: {request.model}")
+
+    if not request.messages:
+        raise HTTPException(status_code=400, detail="No messages provided")
+
+    user_query = request.messages[-1].content
+
+    start_time = time.time()
+
     try:
-        result = orchestrator.run(request.query)
-        return QueryResponse(result=result)
+        # Exécution de l'orchestrateur avec MCP Agent
+        result = await orchestrator.run_async(user_query)
+
+        # Extraction de la réponse finale
+        if isinstance(result, dict):
+            # Le nouvel orchestrateur retourne 'answer' au lieu de 'final_output'
+            response_content = result.get("answer") or result.get("final_output", str(result))
+
+            if result.get("error"):
+                logger.error(f"Orchestrator error: {result['error']}")
+                response_content = f"Erreur: {result['error']}"
+        else:
+            response_content = str(result)
+
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Critical error executing orchestrator: {e}", exc_info=True)
+        response_content = f"Je rencontre une erreur technique : {str(e)}"
 
+    duration_ns = int((time.time() - start_time) * 1e9)
 
-@app.get("/health")
-async def health():
-    return {"status": "healthy"}
+    return {
+        "model": request.model,
+        "created_at": "2024-01-01T00:00:00Z",
+        "message": {
+            "role": "assistant",
+            "content": response_content
+        },
+        "done": True,
+        "total_duration": duration_ns,
+        "load_duration": 0,
+        "prompt_eval_count": 0,
+        "eval_count": 0
+    }
 
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-"""
-FastAPI server for orchestrator.
-
-Ce module implémente le serveur FastAPI qui orchestre les requêtes RAG fédérées.
-Il reçoit les requêtes utilisateur, les traite via l'orchestrateur RAG fédéré,
-et retourne les résultats synthétisés.
-
-@author: PROCOM Team
-@version: 1.0
-@since: 2026-01-19
-"""
-import os
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from src.orchestrator.orchestrator import FederatedRAGOrchestrator
-from dotenv import load_dotenv
-
-load_dotenv()
-
-app = FastAPI(title="RAG Orchestrator")
-
-# Initialisation de l'orchestrateur avec la configuration depuis les variables d'environnement
-config = {
-    "mcp_gateway_url": os.getenv("MCP_GATEWAY_URL", "ws://mcp-gateway:9000"),
-    "ollama_url": os.getenv("OLLAMA_URL", "http://ollama:11434"),
-    "ollama_model": os.getenv("OLLAMA_MODEL", "llama3.2")
-}
-
-orchestrator = FederatedRAGOrchestrator(config)
-
-
-class QueryRequest(BaseModel):
+@app.post("/api/generate")
+async def api_generate(request: OllamaGenerateRequest):
     """
-    Modèle Pydantic pour les requêtes de requête utilisateur.
-    
-    @param query: La requête utilisateur en texte libre
-    @type query: str
+    Endpoint pour la génération de texte simple.
     """
-    query: str
+    logger.info(f"Generate request received: {request.prompt[:50]}...")
 
+    try:
+        result = await orchestrator.run_async(request.prompt)
 
-class QueryResponse(BaseModel):
-    """
-    Modèle Pydantic pour les réponses de requête.
-    
-    @param result: Dictionnaire contenant les résultats de l'orchestration RAG
-    @type result: dict
-    """
-    result: dict
+        if isinstance(result, dict):
+            response_content = result.get("answer") or result.get("final_output", str(result))
+        else:
+            response_content = str(result)
 
+        return {
+            "model": request.model,
+            "created_at": "2024-01-01T00:00:00Z",
+            "response": response_content,
+            "done": True,
+            "context": [],
+            "total_duration": 0,
+            "load_duration": 0,
+            "prompt_eval_count": 0,
+            "eval_count": 0
+        }
+    except Exception as e:
+        logger.error(f"Error in generate: {e}")
+        return {
+            "response": f"Error: {str(e)}",
+            "done": True
+        }
 
-@app.get("/")
-async def root():
-    """
-    Point d'entrée racine du serveur.
-    
-    @return: Statut du service
-    @rtype: dict
-    """
-    return {"status": "ok", "service": "orchestrator"}
+# --- Endpoints Spécifiques ---
 
-
-@app.post("/api/query", response_model=QueryResponse)
+@app.post("/api/query")
 async def process_query(request: QueryRequest):
-    """
-    Traiter une requête RAG fédérée.
-    
-    Reçoit une requête utilisateur, la traite via l'orchestrateur RAG fédéré
-    en passant par les agents d'intention, de récupération, de génération SQL,
-    de validation, d'exécution et de composition.
-    
-    @param request: La requête utilisateur
-    @type request: QueryRequest
-    @return: Réponse contenant les résultats du traitement RAG
-    @rtype: QueryResponse
-    @raise HTTPException: En cas d'erreur lors du traitement
-    """
+    """Process a direct RAG query (non-Ollama endpoint)."""
     try:
         result = await orchestrator.run_async(request.query)
-        return QueryResponse(result=result)
+        return {"result": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
 @app.get("/health")
-async def health():
-    """
-    Endpoint de vérification de santé du service.
-    
-    @return: Statut de santé du service
-    @rtype: dict
-    """
+async def health_check():
+    """Health check standard."""
     return {"status": "healthy"}
 
-
-@app.get("/test-mcp")
-async def test_mcp():
-    """Test MCP connection without using LLM."""
-    from src.mcp_client import MCPGatewayClient
-    
+@app.get("/tools")
+async def list_tools():
+    """Liste tous les outils MCP disponibles."""
     try:
-        client = MCPGatewayClient(config["mcp_gateway_url"])
-        
-        # Test listing tools
-        tools_response = await client.list_tools("postgres")
-        
-        # Test calling describe_schema
-        schema_response = await client.call_tool(
-            tool="describe_schema",
-            arguments={},
-            server="postgres"
-        )
-        
-        # Test a simple query
-        query_response = await client.call_tool(
-            tool="query",
-            arguments={"sql": "SELECT current_database(), version();"},
-            server="postgres"
-        )
-        
-        await client.disconnect()
-        
+        if not orchestrator.mcp_agent.mcp_tools:
+            await orchestrator.mcp_agent.initialize()
+
+        tools = []
+        for tool in orchestrator.mcp_agent.mcp_tools:
+            tools.append({
+                "name": tool["function"]["name"],
+                "description": tool["function"]["description"],
+                "parameters": tool["function"]["parameters"]
+            })
+
         return {
-            "status": "success",
-            "tools": tools_response,
-            "schema": schema_response,
-            "query": query_response
+            "total": len(tools),
+            "tools": tools
         }
     except Exception as e:
-        return {
-            "status": "error",
-            "error": str(e)
-        }
-
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
