@@ -1,5 +1,6 @@
 # Étape 1 : Builder
 FROM python:3.11-slim AS builder
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /build
 COPY requirements.txt .
 RUN pip wheel --no-cache-dir --wheel-dir /build/wheels -r requirements.txt
@@ -18,4 +19,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]

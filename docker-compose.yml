@@ -23,7 +23,10 @@ services:
       - 8.8.4.4
     depends_on:
       - orchestrator
-
+    deploy:
+      resources:
+        limits:
+          memory: 1g
   ######################################################
   #                   ORCHESTRATOR LLM                 #
   ######################################################
