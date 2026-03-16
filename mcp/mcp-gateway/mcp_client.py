@@ -11,72 +11,69 @@ logger = logging.getLogger(__name__)
 
 
 class MCPClient:
-    """Client for a single MCP server"""
+    """Client for a single MCP server.
 
-    def __init__(self, name: str, url: str, server_type: str, transport: str = "sse"):
+    Supports two connection modes:
+    - persistent: maintains a long-lived SSE connection (good for stable servers)
+    - per_request: opens a fresh connection for each operation (good for supergateway-wrapped servers)
+    """
+
+    def __init__(self, name: str, url: str, server_type: str, transport: str = "sse", per_request: bool = False):
         self.name = name
         self.url = url
         self.server_type = server_type
         self.transport = transport
+        self.per_request = per_request
         self.session: Optional[ClientSession] = None
         self._connected = False
-        self._sse_context = None
-        self._session_context = None
         self._connection_task: Optional[asyncio.Task] = None
 
+    # ------------------------------------------------------------------ #
+    #  Persistent mode helpers                                             #
+    # ------------------------------------------------------------------ #
+
     async def _maintain_connection(self):
-        """Maintain the SSE connection in a background task"""
-        try:
-            logger.info(f"Starting connection task for '{self.name}' at {self.url}")
-
-            async with sse_client(self.url) as (read, write):
-                logger.info(f"SSE connection established for '{self.name}'")
-
-                async with ClientSession(read, write) as session:
-                    logger.info(f"MCP ClientSession created for '{self.name}'")
-
-                    self.session = session
-
-                    # Initialize the session
-                    init_result = await session.initialize()
-                    logger.info(
-                        f"MCP session initialized for '{self.name}' - "
-                        f"Server: {init_result.serverInfo.name} v{init_result.serverInfo.version}"
-                    )
-
-                    self._connected = True
-
-                    # Keep the connection alive indefinitely
-                    await asyncio.Event().wait()
-
-        except asyncio.CancelledError:
-            logger.info(f"Connection task cancelled for '{self.name}'")
-            raise
-        except Exception as e:
-            logger.error(f"Connection task failed for '{self.name}': {e}", exc_info=True)
-            raise
-        finally:
-            self._connected = False
-            self.session = None
+        """Maintain the SSE connection in a background task, with auto-reconnect."""
+        retry_delay = 5
+        while True:
+            try:
+                logger.info(f"Starting connection task for '{self.name}' at {self.url}")
+                async with sse_client(self.url) as (read, write):
+                    async with ClientSession(read, write) as session:
+                        self.session = session
+                        init_result = await session.initialize()
+                        logger.info(
+                            f"MCP session initialized for '{self.name}' - "
+                            f"Server: {init_result.serverInfo.name} v{init_result.serverInfo.version}"
+                        )
+                        self._connected = True
+                        retry_delay = 5
+                        await asyncio.Event().wait()
+            except asyncio.CancelledError:
+                self._connected = False
+                self.session = None
+                raise
+            except Exception as e:
+                self._connected = False
+                self.session = None
+                logger.warning(f"Connection to '{self.name}' lost: {e}. Retrying in {retry_delay}s...")
+                await asyncio.sleep(retry_delay)
+                retry_delay = min(retry_delay * 2, 60)
 
     async def connect(self):
-        """Connect to the MCP server via SSE"""
+        """Establish connection (persistent mode only)."""
+        if self.per_request:
+            self._connected = True
+            logger.info(f"'{self.name}' configured in per-request mode")
+            return
         try:
-            if self.transport != "sse":
-                raise ValueError(f"Unsupported transport: {self.transport}")
-
-            # Start the connection maintenance task
             self._connection_task = asyncio.create_task(self._maintain_connection())
-
-            # Wait a bit for the connection to be established
-            for _ in range(300):  # Wait up to 30 seconds
+            for _ in range(300):
                 if self._connected:
                     logger.info(f"Successfully connected to MCP server '{self.name}'")
                     return
                 await asyncio.sleep(0.1)
-
             raise TimeoutError(f"Timeout connecting to MCP server '{self.name}'")
-
         except Exception as e:
             logger.error(f"Failed to connect to MCP server '{self.name}': {e}")
             if self._connection_task:
@@ -88,91 +85,106 @@ class MCPClient:
             raise
 
     async def disconnect(self):
-        """Disconnect from the MCP server"""
-        try:
-            self._connected = False
-            if self._connection_task:
-                self._connection_task.cancel()
-                try:
-                    await self._connection_task
-                except asyncio.CancelledError:
-                    pass
-                self._connection_task = None
-            self.session = None
-            logger.info(f"Disconnected from MCP server '{self.name}'")
-        except Exception as e:
-            logger.error(f"Error disconnecting from MCP server '{self.name}': {e}")
+        """Disconnect from the MCP server."""
+        self._connected = False
+        self.session = None
+        if self._connection_task:
+            self._connection_task.cancel()
+            try:
+                await self._connection_task
+            except asyncio.CancelledError:
+                pass
+            self._connection_task = None
+        logger.info(f"Disconnected from MCP server '{self.name}'")
 
     def is_connected(self) -> bool:
-        """Check if connected to the MCP server"""
+        if self.per_request:
+            return True
         return self._connected and self.session is not None
 
-    async def list_tools(self) -> List[Dict[str, Any]]:
-        """List available tools on the MCP server"""
-        if not self.is_connected():
-            raise ConnectionError(f"Not connected to MCP server '{self.name}'")
+    # ------------------------------------------------------------------ #
+    #  Per-request connection helper                                       #
+    # ------------------------------------------------------------------ #
 
+    async def _run_with_fresh_session(self, fn):
+        """Open a fresh SSE connection, run fn(session), return result."""
         try:
-            result = await self.session.list_tools()
+            async with sse_client(self.url) as (read, write):
+                async with ClientSession(read, write) as session:
+                    await session.initialize()
+                    return await fn(session)
+        except BaseException as e:
+            # Unwrap ExceptionGroup (Python 3.11 / anyio TaskGroup errors)
+            inner = e
+            if hasattr(e, "exceptions"):
+                inner = e.exceptions[0]
+            logger.error(f"[{self.name}] SSE session error: {type(inner).__name__}: {inner}", exc_info=True)
+            raise
+
+    # ------------------------------------------------------------------ #
+    #  Public API                                                          #
+    # ------------------------------------------------------------------ #
+
+    async def list_tools(self) -> List[Dict[str, Any]]:
+        async def _list(session):
+            result = await session.list_tools()
             return [
-                {
-                    "name": tool.name,
-                    "description": tool.description,
-                    "inputSchema": tool.inputSchema
-                }
-                for tool in result.tools
+                {"name": t.name, "description": t.description, "inputSchema": t.inputSchema}
+                for t in result.tools
             ]
+        try:
+            if self.per_request:
+                return await self._run_with_fresh_session(_list)
+            if not self.is_connected():
+                raise ConnectionError(f"Not connected to MCP server '{self.name}'")
+            return await _list(self.session)
         except Exception as e:
             logger.error(f"Error listing tools from '{self.name}': {e}")
             raise
 
     async def call_tool(self, tool_name: str, arguments: Dict[str, Any]) -> Any:
-        """Call a tool on the MCP server"""
-        if not self.is_connected():
-            raise ConnectionError(f"Not connected to MCP server '{self.name}'")
-
-        try:
-            result = await self.session.call_tool(tool_name, arguments)
-            # Extract the content from CallToolResult
+        async def _call(session):
+            result = await session.call_tool(tool_name, arguments)
             return [
-                {
-                    "type": content.type,
-                    "text": content.text if hasattr(content, "text") else None,
-                }
-                for content in result.content
+                {"type": c.type, "text": c.text if hasattr(c, "text") else None}
+                for c in result.content
             ]
+        try:
+            if self.per_request:
+                return await self._run_with_fresh_session(_call)
+            if not self.is_connected():
+                raise ConnectionError(f"Not connected to MCP server '{self.name}'")
+            return await _call(self.session)
         except Exception as e:
             logger.error(f"Error calling tool '{tool_name}' on '{self.name}': {e}")
             raise
 
     async def list_resources(self) -> List[Dict[str, Any]]:
-        """List available resources on the MCP server"""
-        if not self.is_connected():
-            raise ConnectionError(f"Not connected to MCP server '{self.name}'")
-
-        try:
-            result = await self.session.list_resources()
+        async def _list(session):
+            result = await session.list_resources()
             return [
-                {
-                    "uri": resource.uri,
-                    "name": resource.name,
-                    "description": resource.description,
-                    "mimeType": resource.mimeType
-                }
-                for resource in result.resources
+                {"uri": r.uri, "name": r.name, "description": r.description, "mimeType": r.mimeType}
+                for r in result.resources
             ]
+        try:
+            if self.per_request:
+                return await self._run_with_fresh_session(_list)
+            if not self.is_connected():
+                raise ConnectionError(f"Not connected to MCP server '{self.name}'")
+            return await _list(self.session)
         except Exception as e:
             logger.error(f"Error listing resources from '{self.name}': {e}")
             raise
 
     async def get_resource(self, uri: str) -> Any:
-        """Get a resource from the MCP server"""
-        if not self.is_connected():
-            raise ConnectionError(f"Not connected to MCP server '{self.name}'")
-
+        async def _get(session):
+            return await session.read_resource(uri)
         try:
-            result = await self.session.read_resource(uri)
-            return result
+            if self.per_request:
+                return await self._run_with_fresh_session(_get)
+            if not self.is_connected():
+                raise ConnectionError(f"Not connected to MCP server '{self.name}'")
+            return await _get(self.session)
         except Exception as e:
             logger.error(f"Error reading resource '{uri}' from '{self.name}': {e}")
             raise
@@ -195,7 +207,8 @@ class MCPClientPool:
                     name=name,
                     url=config["url"],
                     server_type=config["type"],
-                    transport=config.get("transport", "sse")
+                    transport=config.get("transport", "sse"),
+                    per_request=config.get("per_request", False)
                 )
                 await client.connect()
                 self.clients[name] = client

@@ -54,7 +54,7 @@ class FederatedRAGOrchestrator:
                     "stockées dans une base de données.\n\n"
                     f"Raison: {intent_result.get('reason', 'Question de type connaissance générale')}\n\n"
                     "Pour obtenir des informations sur vos données, veuillez poser une question concernant "
-                    "vos utilisateurs, produits, commandes ou autres données de votre base de données."
+                    "les voitures, marques, ventes (PostgreSQL) ou les animaux (MongoDB)."
                 ),
                 "tool_calls": [],
                 "iterations": 0
@@ -62,7 +62,8 @@ class FederatedRAGOrchestrator:
 
         # Étape 2: Requête nécessite un accès à la base de données - utiliser MCP Agent
         logger.info("Query requires database access, proceeding with MCP Agent")
-        result = await self.mcp_agent.process_query(query)
+        target_databases = intent_result.get("databases", [])
+        result = await self.mcp_agent.process_query(query, target_databases=target_databases)
 
         # Ajouter les informations d'intention au résultat
         result["intent"] = intent_result

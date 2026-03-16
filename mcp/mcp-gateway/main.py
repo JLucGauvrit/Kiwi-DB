@@ -21,12 +21,20 @@ MCP_SERVERS = {
     "postgres": {
         "url": "http://mcp-postgres:8000/sse",
         "type": "postgres",
-        "transport": "sse"
+        "transport": "sse",
+        "per_request": False
     },
     "mongo": {
         "url": "http://mcp-mongo:8003/sse",
         "type": "mongo",
-        "transport": "sse"
+        "transport": "sse",
+        "per_request": True   # supergateway drops SSE after init → fresh conn each time
+    },
+    "mysql": {
+        "url": "http://mcp-mysql:8004/sse",
+        "type": "mysql",
+        "transport": "sse",
+        "per_request": True   # supergateway → fresh conn each time
     }
 }
 

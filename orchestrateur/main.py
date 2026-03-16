@@ -25,8 +25,8 @@ app = FastAPI(title="Kiwi Orchestrator (Ollama Compatible)")
 # --- Configuration & Initialisation ---
 config = {
     "mcp_gateway_url": os.getenv("MCP_GATEWAY_URL", "ws://mcp-gateway:9000"),
-    "ollama_url": os.getenv("OLLAMA_URL", "http://ollama:11434"),
-    "ollama_model": os.getenv("OLLAMA_MODEL", "llama3.2")
+    "openrouter_api_key": os.getenv("OPENROUTER_API_KEY", ""),
+    "openrouter_model": os.getenv("OPENROUTER_MODEL", "arcee-ai/trinity-large-preview:free")
 }
 
 # On initialise l'orchestrateur au démarrage

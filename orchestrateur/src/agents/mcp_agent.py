@@ -1,8 +1,8 @@
-"""Agent qui utilise Ollama avec tool calling MCP."""
+"""Agent qui utilise OpenRouter avec tool calling MCP."""
 import json
 import logging
 from typing import Dict, Any, List
-from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
 from src.mcp_client import MCPGatewayClient
 
@@ -10,15 +10,16 @@ logger = logging.getLogger(__name__)
 
 
 class MCPAgent:
-    """Agent qui utilise le LLM Ollama avec les outils MCP via function calling."""
+    """Agent qui utilise le LLM OpenRouter avec les outils MCP via function calling."""
 
     def __init__(self, config: dict):
         self.config = config
-        ollama_url = config.get("ollama_url", "http://ollama:11434")
-        model = config.get("ollama_model", "llama3.2")
+        api_key = config.get("openrouter_api_key", "")
+        model = config.get("openrouter_model", "nvidia/nemotron-3-nano-30b-a3b:free")
 
-        self.llm = ChatOllama(
-            base_url=ollama_url,
+        self.llm = ChatOpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=api_key,
             model=model,
             temperature=0.1
         )
@@ -31,39 +32,44 @@ class MCPAgent:
         """Initialise l'agent en récupérant les outils MCP disponibles de tous les serveurs."""
         try:
             # Liste des serveurs MCP disponibles
-            mcp_servers = ["postgres"]  # MongoDB désactivé temporairement
+            mcp_servers = ["postgres", "mongo", "mysql"]
 
             self.mcp_tools = []
 
-            # Récupérer les outils de chaque serveur MCP
+            # Récupérer les outils de chaque serveur MCP (avec retry)
             for server_name in mcp_servers:
-                try:
-                    logger.info(f"Loading tools from {server_name}...")
-                    response = await self.mcp_client.list_tools(server=server_name)
+                loaded = False
+                for attempt in range(3):
+                    try:
+                        logger.info(f"Loading tools from {server_name} (attempt {attempt + 1})...")
+                        response = await self.mcp_client.list_tools(server=server_name)
 
-                    if response.get("success"):
-                        tools_data = response.get("tools", [])
+                        if response.get("success"):
+                            tools_data = response.get("tools", [])
 
-                        # Convertir les outils MCP au format LangChain/OpenAI
-                        for tool_info in tools_data:
-                            if isinstance(tool_info, dict) and "name" in tool_info:
-                                # Préfixer le nom de l'outil avec le serveur pour éviter les conflits
-                                tool_info_with_server = tool_info.copy()
-                                original_name = tool_info["name"]
-                                tool_info_with_server["name"] = f"{server_name}_{original_name}"
-                                tool_info_with_server["description"] = f"[{server_name.upper()}] {tool_info.get('description', '')}"
-                                tool_info_with_server["_server"] = server_name
-                                tool_info_with_server["_original_name"] = original_name
+                            for tool_info in tools_data:
+                                if isinstance(tool_info, dict) and "name" in tool_info:
+                                    tool_info_with_server = tool_info.copy()
+                                    original_name = tool_info["name"]
+                                    tool_info_with_server["name"] = f"{server_name}_{original_name}"
+                                    tool_info_with_server["description"] = f"[{server_name.upper()}] {tool_info.get('description', '')}"
+                                    tool_info_with_server["_server"] = server_name
+                                    tool_info_with_server["_original_name"] = original_name
 
-                                tool_def = self._convert_mcp_tool_to_langchain(tool_info_with_server)
-                                self.mcp_tools.append(tool_def)
+                                    tool_def = self._convert_mcp_tool_to_langchain(tool_info_with_server)
+                                    self.mcp_tools.append(tool_def)
 
-                        logger.info(f"Loaded {len(tools_data)} tools from {server_name}")
-                    else:
-                        logger.warning(f"Failed to load tools from {server_name}: {response}")
+                            logger.info(f"Loaded {len(tools_data)} tools from {server_name}")
+                            loaded = True
+                            break
+                        else:
+                            logger.warning(f"Failed to load tools from {server_name} (attempt {attempt + 1}): {response}")
 
-                except Exception as e:
-                    logger.error(f"Error loading tools from {server_name}: {e}")
+                    except Exception as e:
+                        logger.error(f"Error loading tools from {server_name} (attempt {attempt + 1}): {e}")
+
+                if not loaded:
+                    logger.error(f"Could not load tools from {server_name} after 3 attempts")
 
             logger.info(f"Total tools loaded: {len(self.mcp_tools)}")
 
@@ -89,7 +95,7 @@ class MCPAgent:
             }
         }
 
-    async def process_query(self, user_query: str, max_iterations: int = 10) -> Dict[str, Any]:
+    async def process_query(self, user_query: str, max_iterations: int = 10, target_databases: list = None) -> Dict[str, Any]:
         """
         Traite une requête utilisateur en utilisant le LLM avec tool calling.
 
@@ -105,36 +111,54 @@ class MCPAgent:
             if not self.mcp_tools:
                 await self.initialize()
 
-            logger.info(f"Processing query: {user_query}")
-            logger.info(f"Available tools: {[t['function']['name'] for t in self.mcp_tools]}")
+            # Filtrer les outils selon les databases cibles
+            if target_databases:
+                active_tools = [
+                    t for t in self.mcp_tools
+                    if any(t['function']['name'].startswith(db + "_") for db in target_databases)
+                ]
+                # Si 0 outils trouvés, forcer un rechargement (cas où l'init a échoué)
+                if not active_tools:
+                    logger.warning(f"No tools found for {target_databases}, forcing reload...")
+                    self.mcp_tools = []
+                    await self.initialize()
+                    active_tools = [
+                        t for t in self.mcp_tools
+                        if any(t['function']['name'].startswith(db + "_") for db in target_databases)
+                    ]
+                logger.info(f"Filtering tools for databases {target_databases}: {len(active_tools)} tools selected")
+            else:
+                active_tools = self.mcp_tools
 
-            # Initialiser la conversation
+            logger.info(f"Processing query: {user_query}")
+            logger.info(f"Available tools: {[t['function']['name'] for t in active_tools]}")
+
+            # Bind les outils filtrés au LLM
+            llm_with_tools = self.llm if not active_tools else ChatOpenAI(
+                base_url="https://openrouter.ai/api/v1",
+                api_key=self.config.get("openrouter_api_key", ""),
+                model=self.config.get("openrouter_model", ""),
+                temperature=0.1
+            ).bind_tools(active_tools)
+
             # Générer la liste des outils disponibles pour l'utilisateur
             tools_description = "\n".join([
                 f"- {tool['function']['name']}: {tool['function']['description']}"
-                for tool in self.mcp_tools
+                for tool in active_tools
             ])
 
             messages = [
-                HumanMessage(content=f"""Tu es un assistant de base de données PostgreSQL.
+                HumanMessage(content=f"""Tu es un assistant expert en bases de données. Tu as accès à des outils pour interroger PostgreSQL, MongoDB et MySQL.
 
 OUTILS DISPONIBLES:
 {tools_description}
 
-IMPORTANT - RÈGLES D'UTILISATION DES OUTILS:
-1. Pour lister les tables: utilise d'abord postgres_list_schemas, puis postgres_list_objects avec schema_name="public"
-2. Pour compter ou afficher des données: utilise postgres_execute_sql avec une requête SQL valide
-3. Tous les paramètres requis doivent être fournis (jamais null ou vide)
-4. Le schéma par défaut est "public" pour la plupart des tables utilisateur
+INSTRUCTIONS:
+- Explore d'abord les schémas/collections si nécessaire pour comprendre la structure des données.
+- Utilise les outils appropriés pour répondre à la question.
+- Donne une réponse claire et complète en français.
 
-EXEMPLES:
-- "Quelles tables ?" → postgres_list_objects avec schema_name="public"
-- "Combien de users ?" → postgres_execute_sql avec sql="SELECT COUNT(*) FROM users"
-- "Affiche les users" → postgres_execute_sql avec sql="SELECT * FROM users LIMIT 10"
-
-QUESTION: {user_query}
-
-Utilise les outils pour répondre, puis donne une réponse en français.""")
+QUESTION: {user_query}""")
             ]
 
             tool_calls_made = []
@@ -145,7 +169,7 @@ Utilise les outils pour répondre, puis donne une réponse en français.""")
                 logger.info(f"Iteration {iteration}/{max_iterations}")
 
                 # Appeler le LLM
-                response = await self.llm.ainvoke(messages)
+                response = await llm_with_tools.ainvoke(messages)
                 messages.append(response)
 
                 # Vérifier si le LLM veut appeler des outils
