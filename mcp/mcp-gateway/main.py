@@ -28,13 +28,13 @@ MCP_SERVERS = {
         "url": "http://mcp-mongo:8003/sse",
         "type": "mongo",
         "transport": "sse",
-        "per_request": True   # supergateway drops SSE after init → fresh conn each time
+        "per_request": True
     },
     "mysql": {
         "url": "http://mcp-mysql:8004/sse",
         "type": "mysql",
         "transport": "sse",
-        "per_request": True   # supergateway → fresh conn each time
+        "per_request": True
     }
 }
 

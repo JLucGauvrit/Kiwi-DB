@@ -27,6 +27,7 @@ class MCPClient:
         self.session: Optional[ClientSession] = None
         self._connected = False
         self._connection_task: Optional[asyncio.Task] = None
+        self._lock = asyncio.Lock()  # sérialise les appels per_request
 
     # ------------------------------------------------------------------ #
     #  Persistent mode helpers                                             #
@@ -106,20 +107,29 @@ class MCPClient:
     #  Per-request connection helper                                       #
     # ------------------------------------------------------------------ #
 
-    async def _run_with_fresh_session(self, fn):
-        """Open a fresh SSE connection, run fn(session), return result."""
-        try:
-            async with sse_client(self.url) as (read, write):
-                async with ClientSession(read, write) as session:
-                    await session.initialize()
-                    return await fn(session)
-        except BaseException as e:
-            # Unwrap ExceptionGroup (Python 3.11 / anyio TaskGroup errors)
-            inner = e
-            if hasattr(e, "exceptions"):
-                inner = e.exceptions[0]
-            logger.error(f"[{self.name}] SSE session error: {type(inner).__name__}: {inner}", exc_info=True)
-            raise
+    async def _run_with_fresh_session(self, fn, retries: int = 5, delay: float = 4.0):
+        """Open a fresh SSE connection, run fn(session), return result.
+        Serialized via lock so supergateway has time to clean up between calls."""
+        async with self._lock:
+            last_exc = None
+            for attempt in range(1, retries + 1):
+                try:
+                    async with sse_client(self.url) as (read, write):
+                        async with ClientSession(read, write) as session:
+                            await session.initialize()
+                            result = await fn(session)
+                    await asyncio.sleep(0.5)  # laisse supergateway nettoyer son child process
+                    return result
+                except BaseException as e:
+                    inner = e
+                    if hasattr(e, "exceptions"):
+                        inner = e.exceptions[0]
+                    last_exc = inner
+                    logger.warning(f"[{self.name}] SSE attempt {attempt}/{retries} failed: {type(inner).__name__}: {inner}")
+                    if attempt < retries:
+                        await asyncio.sleep(delay)
+            logger.error(f"[{self.name}] All {retries} SSE attempts failed")
+            raise last_exc
 
     # ------------------------------------------------------------------ #
     #  Public API                                                          #

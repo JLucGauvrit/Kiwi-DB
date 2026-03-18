@@ -37,7 +37,7 @@ services:
       - .env
     environment:
       MCP_GATEWAY_URL: ws://mcp-gateway:9000
-      OPENROUTER_MODEL: qwen/qwen3.5-9b
+      OPENROUTER_MODEL: mistralai/mistral-small-2603
     networks:
       - query_network
       - bdd_network
@@ -111,7 +111,7 @@ services:
   mcp-mongo:
     image: node:20-alpine
     container_name: mcp-mongo
-    restart: unless-stopped
+    restart: always
     depends_on:
       - mongo
     environment:
@@ -178,7 +178,7 @@ services:
   mcp-mysql:
     image: node:20-alpine
     container_name: mcp-mysql
-    restart: unless-stopped
+    restart: always
     depends_on:
       mysql:
         condition: service_healthy

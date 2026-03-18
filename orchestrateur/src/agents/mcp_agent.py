@@ -148,15 +148,18 @@ class MCPAgent:
             ])
 
             messages = [
-                HumanMessage(content=f"""Tu es un assistant expert en bases de données. Tu as accès à des outils pour interroger PostgreSQL, MongoDB et MySQL.
+                HumanMessage(content=f"""Tu es un assistant expert en bases de données. Tu DOIS utiliser les outils ci-dessous pour accéder aux données. Tu n'as PAS besoin de chaîne de connexion ni de credentials — les outils gèrent la connexion à ta place.
 
-OUTILS DISPONIBLES:
+OUTILS DISPONIBLES (utilise-les directement):
 {tools_description}
 
-INSTRUCTIONS:
-- Explore d'abord les schémas/collections si nécessaire pour comprendre la structure des données.
-- Utilise les outils appropriés pour répondre à la question.
-- Donne une réponse claire et complète en français.
+RÈGLES STRICTES:
+- Utilise UNIQUEMENT les outils listés ci-dessus pour interroger les données. Ne demande JAMAIS de chaîne de connexion à l'utilisateur.
+- Appelle UN outil à la fois. Dès que tu as les données suffisantes, réponds en français sans appeler d'autres outils.
+- Pour MySQL: utilise l'outil mysql_* avec une requête SQL directe (ex: SELECT * FROM livres).
+- Pour MongoDB: utilise d'abord `mongo_list-databases`, puis `mongo_list-collections`, puis **`mongo_aggregate`** (avec `$limit`) pour récupérer les documents. Évite `mongo_find` qui est instable.
+- Pour PostgreSQL: utilise l'outil postgres_* avec une requête SQL.
+- Maximum 3 appels d'outils au total.
 
 QUESTION: {user_query}""")
             ]
