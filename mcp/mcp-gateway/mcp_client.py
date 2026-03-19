@@ -118,7 +118,7 @@ class MCPClient:
                         async with ClientSession(read, write) as session:
                             await session.initialize()
                             result = await fn(session)
-                    await asyncio.sleep(0.5)  # laisse supergateway nettoyer son child process
+                    await asyncio.sleep(0.5)
                     return result
                 except BaseException as e:
                     inner = e

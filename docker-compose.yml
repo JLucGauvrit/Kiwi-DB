@@ -120,7 +120,7 @@ services:
     # On utilise supergateway pour convertir le serveur officiel (stdio) en serveur SSE sur le port 8003
     command: >
       sh -c "npm install -g supergateway mongodb-mcp-server &&
-      supergateway --port 8003 --stdio 'npx mongodb-mcp-server $$MONGO_URI'"
+      supergateway --port 8003 --spawnPerRequest --stdio 'mongodb-mcp-server $$MONGO_URI'"
     ports:
       - "8003:8003"
     networks:
@@ -193,7 +193,7 @@ services:
       - ALLOW_DELETE_OPERATION=false
     command: >
       sh -c "npm install -g supergateway @benborla29/mcp-server-mysql &&
-      supergateway --port 8004 --stdio 'npx @benborla29/mcp-server-mysql'"
+      supergateway --port 8004 --spawnPerRequest --stdio 'mcp-server-mysql'"
     ports:
       - "8004:8004"
     networks:

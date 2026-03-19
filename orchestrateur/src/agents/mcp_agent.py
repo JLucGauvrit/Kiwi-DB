@@ -248,8 +248,6 @@ QUESTION: {user_query}""")
                 "query": user_query,
                 "error": str(e)
             }
-        finally:
-            await self.mcp_client.disconnect()
 
     async def _execute_mcp_tool(self, tool_name: str, arguments: Dict[str, Any]) -> Any:
         """Exécute un outil MCP via la gateway."""
